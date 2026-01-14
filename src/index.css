@@ -1,0 +1,411 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    @apply transition-colors duration-200;
+    /* Improved readability */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure proper text sizing */
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Improve link visibility */
+  a {
+    text-decoration-skip-ink: auto;
+  }
+
+  a:hover,
+  a:focus {
+    text-decoration: underline;
+  }
+
+  /* Ensure proper heading hierarchy */
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Custom scrollbar - Light mode */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 dark:bg-gray-600 rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500 dark:bg-gray-500;
+  }
+}
+
+/* Dark mode specific styles */
+@layer components {
+  /* Card styles */
+  .card {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200;
+  }
+
+  .card-hover:hover {
+    @apply shadow-lg dark:shadow-gray-900/50 transform -translate-y-1;
+  }
+
+  /* Input styles */
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    @apply bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600;
+    @apply text-gray-900 dark:text-gray-100;
+    @apply placeholder-gray-400 dark:placeholder-gray-500;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    @apply outline-none ring-2 ring-k8s-blue dark:ring-k8s-lightblue ring-opacity-50;
+    @apply border-k8s-blue dark:border-k8s-lightblue;
+  }
+
+  /* Improve form accessibility */
+  label {
+    cursor: pointer;
+  }
+
+  input:invalid,
+  select:invalid,
+  textarea:invalid {
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-k8s-blue hover:bg-k8s-darkblue text-white;
+    @apply dark:bg-k8s-lightblue dark:hover:bg-k8s-blue;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800;
+    @apply dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200;
+  }
+
+  /* Ensure minimum touch target size (44x44px) */
+  button,
+  a {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:disabled,
+  a[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Code block styles */
+  pre {
+    @apply bg-gray-900 dark:bg-black text-gray-100;
+  }
+
+  code {
+    @apply text-sm font-mono;
+  }
+
+  /* YAML syntax highlighting - adjusted for dark mode */
+  .language-yaml .token.key {
+    @apply text-blue-400 dark:text-blue-300;
+  }
+
+  .language-yaml .token.string {
+    @apply text-green-400 dark:text-green-300;
+  }
+
+  .language-yaml .token.number {
+    @apply text-yellow-400 dark:text-yellow-300;
+  }
+
+  .language-yaml .token.boolean {
+    @apply text-purple-400 dark:text-purple-300;
+  }
+
+  .language-yaml .token.comment {
+    @apply text-gray-500 dark:text-gray-400 italic;
+  }
+}
+
+/* Accessibility Utilities */
+@layer utilities {
+  /* Screen reader only utility class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Make sr-only visible when focused (for skip links) */
+  .sr-only:focus,
+  .sr-only:active {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Skip link styling */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #1e40af;
+    color: #ffffff;
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 100;
+    border-radius: 0 0 4px 0;
+    font-weight: 500;
+    transition: top 0.2s ease-in-out;
+  }
+
+  .skip-link:focus {
+    top: 0;
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+
+  /* Text utilities */
+  .text-primary {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+
+  .text-secondary {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  .text-tertiary {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+
+  .text-muted {
+    @apply text-gray-500 dark:text-gray-500;
+  }
+
+  /* Background utilities */
+  .bg-primary {
+    @apply bg-white dark:bg-gray-800;
+  }
+
+  .bg-secondary {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+
+  .bg-tertiary {
+    @apply bg-gray-100 dark:bg-gray-700;
+  }
+
+  /* Border utilities */
+  .border-primary {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+
+  .border-secondary {
+    @apply border-gray-300 dark:border-gray-600;
+  }
+
+  /* Hover utilities */
+  .hover-bg {
+    @apply hover:bg-gray-50 dark:hover:bg-gray-700;
+  }
+
+  /* Shadow utilities */
+  .shadow-primary {
+    @apply shadow-lg dark:shadow-gray-900/50;
+  }
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Animation for screen reader announcements */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+[role="status"],
+[role="alert"],
+[aria-live] {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Keyboard focus indicator for interactive elements */
+*:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Remove default focus outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Dark mode transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .border {
+    border-width: 2px;
+  }
+  
+  button,
+  a {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Ensure proper contrast for disabled elements */
+:disabled,
+[aria-disabled="true"] {
+  color: #6b7280;
+  background-color: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :disabled,
+  [aria-disabled="true"] {
+    color: #9ca3af;
+    background-color: #374151;
+  }
+}
+
+/* Improve list accessibility */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    @apply bg-white text-black;
+  }
+
+  .dark body {
+    @apply bg-white text-black;
+  }
+
+  pre {
+    @apply border border-gray-300 bg-white text-black;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+}
