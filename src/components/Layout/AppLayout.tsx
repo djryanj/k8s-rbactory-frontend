@@ -5,6 +5,8 @@ import { Shield, Wand2, Database, Settings } from "lucide-react";
 import { PolicyBuilderTab } from "../Tabs/PolicyBuilderTab";
 import { ClusterBrowserTab } from "../Tabs/ClusterBrowserTab";
 import { ConfigModal } from "../Config";
+import { FeatureDisabledModal } from "../FeatureNotification";
+import { useFeatureNotification } from "../../hooks";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import { announceToScreenReader } from "../../utils/accessibility";
 import { FEATURE_FLAGS } from "../../utils/featureFlags";
@@ -22,6 +24,11 @@ export const AppLayout: React.FC = () => {
 
   const isClusterBrowserAvailable = FEATURE_FLAGS.CLUSTER_BROWSER;
   const showClusterBrowser = isClusterBrowserAvailable && clusterBrowserEnabled;
+
+  // Feature notification for disabled cluster browser
+  const isClusterBrowserDisabled = !isClusterBrowserAvailable;
+  const { shouldShowNotification, dismissOnce, dismissPermanently } =
+    useFeatureNotification(isClusterBrowserDisabled);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -300,7 +307,14 @@ export const AppLayout: React.FC = () => {
         </div>
       </footer>
 
+      {/* Modals */}
       {showConfig && <ConfigModal onClose={() => setShowConfig(false)} />}
+      {shouldShowNotification && (
+        <FeatureDisabledModal
+          onDismissOnce={dismissOnce}
+          onDismissPermanently={dismissPermanently}
+        />
+      )}
     </div>
   );
 };
