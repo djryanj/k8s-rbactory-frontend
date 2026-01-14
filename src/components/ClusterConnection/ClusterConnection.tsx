@@ -4,16 +4,14 @@ import {
   Cloud,
   CloudOff,
   RefreshCw,
-  AlertCircle,
   Settings,
   CheckCircle,
 } from "lucide-react";
 import { useConnection } from "../../context/connection";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
-
-interface ClusterConnectionProps {
-  onOpenSettings: () => void;
-}
+import { parseError } from "./errorParser";
+import { ErrorDisplay } from "./ErrorDisplay";
+import type { ClusterConnectionProps } from "./types";
 
 export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
   onOpenSettings,
@@ -22,13 +20,15 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
     useConnection();
 
   const successColors = ACCESSIBLE_COLORS.success;
-  const criticalColors = ACCESSIBLE_COLORS.critical;
   const neutralColors = ACCESSIBLE_COLORS.neutral;
   const infoColors = ACCESSIBLE_COLORS.info;
 
   const handleRefresh = () => {
     void checkConnection();
   };
+
+  // Parse error if present
+  const parsedError = error ? parseError(error) : null;
 
   return (
     <section
@@ -115,23 +115,11 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                 </span>{" "}
                 namespace{clusterInfo.namespaces.length !== 1 ? "s" : ""}
               </span>
-
-              <span className={neutralColors.icon} aria-hidden="true">
-                •
-              </span>
-
-              <span
-                className={neutralColors.icon}
-                aria-label={`${clusterInfo.nodeCount} nodes`}
-              >
-                <span className="font-medium">{clusterInfo.nodeCount}</span>{" "}
-                node{clusterInfo.nodeCount !== 1 ? "s" : ""}
-              </span>
             </div>
           )}
 
           {/* Disconnected state */}
-          {!connected && !loading && (
+          {!connected && !loading && !error && (
             <div
               className={combineClasses("text-sm", neutralColors.icon)}
               role="status"
@@ -210,39 +198,9 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
         </button>
       </div>
 
-      {/* Error message */}
-      {error && (
-        <div
-          className={combineClasses(
-            "mt-3 p-3 rounded-lg border flex items-start gap-2",
-            criticalColors.bg,
-            criticalColors.border
-          )}
-          role="alert"
-          aria-live="assertive"
-        >
-          <AlertCircle
-            className={combineClasses(
-              "flex-shrink-0 mt-0.5",
-              criticalColors.icon
-            )}
-            size={16}
-            aria-hidden="true"
-          />
-          <div className="flex-1 min-w-0">
-            <p
-              className={combineClasses(
-                "text-sm font-medium mb-1",
-                criticalColors.text
-              )}
-            >
-              Connection Error
-            </p>
-            <p className={combineClasses("text-sm", criticalColors.icon)}>
-              {error}
-            </p>
-          </div>
-        </div>
+      {/* Error display */}
+      {parsedError && (
+        <ErrorDisplay error={parsedError} onOpenSettings={onOpenSettings} />
       )}
 
       {/* Screen reader summary */}
@@ -256,8 +214,8 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
           ? `Connected to Kubernetes cluster version ${clusterInfo.version} with ${clusterInfo.namespaces.length} namespaces and ${clusterInfo.nodeCount} nodes.`
           : loading
           ? "Checking cluster connection status."
-          : error
-          ? `Connection error: ${error}`
+          : parsedError
+          ? `${parsedError.title}: ${parsedError.message}`
           : "Not connected to cluster. Please check settings."}
       </div>
     </section>
