@@ -1,12 +1,27 @@
 # K8s RBACtory Frontend
 
+# About k8s-rbactory
+
+k8s-rbactory is a READ ONLY Kubernetes RBAC helper tool.
+
+## Features
+
+- Visually craft RBAC policies using a friendly interface
+- Policies can be crafted using presets or totally from scratch
+- When enabled and available via the [`k8s-rbactory-backend`](https://github.com/djryanj/k8s-rbactory-backend) API server, you can browse existing RBAC policies in-cluster
+- Copy existing policies to the builder to use as a starting point or to modify as needed
+- Basic security analysis of created policies, highlighting potentially dangerous configurations
+- YAML downloads of policies created with the tool
+
+k8s-rbactory-frontend is the static React-based frontend for k8s-rbactory.
+
 # Non-Goals
 
-1. Read Only Forever
+1. Writing to Cluster
 
    This tool is intended to help cluster users understand RBAC within their cluster and to craft RBAC policies that work using a visual workflow and easy to use interface. It is _not_ intended to be able to write RBAC to the cluster, as that should be done after review and using better methods (e.g., GitOps) than this.
 
-   As such it will never be extended with that functionality. Any requests, issues, etc. to do so will be closed.
+   As such it will never be extended with that functionality; e.g., **IT WILL BE READ ONLY FOREVER**. Any requests, issues, etc. to do so will be closed.
 
 More non-goals will be added if needed.
 
