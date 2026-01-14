@@ -17,9 +17,7 @@ Thank you for your interest in contributing to K8s RBACtory! We welcome contribu
 
 ## Code of Conduct
 
-This project adheres to a Code of Conduct that all contributors are expected to follow. By participating, you are expected to uphold this code. Please report unacceptable behavior to the project maintainers.
-
-We are committed to providing a welcoming and inclusive environment for all contributors, regardless of background, identity, or experience level.
+This project adheres to a Code of Conduct that all contributors are expected to follow. Review it [here](./CODE_OF_CONDUCT.md).
 
 ## Getting Started
 
@@ -182,14 +180,6 @@ The scope should specify the area of the codebase affected:
 - `ui` - User interface components
 - `a11y` - Accessibility improvements
 
-### Subject
-
-The subject contains a succinct description of the change:
-
-- Use the imperative, present tense: "change" not "changed" nor "changes"
-- Do not capitalize the first letter
-- Do not add a period at the end
-
 ### Examples
 
 ```
@@ -254,48 +244,20 @@ Examples:
 - `fix(ui): correct dark mode color contrast issues`
 - `docs(readme): update installation instructions`
 
-### PR Description
-
-Your PR description should include:
-
-1. **Summary**: Brief description of what the PR does
-2. **Motivation**: Why this change is needed
-3. **Changes**: List of specific changes made
-4. **Testing**: How the changes were tested
-5. **Screenshots**: For UI changes, include before/after screenshots
-6. **Related Issues**: Reference any related issues (e.g., "Closes #123")
-
 ### PR Template
 
-```markdown
-## Summary
+This project has a PR template that must be used. If PR's deviate from the PR template significantly they will be closed.
 
-Brief description of the changes
+### Squash Commits
 
-## Motivation
-
-Why are these changes needed?
-
-## Testing
-
-How were these changes tested? Include test output.
-
-## Screenshots (if applicable)
-
-Before: [screenshot]
-After: [screenshot]
-
-## Related Issues
-
-Closes #123
-```
+This project will always use squash commits when merging to main.
 
 ### Review Process
 
 1. At least one maintainer must review and approve the PR
 2. All CI checks must pass
 3. Address any feedback from reviewers
-4. Once approved, a maintainer will merge your PR
+4. Once approved, a maintainer will merge your PR (squash commit)
 
 ### After Your PR is Merged
 

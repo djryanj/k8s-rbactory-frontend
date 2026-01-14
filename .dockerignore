@@ -1,11 +1,476 @@
+# .dockerignore
+# Security-focused configuration for Node.js + React + Vite + Tailwind + Playwright + Vitest
+# Prevents sensitive data, credentials, and unnecessary files from being included in Docker images
+
+# ============================================================================
+# CRITICAL SECURITY: Secrets and Credentials
+# ============================================================================
+# Environment files (may contain API keys, tokens, secrets)
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.sample
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Secrets directories
+**/secrets/
+**/secret/
+**/.secrets/
+
+# Credential files
+**/credentials
+**/credentials.*
+**/*credentials*
+**/token
+**/tokens
+**/*.token
+
+# Certificate and key files
+**/*.key
+**/*.pem
+**/*.crt
+**/*.cer
+**/*.p12
+**/*.pfx
+**/*.pkcs12
+**/*.jks
+**/*.keystore
+
+# SSH keys
+**/.ssh/
+**/*_rsa
+**/*_rsa.*
+**/*_dsa
+**/*_dsa.*
+**/*_ecdsa
+**/*_ecdsa.*
+**/*_ed25519
+**/*_ed25519.*
+**/id_rsa
+**/id_dsa
+**/id_ecdsa
+**/id_ed25519
+
+# Cloud provider credentials
+**/.aws/
+**/.azure/
+**/gcloud/
+**/*-key.json
+**/service-account*.json
+**/serviceAccount*.json
+
+# API keys and tokens
+**/*apikey*
+**/*api-key*
+**/*api_key*
+**/APIKEY
+**/API_KEY
+
+# Database credentials
+**/database.yml
+**/database.json
+**/.pgpass
+**/.my.cnf
+
+# OAuth and authentication
+**/oauth*.json
+**/client_secret*.json
+**/.npmrc
+**/.yarnrc
+**/.yarnrc.yml
+
+# ============================================================================
+# Version Control (may contain sensitive history)
+# ============================================================================
 .git
-.vscode
-.dockerignore
 .gitignore
-.env
-config
-build
-node_modules
-docker-compose.yaml
-Dockerfile
-README.md
+.gitattributes
+.github
+.gitlab
+.gitlab-ci.yml
+
+# Git hooks (may contain secrets or sensitive logic)
+.git/hooks/
+
+# ============================================================================
+# Node.js Dependencies and Package Management
+# ============================================================================
+# Dependencies (will be installed fresh in container)
+node_modules/
+**/node_modules/
+
+# Package manager lock files (include only what you use)
+# Uncomment the ones you DON'T use:
+package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Package manager cache
+.npm/
+.yarn/
+.pnpm-store/
+.cache/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# ============================================================================
+# Build Artifacts and Output
+# ============================================================================
+# Vite build output
+dist/
+dist-ssr/
+build/
+out/
+.output/
+
+# Vite cache
+.vite/
+node_modules/.vite/
+
+# Build directories
+**/dist/
+**/build/
+**/.next/
+**/.nuxt/
+
+# Compiled files
+*.tsbuildinfo
+
+# ============================================================================
+# Testing and Coverage
+# ============================================================================
+# Vitest
+coverage/
+.vitest/
+
+# Playwright
+playwright-report/
+test-results/
+playwright/.cache/
+**/playwright-report/
+**/test-results/
+
+# Test artifacts that may contain sensitive data
+**/*.spec.ts.snap
+**/*.test.ts.snap
+**/snapshots/
+**/__snapshots__/
+
+# Coverage reports (may expose code structure)
+coverage/
+.nyc_output/
+*.lcov
+*.coverage
+
+# Test databases (may contain test data)
+**/*.test.db
+**/*.test.sqlite
+**/*.test.sqlite3
+
+# ============================================================================
+# Development Tools and IDE
+# ============================================================================
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# JetBrains IDEs (WebStorm, IntelliJ)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Vim
+*.swp
+*.swo
+*~
+.*.sw?
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# ============================================================================
+# Documentation
+# ============================================================================
+*.md
+!README.md
+docs/
+documentation/
+CHANGELOG.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+LICENSE
+MAINTAINERS.md
+DIVERSITY.md
+.github/
+
+# ============================================================================
+# CI/CD and Deployment
+# ============================================================================
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+.drone.yml
+Jenkinsfile
+azure-pipelines.yml
+netlify.toml
+vercel.json
+.vercel/
+.netlify/
+
+deploy/
+deployment/
+scripts/deploy/
+**/deploy.sh
+**/deploy.js
+hack/
+
+# ============================================================================
+# Configuration Files (may contain sensitive settings)
+# ============================================================================
+# Local configuration
+config.local.*
+config.dev.*
+config.development.*
+*.local.js
+*.local.ts
+*.local.json
+
+# Editor config
+.editorconfig
+
+# Prettier
+.prettierignore
+
+# ESLint
+.eslintignore
+
+# Stylelint
+.stylelintignore
+
+# ============================================================================
+# Logs and Temporary Files
+# ============================================================================
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+*.tmp
+*.temp
+*.cache
+
+# ============================================================================
+# OS-specific
+# ============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# TypeScript
+# ============================================================================
+*.tsbuildinfo
+.tsbuildinfo
+
+# ============================================================================
+# React and Vite Specific
+# ============================================================================
+# Vite
+vite.config.*.timestamp-*
+
+# React
+.react/
+
+# Storybook
+.storybook/
+storybook-static/
+
+# ============================================================================
+# Tailwind CSS
+# ============================================================================
+# Tailwind build artifacts (if any)
+**/tailwind.output.css
+
+# ============================================================================
+# Monitoring and Analytics
+# ============================================================================
+# Sentry
+.sentryclirc
+
+# Application monitoring
+**/.apm/
+**/newrelic.js
+**/newrelic_agent.log
+
+# ============================================================================
+# Database and Data Files
+# ============================================================================
+# SQLite databases (may contain sensitive data)
+*.db
+*.sqlite
+*.sqlite3
+
+# Database dumps
+*.sql
+*.dump
+
+# Data directories
+data/
+**/data/
+
+# ============================================================================
+# Security Scanning and Compliance
+# ============================================================================
+# Security scan results
+trivy-results.*
+*.sarif
+sbom.*
+*.spdx.json
+.trivyignore
+
+# Snyk
+.snyk
+
+# npm audit
+npm-audit.json
+audit-results.json
+
+# ============================================================================
+# Backup Files
+# ============================================================================
+*.bak
+*.backup
+*.old
+*~
+
+# ============================================================================
+# Docker
+# ============================================================================
+Dockerfile*
+!Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# ============================================================================
+# Kubernetes
+# ============================================================================
+kubeconfig
+*.kubeconfig
+.kube/
+k8s/
+kubernetes/
+
+# ============================================================================
+# Development Scripts and Tools
+# ============================================================================
+Makefile
+*.sh
+*.bash
+scripts/
+bin/
+
+# Husky git hooks
+.husky/
+
+# Commitlint
+.commitlintrc.*
+
+# Lint-staged
+.lintstagedrc.*
+
+# ============================================================================
+# Source Maps (may expose source code)
+# ============================================================================
+# Uncomment if you don't want source maps in production images
+# **/*.map
+# **/*.js.map
+# **/*.css.map
+
+# ============================================================================
+# Examples and Samples
+# ============================================================================
+examples/
+example/
+samples/
+sample/
+demo/
+demos/
+
+mocks/
+__mocks__/
+fixtures/
+__fixtures__/
+
+# Public directory exceptions
+# If you need to include specific files from public/, use ! to negate
+# public/
+# !public/favicon.ico
+# !public/robots.txt
+
+# Assets that shouldn't be in Docker image
+# Uncomment if you serve assets from CDN
+# public/images/
+# public/videos/
+# public/fonts/

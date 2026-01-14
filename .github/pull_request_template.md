@@ -49,8 +49,13 @@
 
 **After:**
 
+## AI Disclosure
+
+- [ ] The code in this PR or this PR itself was assisted by AI
+
 ## Checklist
 
+- [ ] I have read and agree to follow the [Code of Conduct](../CODE_OF_CONDUCT.md)
 - [ ] My code follows the project's coding standards
 - [ ] I have run the linter and fixed any issues
 - [ ] I have added tests that prove my fix/feature works
