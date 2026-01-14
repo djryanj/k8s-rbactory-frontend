@@ -21,8 +21,8 @@ LABEL org.opencontainers.image.authors="ryan@ryanjjacobs.com"
 LABEL org.opencontainers.image.url="https://github.com/djryanj/k8s-rbactory-frontend"
 LABEL org.opencontainers.image.version="${VERSION}"
 LABEL org.opencontainers.image.revision="${VCS_REF}"
-LABEL org.opencontainers.image.title="K8s RBACTory Frontend"
-LABEL org.opencontainers.image.description="React frontend for K8s RBAC management"
+LABEL org.opencontainers.image.title="K8s RBACtory Frontend"
+LABEL org.opencontainers.image.description="React frontend for K8s RBAC policy building and browsing"
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf

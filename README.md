@@ -12,6 +12,8 @@ k8s-rbactory is a READ ONLY Kubernetes RBAC helper tool.
 - Copy existing policies to the builder to use as a starting point or to modify as needed
 - Basic security analysis of created policies, highlighting potentially dangerous configurations
 - YAML downloads of policies created with the tool
+- Accessiblity feature (e.g., colorblind-friendly palette and screen reader tags) for all components
+- Light/Dark mode (defaults to your system preferences)
 
 k8s-rbactory-frontend is the static React-based frontend for k8s-rbactory.
 
@@ -36,6 +38,12 @@ This tool was initially written with the assistance of AI for rapid prototyping.
 However, going forward, it is the maintainer's position that AI assistance be limited to documentation and certain boilerplate tasks once the project is public. This is to help ensure that code is of the highest quality possible.
 
 Any PR that contains changes that have leveraged AI MUST disclose that usage.
+
+# Contributing
+
+Contributions are welcome!
+
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 # License
 
