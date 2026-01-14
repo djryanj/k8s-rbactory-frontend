@@ -15,6 +15,10 @@ k8s-rbactory is a READ ONLY Kubernetes RBAC helper tool.
 
 k8s-rbactory-frontend is the static React-based frontend for k8s-rbactory.
 
+# Demo
+
+You can view a demo of the site [here](https://k8s-rbactory.netlify.app). Note that this demo site explicitly has the cluster browser functionality **DISABLED** and only the policy builder is operational.
+
 # Non-Goals
 
 1. Writing to Cluster
