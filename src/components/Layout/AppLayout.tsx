@@ -9,7 +9,10 @@ import { FeatureDisabledModal } from "../FeatureNotification";
 import { useFeatureNotification } from "../../hooks";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import { announceToScreenReader } from "../../utils/accessibility";
-import { FEATURE_FLAGS } from "../../utils/featureFlags";
+import {
+  FEATURE_FLAGS,
+  getClusterBrowserDisabledReason,
+} from "../../utils/featureFlags";
 
 type TabType = "policybuilder" | "browser";
 
@@ -25,8 +28,12 @@ export const AppLayout: React.FC = () => {
   const isClusterBrowserAvailable = FEATURE_FLAGS.CLUSTER_BROWSER;
   const showClusterBrowser = isClusterBrowserAvailable && clusterBrowserEnabled;
 
+  // Determine why cluster browser is disabled (if it is)
+  const disabledReason = getClusterBrowserDisabledReason();
+  const isClusterBrowserDisabled = disabledReason !== null;
+  const isNetlifyDemo = disabledReason === "netlify";
+
   // Feature notification for disabled cluster browser
-  const isClusterBrowserDisabled = !isClusterBrowserAvailable;
   const { shouldShowNotification, dismissOnce, dismissPermanently } =
     useFeatureNotification(isClusterBrowserDisabled);
 
@@ -313,6 +320,7 @@ export const AppLayout: React.FC = () => {
         <FeatureDisabledModal
           onDismissOnce={dismissOnce}
           onDismissPermanently={dismissPermanently}
+          isNetlifyDemo={isNetlifyDemo}
         />
       )}
     </div>

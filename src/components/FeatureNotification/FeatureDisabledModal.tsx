@@ -1,29 +1,37 @@
 // src/components/FeatureNotification/FeatureDisabledModal.tsx
 import React, { useEffect, useRef } from "react";
-import { AlertCircle, X } from "lucide-react";
-import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
+import { AlertCircle, X, ExternalLink } from "lucide-react";
+import {
+  ACCESSIBLE_COLORS,
+  combineClasses,
+  getButtonClasses,
+} from "../../utils/colors";
 import { announceToScreenReader } from "../../utils/accessibility";
 
 interface FeatureDisabledModalProps {
   onDismissOnce: () => void;
   onDismissPermanently: () => void;
+  isNetlifyDemo: boolean;
 }
 
 export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
   onDismissOnce,
   onDismissPermanently,
+  isNetlifyDemo,
 }) => {
   const neutralColors = ACCESSIBLE_COLORS.neutral;
   const warningColors = ACCESSIBLE_COLORS.warning;
+  const infoColors = ACCESSIBLE_COLORS.info;
 
   const modalRef = useRef<HTMLDivElement>(null);
   const firstButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     // Announce to screen readers
-    announceToScreenReader(
-      "Important notification: Cluster Browser feature has been disabled"
-    );
+    const message = isNetlifyDemo
+      ? "Important notification: This is a demo site with limited functionality"
+      : "Important notification: Cluster Browser feature has been disabled";
+    announceToScreenReader(message);
 
     // Focus first button
     firstButtonRef.current?.focus();
@@ -37,7 +45,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [onDismissOnce]);
+  }, [onDismissOnce, isNetlifyDemo]);
 
   return (
     <div
@@ -66,11 +74,14 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
           <div
             className={combineClasses(
               "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center",
-              warningColors.bg
+              isNetlifyDemo ? infoColors.bg : warningColors.bg
             )}
             aria-hidden="true"
           >
-            <AlertCircle className={warningColors.icon} size={24} />
+            <AlertCircle
+              className={isNetlifyDemo ? infoColors.icon : warningColors.icon}
+              size={24}
+            />
           </div>
           <div className="flex-1 min-w-0">
             <h2
@@ -80,7 +91,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
                 neutralColors.text
               )}
             >
-              Feature Unavailable
+              {isNetlifyDemo ? "Demo Site Notice" : "Feature Unavailable"}
             </h2>
           </div>
           <button
@@ -101,26 +112,89 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
 
         {/* Content */}
         <div className="p-6 pt-4">
-          <p
-            id="feature-notification-description"
-            className={combineClasses(
-              "text-sm leading-relaxed",
-              neutralColors.text
-            )}
-          >
-            The <strong>Cluster Browser</strong> functionality has been disabled
-            by an administrator. Only the <strong>Policy Builder</strong> is
-            currently available for use.
-          </p>
-          <p
-            className={combineClasses(
-              "text-sm leading-relaxed mt-3",
-              neutralColors.icon
-            )}
-          >
-            If you believe this is an error, please contact your system
-            administrator.
-          </p>
+          {isNetlifyDemo ? (
+            <>
+              <p
+                id="feature-notification-description"
+                className={combineClasses(
+                  "text-sm leading-relaxed",
+                  neutralColors.text
+                )}
+              >
+                Welcome to the <strong>K8s RBACtory demo site</strong>! This is
+                a preview-only deployment where the{" "}
+                <strong>Cluster Browser</strong> functionality has been
+                disabled.
+              </p>
+              <p
+                className={combineClasses(
+                  "text-sm leading-relaxed mt-3",
+                  neutralColors.text
+                )}
+              >
+                The <strong>Policy Builder</strong> is fully functional and you
+                can explore all its features for creating Kubernetes RBAC
+                policies.
+              </p>
+              <div
+                className={combineClasses(
+                  "mt-4 p-3 rounded-lg border",
+                  infoColors.bg,
+                  infoColors.border
+                )}
+              >
+                <p
+                  className={combineClasses(
+                    "text-sm font-medium mb-2",
+                    neutralColors.text
+                  )}
+                >
+                  Want the full experience?
+                </p>
+                <p className={combineClasses("text-sm", neutralColors.icon)}>
+                  Deploy your own instance to enable cluster browsing and
+                  connect to your Kubernetes clusters.
+                </p>
+                <a
+                  href="https://github.com/djryanj/k8s-rbactory-frontend"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={combineClasses(
+                    "inline-flex items-center gap-1 mt-2 text-sm font-medium",
+                    "text-k8s-blue dark:text-k8s-lightblue hover:underline",
+                    "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:rounded",
+                    infoColors.ring
+                  )}
+                >
+                  View on GitHub
+                  <ExternalLink size={14} aria-hidden="true" />
+                </a>
+              </div>
+            </>
+          ) : (
+            <>
+              <p
+                id="feature-notification-description"
+                className={combineClasses(
+                  "text-sm leading-relaxed",
+                  neutralColors.text
+                )}
+              >
+                The <strong>Cluster Browser</strong> functionality has been
+                disabled by an administrator. Only the{" "}
+                <strong>Policy Builder</strong> is currently available for use.
+              </p>
+              <p
+                className={combineClasses(
+                  "text-sm leading-relaxed mt-3",
+                  neutralColors.icon
+                )}
+              >
+                If you believe this is an error, please contact your system
+                administrator.
+              </p>
+            </>
+          )}
         </div>
 
         {/* Footer */}
@@ -136,8 +210,8 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
             type="button"
             onClick={onDismissPermanently}
             className={combineClasses(
-              "flex-1 px-4 py-2.5 rounded-lg font-medium text-sm transition-all",
-              "focus:outline-none focus:ring-2 focus:ring-offset-2",
+              "flex-1 px-4 py-2.5",
+              getButtonClasses("secondary", "slate", "md"),
               neutralColors.text,
               neutralColors.hover,
               neutralColors.ring
@@ -149,13 +223,11 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
             type="button"
             onClick={onDismissOnce}
             className={combineClasses(
-              "flex-1 px-4 py-2.5 rounded-lg font-medium text-sm transition-all",
-              "bg-k8s-blue hover:bg-k8s-blue/90 text-white",
-              "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-k8s-blue",
-              "dark:bg-k8s-lightblue dark:hover:bg-k8s-lightblue/90"
+              "flex-1 px-4 py-2.5",
+              getButtonClasses("primary", "slate", "md")
             )}
           >
-            OK, Got It
+            {isNetlifyDemo ? "Got It, Thanks!" : "OK, Got It"}
           </button>
         </div>
 
