@@ -102,12 +102,6 @@
 node_modules/
 **/node_modules/
 
-# Package manager lock files (include only what you use)
-# Uncomment the ones you DON'T use:
-package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-
 # Package manager cache
 .npm/
 .yarn/

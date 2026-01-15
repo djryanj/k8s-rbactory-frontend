@@ -1,0 +1,6 @@
+// public/config.template.js
+window.__RUNTIME_CONFIG__ = {
+  API_URL: "${VITE_API_URL}",
+  FEATURE_CLUSTER_BROWSER: "${VITE_FEATURE_CLUSTER_BROWSER}",
+  NETLIFY_DEMO: "${VITE_NETLIFY_DEMO}",
+};
