@@ -45,8 +45,8 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
       (subject, index, self) =>
         index ===
         self.findIndex(
-          (s) => s.kind === subject.kind && s.name === subject.name
-        )
+          (s) => s.kind === subject.kind && s.name === subject.name,
+        ),
     );
     return { allSubjects: all, uniqueSubjects: unique };
   }, [bindings]);
@@ -64,7 +64,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
         ].filter(Boolean) as HTMLDivElement[];
 
         const currentIndex = sections.findIndex((section) =>
-          section.contains(document.activeElement)
+          section.contains(document.activeElement),
         );
 
         if (currentIndex === -1) return;
@@ -75,7 +75,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
             : (currentIndex - 1 + sections.length) % sections.length;
 
         const firstFocusable = sections[nextIndex]?.querySelector<HTMLElement>(
-          'button, [href], input, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, [tabindex]:not([tabindex="-1"])',
         );
 
         firstFocusable?.focus();
@@ -84,9 +84,9 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
             nextIndex === 0
               ? "role"
               : nextIndex === 1
-              ? "bindings"
-              : "principals"
-          } section`
+                ? "bindings"
+                : "principals"
+          } section`,
         );
       }
     };
@@ -131,7 +131,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
             className={combineClasses(
               "rounded-lg p-4 border-2",
               successColors.bg,
-              successColors.border
+              successColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -146,7 +146,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   id={`${roleId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    successColors.text
+                    successColors.text,
                   )}
                 >
                   {role.kind}
@@ -166,7 +166,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
               className={combineClasses(
                 "rounded px-3 py-2 border",
                 neutralColors.bg,
-                successColors.border
+                successColors.border,
               )}
               role="article"
               aria-label={`Role ${role.name} with ${
@@ -181,7 +181,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   size={14}
                   className={combineClasses(
                     successColors.icon,
-                    "flex-shrink-0"
+                    "flex-shrink-0",
                   )}
                   aria-hidden="true"
                 />
@@ -189,7 +189,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   <div
                     className={combineClasses(
                       "font-medium",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {role.name}
@@ -204,7 +204,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   <div
                     className={combineClasses(
                       "mt-1 text-xs",
-                      neutralColors.icon
+                      neutralColors.icon,
                     )}
                   >
                     {role.rules?.length || 0} rule(s)
@@ -233,7 +233,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
             className={combineClasses(
               "rounded-lg p-4 border-2",
               infoColors.bg,
-              infoColors.border
+              infoColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -248,7 +248,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   id={`${bindingsId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    infoColors.text
+                    infoColors.text,
                   )}
                 >
                   Bindings
@@ -275,7 +275,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   className={combineClasses(
                     "rounded px-3 py-2 text-sm border",
                     neutralColors.bg,
-                    infoColors.border
+                    infoColors.border,
                   )}
                   role="listitem"
                   aria-label={`Binding ${idx + 1}: ${binding.kind} ${
@@ -292,7 +292,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       size={14}
                       className={combineClasses(
                         infoColors.icon,
-                        "flex-shrink-0"
+                        "flex-shrink-0",
                       )}
                       aria-hidden="true"
                     />
@@ -300,7 +300,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       <div
                         className={combineClasses(
                           "font-medium",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {binding.name}
@@ -308,7 +308,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         {binding.kind}
@@ -317,7 +317,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       <div
                         className={combineClasses(
                           "text-xs mt-0.5",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         {binding.subjects?.length || 0} subject(s)
@@ -348,7 +348,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
             className={combineClasses(
               "rounded-lg p-4 border-2",
               purpleColors.bg,
-              purpleColors.border
+              purpleColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -363,7 +363,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   id={`${principalsId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    purpleColors.text
+                    purpleColors.text,
                   )}
                 >
                   Principals
@@ -400,7 +400,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                   className={combineClasses(
                     "rounded px-3 py-2 text-sm border",
                     neutralColors.bg,
-                    purpleColors.border
+                    purpleColors.border,
                   )}
                   role="listitem"
                   aria-label={`Principal ${idx + 1}: ${subject.kind} ${
@@ -417,7 +417,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       size={14}
                       className={combineClasses(
                         purpleColors.icon,
-                        "flex-shrink-0"
+                        "flex-shrink-0",
                       )}
                       aria-hidden="true"
                     />
@@ -425,7 +425,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       <div
                         className={combineClasses(
                           "font-medium",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {subject.name}
@@ -433,7 +433,7 @@ export const RoleRelationshipView: React.FC<RoleRelationshipViewProps> = ({
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         {subject.kind}

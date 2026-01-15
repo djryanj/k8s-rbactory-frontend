@@ -22,7 +22,7 @@ export const ModalHeader: React.FC<ModalHeaderProps> = ({
       className={combineClasses(
         "sticky top-0 border-b px-6 py-4 flex items-center justify-between z-10",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
     >
       <h2
@@ -40,7 +40,7 @@ export const ModalHeader: React.FC<ModalHeaderProps> = ({
           "focus:outline-none focus:ring-2 focus:ring-offset-1",
           neutralColors.icon,
           neutralColors.hover,
-          neutralColors.ring
+          neutralColors.ring,
         )}
         aria-label="Close settings dialog"
       >

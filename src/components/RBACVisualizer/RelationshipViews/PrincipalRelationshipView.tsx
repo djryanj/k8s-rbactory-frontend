@@ -55,7 +55,7 @@ export const PrincipalRelationshipView: React.FC<
         ].filter(Boolean) as HTMLDivElement[];
 
         const currentIndex = sections.findIndex((section) =>
-          section.contains(document.activeElement)
+          section.contains(document.activeElement),
         );
 
         if (currentIndex === -1) return;
@@ -66,7 +66,7 @@ export const PrincipalRelationshipView: React.FC<
             : (currentIndex - 1 + sections.length) % sections.length;
 
         const firstFocusable = sections[nextIndex]?.querySelector<HTMLElement>(
-          'button, [href], input, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, [tabindex]:not([tabindex="-1"])',
         );
 
         firstFocusable?.focus();
@@ -75,9 +75,9 @@ export const PrincipalRelationshipView: React.FC<
             nextIndex === 0
               ? "principal"
               : nextIndex === 1
-              ? "bindings"
-              : "roles"
-          } section`
+                ? "bindings"
+                : "roles"
+          } section`,
         );
       }
     };
@@ -124,7 +124,7 @@ export const PrincipalRelationshipView: React.FC<
             className={combineClasses(
               "rounded-lg p-4 border-2",
               purpleColors.bg,
-              purpleColors.border
+              purpleColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -139,7 +139,7 @@ export const PrincipalRelationshipView: React.FC<
                   id={`${principalId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    purpleColors.text
+                    purpleColors.text,
                   )}
                 >
                   Principal
@@ -169,7 +169,7 @@ export const PrincipalRelationshipView: React.FC<
               className={combineClasses(
                 "rounded px-3 py-2 border",
                 neutralColors.bg,
-                purpleColors.border
+                purpleColors.border,
               )}
               role="article"
               aria-label={`Principal ${principal.kind} ${principal.name}${
@@ -189,7 +189,7 @@ export const PrincipalRelationshipView: React.FC<
                   <div
                     className={combineClasses(
                       "font-medium",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {principal.name}
@@ -203,7 +203,7 @@ export const PrincipalRelationshipView: React.FC<
                     <div
                       className={combineClasses(
                         "text-xs mt-0.5",
-                        neutralColors.icon
+                        neutralColors.icon,
                       )}
                     >
                       Namespace: {principal.namespace}
@@ -233,7 +233,7 @@ export const PrincipalRelationshipView: React.FC<
             className={combineClasses(
               "rounded-lg p-4 border-2",
               infoColors.bg,
-              infoColors.border
+              infoColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -248,7 +248,7 @@ export const PrincipalRelationshipView: React.FC<
                   id={`${bindingsId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    infoColors.text
+                    infoColors.text,
                   )}
                 >
                   Bindings
@@ -275,7 +275,7 @@ export const PrincipalRelationshipView: React.FC<
                   className={combineClasses(
                     "rounded px-3 py-2 text-sm border",
                     neutralColors.bg,
-                    infoColors.border
+                    infoColors.border,
                   )}
                   role="listitem"
                   aria-label={`Binding ${idx + 1}: ${binding.kind} ${
@@ -292,7 +292,7 @@ export const PrincipalRelationshipView: React.FC<
                       size={14}
                       className={combineClasses(
                         infoColors.icon,
-                        "flex-shrink-0"
+                        "flex-shrink-0",
                       )}
                       aria-hidden="true"
                     />
@@ -300,7 +300,7 @@ export const PrincipalRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "font-medium",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {binding.name}
@@ -308,7 +308,7 @@ export const PrincipalRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         {binding.kind}
@@ -340,7 +340,7 @@ export const PrincipalRelationshipView: React.FC<
             className={combineClasses(
               "rounded-lg p-4 border-2",
               successColors.bg,
-              successColors.border
+              successColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -355,7 +355,7 @@ export const PrincipalRelationshipView: React.FC<
                   id={`${rolesId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    successColors.text
+                    successColors.text,
                   )}
                 >
                   Roles
@@ -382,7 +382,7 @@ export const PrincipalRelationshipView: React.FC<
                   className={combineClasses(
                     "rounded px-3 py-2 text-sm border",
                     neutralColors.bg,
-                    successColors.border
+                    successColors.border,
                   )}
                   role="listitem"
                   aria-label={`Role ${idx + 1}: ${role.kind} ${
@@ -397,7 +397,7 @@ export const PrincipalRelationshipView: React.FC<
                       size={14}
                       className={combineClasses(
                         successColors.icon,
-                        "flex-shrink-0"
+                        "flex-shrink-0",
                       )}
                       aria-hidden="true"
                     />
@@ -405,7 +405,7 @@ export const PrincipalRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "font-medium",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {role.name}
@@ -413,7 +413,7 @@ export const PrincipalRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         {role.kind}
@@ -423,7 +423,7 @@ export const PrincipalRelationshipView: React.FC<
                         <div
                           className={combineClasses(
                             "text-xs mt-0.5",
-                            neutralColors.icon
+                            neutralColors.icon,
                           )}
                         >
                           {role.rules.length} rule(s)
@@ -445,7 +445,7 @@ export const PrincipalRelationshipView: React.FC<
           className={combineClasses(
             "p-4 rounded-lg border",
             warningColors.bg,
-            warningColors.border
+            warningColors.border,
           )}
           role="region"
           aria-labelledby={`${summaryId}-heading`}
@@ -454,7 +454,7 @@ export const PrincipalRelationshipView: React.FC<
             id={`${summaryId}-heading`}
             className={combineClasses(
               "font-semibold text-base mb-2",
-              warningColors.text
+              warningColors.text,
             )}
           >
             Effective Permissions Summary
@@ -473,7 +473,7 @@ export const PrincipalRelationshipView: React.FC<
                 <div
                   className={combineClasses(
                     "rounded p-2 text-xs",
-                    neutralColors.bg
+                    neutralColors.bg,
                   )}
                   role="listitem"
                   aria-label={`Permission summary ${idx + 1}: ${
@@ -488,14 +488,14 @@ export const PrincipalRelationshipView: React.FC<
                       size={12}
                       className={combineClasses(
                         warningColors.icon,
-                        "flex-shrink-0"
+                        "flex-shrink-0",
                       )}
                       aria-hidden="true"
                     />
                     <div
                       className={combineClasses(
                         "font-medium",
-                        neutralColors.text
+                        neutralColors.text,
                       )}
                     >
                       {role.name} ({role.kind})
@@ -520,7 +520,7 @@ export const PrincipalRelationshipView: React.FC<
           className={combineClasses(
             "p-4 rounded-lg border",
             criticalColors.bg,
-            criticalColors.border
+            criticalColors.border,
           )}
           role="alert"
           aria-live="polite"
@@ -534,7 +534,7 @@ export const PrincipalRelationshipView: React.FC<
             <h3
               className={combineClasses(
                 "font-semibold text-base",
-                criticalColors.text
+                criticalColors.text,
               )}
             >
               No Effective Permissions

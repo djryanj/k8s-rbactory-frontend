@@ -27,7 +27,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
       className={combineClasses(
         "p-3 rounded-lg border",
         colors.bg,
-        colors.border
+        colors.border,
       )}
       role="alert"
       aria-labelledby={`security-issue-${index}-title`}
@@ -44,7 +44,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                     "inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide border flex-shrink-0",
                     colors.bg,
                     colors.text,
-                    colors.border
+                    colors.border,
                   )}
                   aria-label={severityStyle.ariaLabel}
                 >
@@ -55,7 +55,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   id={`security-issue-${index}-title`}
                   className={combineClasses(
                     "font-semibold text-sm",
-                    colors.text
+                    colors.text,
                   )}
                 >
                   {issue.title}
@@ -76,7 +76,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   colors.hover,
                   colors.text,
                   "focus:outline-none focus:ring-2 focus:ring-offset-1",
-                  colors.ring
+                  colors.ring,
                 )}
                 aria-expanded={isExpanded}
                 aria-controls={detailsId}
@@ -100,7 +100,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                     <div
                       className={combineClasses(
                         "text-xs font-medium mb-1",
-                        colors.text
+                        colors.text,
                       )}
                     >
                       Affected Resources & Verbs:
@@ -114,7 +114,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                               "inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-mono border",
                               colors.bg,
                               colors.text,
-                              colors.border
+                              colors.border,
                             )}
                             role="listitem"
                             aria-label={`Resource: ${resource} with verbs ${
@@ -130,7 +130,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                               {Array.isArray(verbs) ? verbs.join(", ") : verbs}
                             </span>
                           </div>
-                        )
+                        ),
                       )}
                     </div>
                   </div>
@@ -142,7 +142,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   <div
                     className={combineClasses(
                       "text-xs font-medium mb-1",
-                      colors.text
+                      colors.text,
                     )}
                   >
                     API Groups:
@@ -155,7 +155,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                           "px-2 py-1 rounded text-xs font-mono border",
                           colors.bg,
                           colors.text,
-                          colors.border
+                          colors.border,
                         )}
                         role="listitem"
                       >
@@ -172,7 +172,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   <div
                     className={combineClasses(
                       "text-xs font-medium mb-1",
-                      colors.text
+                      colors.text,
                     )}
                   >
                     Subjects:
@@ -185,7 +185,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                           "px-2 py-1 rounded text-xs font-mono border",
                           colors.bg,
                           colors.text,
-                          colors.border
+                          colors.border,
                         )}
                         role="listitem"
                       >

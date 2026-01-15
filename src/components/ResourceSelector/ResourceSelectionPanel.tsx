@@ -53,11 +53,11 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
     useResourceCategories(filteredResources);
 
   const allCustomResources = manifest.role.permissions.filter(
-    (p) => !RESOURCE_METADATA[p.resource as ResourceType]
+    (p) => !RESOURCE_METADATA[p.resource as ResourceType],
   );
 
   const customResourcesWithVerbs = allCustomResources.filter(
-    (p) => p.verbs.length > 0
+    (p) => p.verbs.length > 0,
   );
 
   const handleCustomResourceAdd = (name: string, apiGroup: string) => {
@@ -72,7 +72,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
         inlineExpansion
           ? "Configure permissions below."
           : "Configure permissions in the right panel."
-      }`
+      }`,
     );
 
     setShowCustomForm(false);
@@ -90,7 +90,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
 
   const handleCustomResourceToggle = (resource: ResourceType) => {
     const permission = manifest.role.permissions.find(
-      (p) => p.resource === resource
+      (p) => p.resource === resource,
     );
 
     if (permission && permission.verbs.length > 0) {
@@ -101,7 +101,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
       announceToScreenReader(
         `${resource} selected. Configure permissions ${
           inlineExpansion ? "below" : "in the right panel"
-        }.`
+        }.`,
       );
     }
   };
@@ -127,7 +127,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
 
     setShowClearConfirm(false);
     announceToScreenReader(
-      `All ${selectedResources.length} selected resources cleared`
+      `All ${selectedResources.length} selected resources cleared`,
     );
   };
 
@@ -141,7 +141,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
       className={combineClasses(
         "rounded-lg border p-4",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
       aria-labelledby="resource-selector-heading"
     >
@@ -149,7 +149,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
         id="resource-selector-heading"
         className={combineClasses(
           "text-lg font-semibold mb-3",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         Select Resources
@@ -179,7 +179,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
           className={combineClasses(
             "mb-4 p-4 rounded-lg border-2",
             "bg-red-50 dark:bg-red-900/20",
-            "border-red-300 dark:border-red-700"
+            "border-red-300 dark:border-red-700",
           )}
           role="alertdialog"
           aria-labelledby="clear-all-title"
@@ -189,7 +189,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
             id="clear-all-title"
             className={combineClasses(
               "text-base font-semibold mb-2",
-              "text-red-900 dark:text-red-100"
+              "text-red-900 dark:text-red-100",
             )}
           >
             Clear All Selected Resources?
@@ -198,7 +198,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
             id="clear-all-description"
             className={combineClasses(
               "text-sm mb-3",
-              "text-red-800 dark:text-red-200"
+              "text-red-800 dark:text-red-200",
             )}
           >
             This will remove all {selectedResources.length} selected resource
@@ -214,7 +214,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
                 "focus:outline-none focus:ring-2 focus:ring-offset-1",
                 "bg-red-600 hover:bg-red-700",
                 "text-white",
-                "focus:ring-red-500"
+                "focus:ring-red-500",
               )}
             >
               Yes, Clear All
@@ -229,7 +229,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
                 neutralColors.text,
                 neutralColors.border,
                 neutralColors.hover,
-                neutralColors.ring
+                neutralColors.ring,
               )}
             >
               Cancel
@@ -243,7 +243,7 @@ export const ResourceSelectionPanel: React.FC<ResourceSelectionPanelProps> = ({
         <div
           className={combineClasses(
             "text-center py-8 text-sm italic",
-            neutralColors.icon
+            neutralColors.icon,
           )}
           role="status"
         >

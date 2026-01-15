@@ -1,6 +1,9 @@
 // src/context/connection/useConnection.ts
 import { useContext } from "react";
-import { ConnectionContext, type ConnectionContextType } from "./ConnectionContext";
+import {
+  ConnectionContext,
+  type ConnectionContextType,
+} from "./ConnectionContext";
 
 export const useConnection = (): ConnectionContextType => {
   const context = useContext(ConnectionContext);

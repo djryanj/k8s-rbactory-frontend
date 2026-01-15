@@ -87,7 +87,7 @@ vi.mock("../../../utils/accessibility", () => ({
 // Custom render function
 export function renderWithContext(
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper">
+  options?: Omit<RenderOptions, "wrapper">,
 ) {
   return render(ui, options);
 }
@@ -143,7 +143,7 @@ export function setMockClusterRole(isClusterRole: boolean) {
 // Helper to get closest element with proper typing
 export function getClosestElement(
   element: HTMLElement,
-  selector: string
+  selector: string,
 ): HTMLElement {
   const closest = element.closest(selector);
   if (!closest) {

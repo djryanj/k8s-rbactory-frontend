@@ -1,7 +1,7 @@
 // src/context/connection/ConnectionContext.ts
-import { createContext } from 'react';
-import type { ClusterInfo } from '../../types/api.types';
-import type { IAPIClient } from '../../types/api.types';
+import { createContext } from "react";
+import type { ClusterInfo } from "../../types/api.types";
+import type { IAPIClient } from "../../types/api.types";
 
 export interface ConnectionContextType {
   connected: boolean;
@@ -16,6 +16,6 @@ export interface ConnectionContextType {
   apiClientInstance: IAPIClient;
 }
 
-export const ConnectionContext = createContext<ConnectionContextType | undefined>(
-  undefined
-);
+export const ConnectionContext = createContext<
+  ConnectionContextType | undefined
+>(undefined);

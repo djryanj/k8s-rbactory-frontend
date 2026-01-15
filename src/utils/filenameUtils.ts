@@ -23,15 +23,15 @@ export const sanitizeFilename = (name: string): string => {
 export const generateK8sFilename = (
   kind: string,
   name: string,
-  suffix?: string
+  suffix?: string,
 ): string => {
   const safeName = sanitizeFilename(name);
   const safeKind = kind.toLowerCase();
   const parts = [safeKind, safeName];
-  
+
   if (suffix) {
     parts.push(suffix);
   }
-  
+
   return `${parts.join("-")}.yaml`;
 };

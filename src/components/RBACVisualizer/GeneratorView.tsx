@@ -31,7 +31,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
             className={combineClasses(
               "rounded-lg p-4 border-2",
               infoColors.bg,
-              infoColors.border
+              infoColors.border,
             )}
           >
             <div className="flex items-center gap-2 mb-3">
@@ -45,7 +45,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                 id="subjects-heading"
                 className={combineClasses(
                   "font-semibold text-base",
-                  infoColors.text
+                  infoColors.text,
                 )}
               >
                 Subjects
@@ -65,7 +65,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                   "text-sm italic p-3 rounded border",
                   neutralColors.icon,
                   neutralColors.bg,
-                  neutralColors.border
+                  neutralColors.border,
                 )}
                 role="status"
               >
@@ -79,7 +79,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                     className={combineClasses(
                       "rounded px-3 py-2 text-sm border",
                       neutralColors.bg,
-                      infoColors.border
+                      infoColors.border,
                     )}
                     role="listitem"
                     aria-label={`Subject ${idx + 1}: ${subject.kind} ${
@@ -96,7 +96,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                         size={14}
                         className={combineClasses(
                           infoColors.icon,
-                          "flex-shrink-0"
+                          "flex-shrink-0",
                         )}
                         aria-hidden="true"
                       />
@@ -104,7 +104,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                         <div
                           className={combineClasses(
                             "font-medium",
-                            neutralColors.text
+                            neutralColors.text,
                           )}
                         >
                           {subject.name}
@@ -112,7 +112,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                         <div
                           className={combineClasses(
                             "text-xs",
-                            neutralColors.icon
+                            neutralColors.icon,
                           )}
                         >
                           {subject.kind}
@@ -139,7 +139,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
               "mt-2 px-3 py-1 rounded text-xs font-medium flex items-center gap-1.5 border",
               neutralColors.bg,
               neutralColors.text,
-              neutralColors.border
+              neutralColors.border,
             )}
           >
             <K8sResourceIcon
@@ -166,7 +166,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
             className={combineClasses(
               "rounded-lg p-4 border-2",
               successColors.bg,
-              successColors.border
+              successColors.border,
             )}
           >
             <div className="flex items-center gap-2 mb-3">
@@ -180,7 +180,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                 id="role-heading"
                 className={combineClasses(
                   "font-semibold text-base",
-                  successColors.text
+                  successColors.text,
                 )}
               >
                 {isClusterRole ? "ClusterRole" : "Role"}
@@ -190,7 +190,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
               className={combineClasses(
                 "rounded px-3 py-2 border",
                 neutralColors.bg,
-                successColors.border
+                successColors.border,
               )}
               role="article"
               aria-label={`${isClusterRole ? "ClusterRole" : "Role"} ${
@@ -203,7 +203,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                   size={14}
                   className={combineClasses(
                     successColors.icon,
-                    "flex-shrink-0"
+                    "flex-shrink-0",
                   )}
                   aria-hidden="true"
                 />
@@ -211,7 +211,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                   <div
                     className={combineClasses(
                       "font-medium",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {manifest.role.name}
@@ -226,7 +226,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                   <div
                     className={combineClasses(
                       "mt-1 text-xs",
-                      neutralColors.icon
+                      neutralColors.icon,
                     )}
                   >
                     {manifest.role.permissions.length} resource type(s)
@@ -249,7 +249,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
               "mt-2 px-3 py-1 rounded text-xs font-medium border",
               neutralColors.bg,
               neutralColors.text,
-              neutralColors.border
+              neutralColors.border,
             )}
           >
             grants
@@ -262,7 +262,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
             className={combineClasses(
               "rounded-lg p-4 border-2",
               purpleColors.bg,
-              purpleColors.border
+              purpleColors.border,
             )}
           >
             <div className="flex items-center gap-2 mb-3">
@@ -276,7 +276,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                 id="resources-heading"
                 className={combineClasses(
                   "font-semibold text-base",
-                  purpleColors.text
+                  purpleColors.text,
                 )}
               >
                 Resources
@@ -296,7 +296,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                   "text-sm italic p-3 rounded border",
                   neutralColors.icon,
                   neutralColors.bg,
-                  neutralColors.border
+                  neutralColors.border,
                 )}
                 role="status"
               >
@@ -314,7 +314,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                     className={combineClasses(
                       "rounded px-3 py-2 text-sm border",
                       neutralColors.bg,
-                      purpleColors.border
+                      purpleColors.border,
                     )}
                     role="listitem"
                     aria-label={`Permission ${idx + 1}: ${
@@ -324,7 +324,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
                     <div
                       className={combineClasses(
                         "font-medium",
-                        neutralColors.text
+                        neutralColors.text,
                       )}
                     >
                       {perm.resource}
@@ -347,7 +347,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
         className={combineClasses(
           "p-3 rounded-lg border",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="status"
         aria-label={`Scope: ${
@@ -360,7 +360,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
           <span
             className={combineClasses(
               "font-medium flex items-center gap-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             <K8sResourceIcon
@@ -376,7 +376,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({ manifest }) => {
               "px-3 py-1 rounded-full font-medium border",
               isClusterRole ? criticalColors.bg : infoColors.bg,
               isClusterRole ? criticalColors.text : infoColors.text,
-              isClusterRole ? criticalColors.border : infoColors.border
+              isClusterRole ? criticalColors.border : infoColors.border,
             )}
           >
             {isClusterRole

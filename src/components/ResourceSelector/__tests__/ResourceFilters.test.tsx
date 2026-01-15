@@ -26,7 +26,7 @@ describe("ResourceFilters", () => {
       render(<ResourceFilters {...defaultProps} />);
 
       expect(
-        screen.getByPlaceholderText(/search resources/i)
+        screen.getByPlaceholderText(/search resources/i),
       ).toBeInTheDocument();
     });
 
@@ -61,7 +61,7 @@ describe("ResourceFilters", () => {
       render(<ResourceFilters {...defaultProps} searchTerm="deployment" />);
 
       const searchInput = screen.getByPlaceholderText(
-        /search resources/i
+        /search resources/i,
       ) as HTMLInputElement;
       expect(searchInput.value).toBe("deployment");
     });
@@ -92,7 +92,7 @@ describe("ResourceFilters", () => {
       render(<ResourceFilters {...defaultProps} selectedCategory="workload" />);
 
       const categorySelect = screen.getByLabelText(
-        /filter by category/i
+        /filter by category/i,
       ) as HTMLSelectElement;
       expect(categorySelect.value).toBe("workload");
     });
@@ -103,7 +103,7 @@ describe("ResourceFilters", () => {
       const categorySelect = screen.getByLabelText(/filter by category/i);
 
       expect(categorySelect).toContainHTML(
-        '<option value="all">All Categories</option>'
+        '<option value="all">All Categories</option>',
       );
       expect(categorySelect).toContainHTML("Workloads");
       expect(categorySelect).toContainHTML("Configuration");
@@ -148,7 +148,7 @@ describe("ResourceFilters", () => {
 
     it("handles singular vs plural results", () => {
       const { rerender } = render(
-        <ResourceFilters {...defaultProps} resultsCount={1} />
+        <ResourceFilters {...defaultProps} resultsCount={1} />,
       );
 
       expect(screen.getByText(/1 resource found/i)).toBeInTheDocument();

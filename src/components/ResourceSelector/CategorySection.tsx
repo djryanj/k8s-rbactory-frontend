@@ -57,7 +57,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
 
   const selectedInCategory = isCustomCategory
     ? customResources.filter((cr) =>
-        selectedResources.includes(cr.resource as ResourceType)
+        selectedResources.includes(cr.resource as ResourceType),
       ).length
     : resources.filter((r) => selectedResources.includes(r)).length;
 
@@ -69,7 +69,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
     <div
       className={combineClasses(
         "border rounded-lg overflow-hidden",
-        neutralColors.border
+        neutralColors.border,
       )}
     >
       {/* Category Header */}
@@ -80,7 +80,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
           "w-full flex items-center justify-between p-3 transition-all",
           "focus:outline-none",
           "bg-gray-50 dark:bg-gray-800",
-          "hover:bg-gray-100 dark:hover:bg-gray-700"
+          "hover:bg-gray-100 dark:hover:bg-gray-700",
         )}
         aria-expanded={isExpanded}
         aria-controls={`category-${category}-content`}
@@ -133,11 +133,11 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
               {isCustomCategory
                 ? customResources.map((cr) => {
                     const isSelected = selectedResources.includes(
-                      cr.resource as ResourceType
+                      cr.resource as ResourceType,
                     );
                     const isActive = activeResource === cr.resource;
                     const permission = manifest.role.permissions.find(
-                      (p) => p.resource === cr.resource
+                      (p) => p.resource === cr.resource,
                     );
 
                     return (
@@ -159,7 +159,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                             className={combineClasses(
                               "mt-2 p-3 border rounded-lg",
                               neutralColors.border,
-                              neutralColors.bg
+                              neutralColors.bg,
                             )}
                           >
                             <PermissionMatrix
@@ -185,7 +185,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                     const isSelected = selectedResources.includes(resource);
                     const isActive = activeResource === resource;
                     const permission = manifest.role.permissions.find(
-                      (p) => p.resource === resource
+                      (p) => p.resource === resource,
                     );
                     const metadata = RESOURCE_METADATA[resource];
 
@@ -203,7 +203,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                             className={combineClasses(
                               "mt-2 p-3 border rounded-lg",
                               neutralColors.border,
-                              neutralColors.bg
+                              neutralColors.bg,
                             )}
                           >
                             <PermissionMatrix
@@ -233,7 +233,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
               <div
                 className={combineClasses(
                   "text-center py-6 text-sm",
-                  neutralColors.icon
+                  neutralColors.icon,
                 )}
               >
                 No resources in this category
@@ -254,7 +254,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                     "hover:shadow-lg hover:scale-[1.02] active:scale-[0.99]",
                     neutralColors.border,
                     neutralColors.hover,
-                    infoColors.ring
+                    infoColors.ring,
                   )}
                   aria-label="Add custom resource"
                 >
@@ -262,7 +262,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                   <span
                     className={combineClasses(
                       "font-medium",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     Add Custom Resource
@@ -281,7 +281,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
               <div
                 className={combineClasses(
                   "text-center py-6 text-sm mb-3",
-                  neutralColors.icon
+                  neutralColors.icon,
                 )}
               >
                 No custom resources added yet

@@ -59,7 +59,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
         ref={modalRef}
         className={combineClasses(
           "rounded-lg shadow-2xl max-w-md w-full",
-          neutralColors.bg
+          neutralColors.bg,
         )}
         role="document"
       >
@@ -68,13 +68,13 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
           className={combineClasses(
             "flex items-start gap-3 p-6 pb-4",
             "border-b",
-            neutralColors.border
+            neutralColors.border,
           )}
         >
           <div
             className={combineClasses(
               "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center",
-              isNetlifyDemo ? infoColors.bg : warningColors.bg
+              isNetlifyDemo ? infoColors.bg : warningColors.bg,
             )}
             aria-hidden="true"
           >
@@ -88,7 +88,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
               id="feature-notification-title"
               className={combineClasses(
                 "text-lg font-semibold",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               {isNetlifyDemo ? "Demo Site Notice" : "Feature Unavailable"}
@@ -102,7 +102,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
               "focus:outline-none focus:ring-2 focus:ring-offset-1",
               neutralColors.icon,
               neutralColors.hover,
-              neutralColors.ring
+              neutralColors.ring,
             )}
             aria-label="Close notification"
           >
@@ -118,7 +118,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
                 id="feature-notification-description"
                 className={combineClasses(
                   "text-sm leading-relaxed",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Welcome to the <strong>K8s RBACtory demo site</strong>! This is
@@ -129,7 +129,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
               <p
                 className={combineClasses(
                   "text-sm leading-relaxed mt-3",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 The <strong>Policy Builder</strong> is fully functional and you
@@ -140,13 +140,13 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
                 className={combineClasses(
                   "mt-4 p-3 rounded-lg border",
                   infoColors.bg,
-                  infoColors.border
+                  infoColors.border,
                 )}
               >
                 <p
                   className={combineClasses(
                     "text-sm font-medium mb-2",
-                    neutralColors.text
+                    neutralColors.text,
                   )}
                 >
                   Want the full experience?
@@ -163,7 +163,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
                     "inline-flex items-center gap-1 mt-2 text-sm font-medium",
                     "text-k8s-blue dark:text-k8s-lightblue hover:underline",
                     "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:rounded",
-                    infoColors.ring
+                    infoColors.ring,
                   )}
                 >
                   View on GitHub
@@ -177,7 +177,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
                 id="feature-notification-description"
                 className={combineClasses(
                   "text-sm leading-relaxed",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 The <strong>Cluster Browser</strong> functionality has been
@@ -187,7 +187,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
               <p
                 className={combineClasses(
                   "text-sm leading-relaxed mt-3",
-                  neutralColors.icon
+                  neutralColors.icon,
                 )}
               >
                 If you believe this is an error, please contact your system
@@ -202,7 +202,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
           className={combineClasses(
             "flex flex-col-reverse sm:flex-row gap-3 p-6 pt-4",
             "border-t",
-            neutralColors.border
+            neutralColors.border,
           )}
         >
           <button
@@ -214,7 +214,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
               getButtonClasses("secondary", "slate", "md"),
               neutralColors.text,
               neutralColors.hover,
-              neutralColors.ring
+              neutralColors.ring,
             )}
           >
             Don't Show Again
@@ -224,7 +224,7 @@ export const FeatureDisabledModal: React.FC<FeatureDisabledModalProps> = ({
             onClick={onDismissOnce}
             className={combineClasses(
               "flex-1 px-4 py-2.5",
-              getButtonClasses("primary", "slate", "md")
+              getButtonClasses("primary", "slate", "md"),
             )}
           >
             {isNetlifyDemo ? "Got It, Thanks!" : "OK, Got It"}

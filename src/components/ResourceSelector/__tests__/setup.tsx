@@ -42,7 +42,7 @@ export const mockRBACContext = {
 // Custom render with providers
 export function renderWithProviders(
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper">
+  options?: Omit<RenderOptions, "wrapper">,
 ) {
   function Wrapper({ children }: { children: React.ReactNode }) {
     return <RBACProvider>{children}</RBACProvider>;

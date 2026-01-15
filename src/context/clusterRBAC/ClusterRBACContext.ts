@@ -1,6 +1,9 @@
 // src/context/clusterRBAC/ClusterRBACContext.ts
-import { createContext } from 'react';
-import type { ClusterRBACResource, RelationshipResponse } from '../../services/api';
+import { createContext } from "react";
+import type {
+  ClusterRBACResource,
+  RelationshipResponse,
+} from "../../services/api";
 
 export interface ClusterRBACContextType {
   selectedResource: ClusterRBACResource | null;
@@ -11,6 +14,6 @@ export interface ClusterRBACContextType {
   setIsLoadingRelationships: (loading: boolean) => void;
 }
 
-export const ClusterRBACContext = createContext<ClusterRBACContextType | undefined>(
-  undefined
-);
+export const ClusterRBACContext = createContext<
+  ClusterRBACContextType | undefined
+>(undefined);

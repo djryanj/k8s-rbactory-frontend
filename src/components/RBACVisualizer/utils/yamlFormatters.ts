@@ -87,7 +87,7 @@ export const formatServiceAccountYAML = (subject: Subject): string => {
 
 export const formatMultiDocumentYAML = (
   resources: readonly ClusterRBACResource[],
-  subjects?: readonly Subject[]
+  subjects?: readonly Subject[],
 ): string => {
   const documents: string[] = [];
 
@@ -113,7 +113,7 @@ export const formatSingleRuleYAML = (
     verbs?: string[];
     resourceNames?: string[];
   },
-  ruleIndex: number
+  ruleIndex: number,
 ): string => {
   const lines: string[] = [];
 

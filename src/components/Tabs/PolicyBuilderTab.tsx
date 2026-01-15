@@ -41,7 +41,7 @@ export const PolicyBuilderTab: React.FC = () => {
     resetManifest();
     setShowResetConfirm(false);
     announceToScreenReader(
-      "All configuration has been reset. Role and binding cleared."
+      "All configuration has been reset. Role and binding cleared.",
     );
   };
 
@@ -86,7 +86,7 @@ export const PolicyBuilderTab: React.FC = () => {
         className={combineClasses(
           "border rounded-lg p-6",
           warningColors.bg,
-          warningColors.border
+          warningColors.border,
         )}
         aria-labelledby="best-practices-heading"
       >
@@ -94,7 +94,7 @@ export const PolicyBuilderTab: React.FC = () => {
           id="best-practices-heading"
           className={combineClasses(
             "text-lg font-semibold mb-3 flex items-center gap-2",
-            warningColors.text
+            warningColors.text,
           )}
         >
           <Lightbulb size={20} aria-hidden="true" />
@@ -103,7 +103,7 @@ export const PolicyBuilderTab: React.FC = () => {
         <div
           className={combineClasses(
             "grid grid-cols-1 md:grid-cols-2 gap-4 text-sm",
-            warningColors.text
+            warningColors.text,
           )}
         >
           <section aria-labelledby="security-practices-heading">
@@ -152,7 +152,7 @@ export const PolicyBuilderTab: React.FC = () => {
               criticalColors.bg,
               "text-white",
               criticalColors.hover,
-              criticalColors.ring
+              criticalColors.ring,
             )}
             aria-label={`Reset all configuration. Currently ${
               manifest.role.permissions.length
@@ -186,7 +186,7 @@ export const PolicyBuilderTab: React.FC = () => {
           <div
             className={combineClasses(
               "rounded-lg shadow-xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200",
-              neutralColors.bg
+              neutralColors.bg,
             )}
             role="document"
           >
@@ -194,7 +194,7 @@ export const PolicyBuilderTab: React.FC = () => {
               <div
                 className={combineClasses(
                   "p-2 rounded-full",
-                  criticalColors.bg
+                  criticalColors.bg,
                 )}
                 aria-hidden="true"
               >
@@ -204,7 +204,7 @@ export const PolicyBuilderTab: React.FC = () => {
                 id="reset-dialog-title"
                 className={combineClasses(
                   "text-lg font-semibold",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Reset Configuration?
@@ -222,7 +222,7 @@ export const PolicyBuilderTab: React.FC = () => {
             <ul
               className={combineClasses(
                 "space-y-2 mb-6 text-sm",
-                neutralColors.text
+                neutralColors.text,
               )}
               aria-label="Items that will be cleared"
             >
@@ -231,7 +231,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   <span
                     className={combineClasses(
                       "w-1.5 h-1.5 rounded-full",
-                      "bg-red-500 dark:bg-red-400"
+                      "bg-red-500 dark:bg-red-400",
                     )}
                     aria-hidden="true"
                   ></span>
@@ -243,7 +243,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   <span
                     className={combineClasses(
                       "w-1.5 h-1.5 rounded-full",
-                      "bg-red-500 dark:bg-red-400"
+                      "bg-red-500 dark:bg-red-400",
                     )}
                     aria-hidden="true"
                   ></span>
@@ -255,7 +255,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   <span
                     className={combineClasses(
                       "w-1.5 h-1.5 rounded-full",
-                      "bg-red-500 dark:bg-red-400"
+                      "bg-red-500 dark:bg-red-400",
                     )}
                     aria-hidden="true"
                   ></span>
@@ -268,7 +268,7 @@ export const PolicyBuilderTab: React.FC = () => {
                     <span
                       className={combineClasses(
                         "w-1.5 h-1.5 rounded-full",
-                        "bg-red-500 dark:bg-red-400"
+                        "bg-red-500 dark:bg-red-400",
                       )}
                       aria-hidden="true"
                     ></span>
@@ -280,7 +280,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   <span
                     className={combineClasses(
                       "w-1.5 h-1.5 rounded-full",
-                      "bg-red-500 dark:bg-red-400"
+                      "bg-red-500 dark:bg-red-400",
                     )}
                     aria-hidden="true"
                   ></span>
@@ -293,7 +293,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   <span
                     className={combineClasses(
                       "w-1.5 h-1.5 rounded-full",
-                      "bg-red-500 dark:bg-red-400"
+                      "bg-red-500 dark:bg-red-400",
                     )}
                     aria-hidden="true"
                   ></span>
@@ -321,7 +321,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   neutralColors.text,
                   neutralColors.border,
                   neutralColors.hover,
-                  neutralColors.ring
+                  neutralColors.ring,
                 )}
                 aria-label="Cancel reset"
               >
@@ -336,7 +336,7 @@ export const PolicyBuilderTab: React.FC = () => {
                   "hover:scale-105 active:scale-95",
                   "bg-red-600 dark:bg-red-700 text-white",
                   "hover:bg-red-700 dark:hover:bg-red-600",
-                  criticalColors.ring
+                  criticalColors.ring,
                 )}
                 aria-label="Confirm reset and clear all configuration"
               >

@@ -85,7 +85,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
       const transformedManifest = transformClusterResourceToManifest(
         resource,
         relatedRole,
-        relatedBindings
+        relatedBindings,
       );
 
       rbacContext.updateRoleName(transformedManifest.role.name);
@@ -122,7 +122,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
       setShowCopyConfirm(false);
 
       announceToScreenReader(
-        `Copied ${resource.kind} ${resource.name} to Policy Builder`
+        `Copied ${resource.kind} ${resource.name} to Policy Builder`,
       );
 
       if (onSwitchToPolicyBuilder) {
@@ -184,7 +184,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
       // Check for sensitive resources
       const sensitiveResources = ["secrets", "configmaps", "serviceaccounts"];
       const hasSensitiveResources = rule.resources?.some((r) =>
-        sensitiveResources.includes(r)
+        sensitiveResources.includes(r),
       );
 
       if (hasSensitiveResources) {
@@ -198,7 +198,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
           "delete",
         ];
         const hasDangerousAccess = rule.verbs?.some((v) =>
-          dangerousVerbs.includes(v)
+          dangerousVerbs.includes(v),
         );
 
         if (hasDangerousAccess) {
@@ -213,7 +213,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
       // Check for destructive permissions
       const dangerousVerbs = ["delete", "deletecollection"];
       const hasDestructiveVerbs = rule.verbs?.some((v) =>
-        dangerousVerbs.includes(v)
+        dangerousVerbs.includes(v),
       );
 
       if (hasDestructiveVerbs) {
@@ -232,14 +232,14 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
         "clusterrolebindings",
       ];
       const hasRbacResources = rule.resources?.some((r) =>
-        rbacResources.includes(r)
+        rbacResources.includes(r),
       );
 
       if (hasRbacResources) {
         const canModify = rule.verbs?.some((v) =>
           ["create", "update", "patch", "delete", "bind", "escalate"].includes(
-            v
-          )
+            v,
+          ),
         );
 
         if (canModify) {
@@ -297,7 +297,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               <h4
                 className={combineClasses(
                   "text-sm font-semibold mb-1 flex items-center gap-2",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 <ArrowLeft size={16} aria-hidden="true" />
@@ -313,7 +313,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               title="Copy this resource to the Policy Builder tab"
               className={combineClasses(
                 getButtonClasses("primary", "slate", "md"),
-                "w-full"
+                "w-full",
               )}
               aria-label="Copy this resource to the Policy Builder tab"
             >
@@ -375,8 +375,8 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               (sa, index, self) =>
                 index ===
                 self.findIndex(
-                  (s) => s.name === sa.name && s.namespace === sa.namespace
-                )
+                  (s) => s.name === sa.name && s.namespace === sa.namespace,
+                ),
             );
           totalDocs += uniqueServiceAccounts.length;
 
@@ -387,7 +387,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   <h4
                     className={combineClasses(
                       "text-sm font-semibold mb-1 flex items-center gap-2",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     <Download
@@ -439,14 +439,14 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
 
                       const yaml = formatMultiDocumentYAML(
                         allResources,
-                        uniqueServiceAccounts
+                        uniqueServiceAccounts,
                       );
                       handleCopy(yaml, "all-yaml");
                     }}
                     title={`Copy complete multi-document YAML with all ${totalDocs} related resource(s)`}
                     className={combineClasses(
                       getButtonClasses("secondary", "slate", "md"),
-                      "w-full"
+                      "w-full",
                     )}
                     aria-label={`Copy complete multi-document YAML with all ${totalDocs} related resources`}
                   >
@@ -506,19 +506,19 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
 
                       const yaml = formatMultiDocumentYAML(
                         allResources,
-                        uniqueServiceAccounts
+                        uniqueServiceAccounts,
                       );
                       const filename = generateK8sFilename(
                         resource.kind,
                         resource.name,
-                        "complete"
+                        "complete",
                       );
                       handleDownload(yaml, filename, "all-yaml");
                     }}
                     title={`Download complete multi-document YAML with all ${totalDocs} related resource(s)`}
                     className={combineClasses(
                       getButtonClasses("primary", "slate", "md"),
-                      "w-full"
+                      "w-full",
                     )}
                     aria-label={`Download complete multi-document YAML with all ${totalDocs} related resources`}
                   >
@@ -557,7 +557,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               className={combineClasses(
                 "p-4 rounded-lg border",
                 successColors.bg,
-                successColors.border
+                successColors.border,
               )}
             >
               <button
@@ -565,7 +565,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 className={combineClasses(
                   "w-full flex items-center justify-between mb-3",
                   "focus:outline-none focus:ring-2 focus:ring-offset-2 rounded",
-                  successColors.ring
+                  successColors.ring,
                 )}
                 aria-expanded={rulesExpanded}
                 aria-controls="rules-content"
@@ -573,7 +573,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 <h4
                   className={combineClasses(
                     "text-sm font-semibold flex items-center gap-2",
-                    successColors.text
+                    successColors.text,
                   )}
                 >
                   <K8sResourceIcon
@@ -604,7 +604,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   className={combineClasses(
                     "mb-3 p-2 rounded border",
                     warningColors.bg,
-                    warningColors.border
+                    warningColors.border,
                   )}
                   role="alert"
                 >
@@ -616,7 +616,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                           size={14}
                           className={combineClasses(
                             warningColors.icon,
-                            "flex-shrink-0 mt-0.5"
+                            "flex-shrink-0 mt-0.5",
                           )}
                           aria-hidden="true"
                         />
@@ -651,7 +651,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                         className={combineClasses(
                           "rounded-lg p-3 border relative",
                           colors.bg,
-                          colors.border
+                          colors.border,
                         )}
                         role={hasIssue ? "alert" : undefined}
                         aria-label={
@@ -674,7 +674,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                     "flex items-center gap-1 px-2 py-1 rounded text-xs font-medium border",
                                     colors.bg,
                                     colors.text,
-                                    colors.border
+                                    colors.border,
                                   )}
                                 >
                                   <SeverityIcon size={12} aria-hidden="true" />
@@ -704,7 +704,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               e.stopPropagation();
                               const yaml = formatSingleRuleYAML(
                                 rule,
-                                ruleIndex
+                                ruleIndex,
                               );
                               handleCopy(yaml, `rule-${ruleIndex}`);
                             }}
@@ -713,7 +713,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               "focus:outline-none focus:ring-2 focus:ring-offset-1",
                               colors.icon,
                               colors.hover,
-                              colors.ring
+                              colors.ring,
                             )}
                             title={`Copy rule ${ruleIndex + 1} YAML`}
                             aria-label={`Copy rule ${ruleIndex + 1} YAML`}
@@ -722,7 +722,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               <span
                                 className={combineClasses(
                                   "text-xs font-bold",
-                                  successColors.icon
+                                  successColors.icon,
                                 )}
                                 aria-label="Copied"
                               >
@@ -737,17 +737,17 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               e.stopPropagation();
                               const yaml = formatSingleRuleYAML(
                                 rule,
-                                ruleIndex
+                                ruleIndex,
                               );
                               const filename = generateK8sFilename(
                                 resource.kind,
                                 resource.name,
-                                `rule-${ruleIndex}`
+                                `rule-${ruleIndex}`,
                               );
                               handleDownload(
                                 yaml,
                                 filename,
-                                `rule-${ruleIndex}`
+                                `rule-${ruleIndex}`,
                               );
                             }}
                             className={combineClasses(
@@ -755,7 +755,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               "focus:outline-none focus:ring-2 focus:ring-offset-1",
                               colors.icon,
                               colors.hover,
-                              colors.ring
+                              colors.ring,
                             )}
                             title={`Download rule ${ruleIndex + 1} YAML`}
                             aria-label={`Download rule ${ruleIndex + 1} YAML`}
@@ -764,7 +764,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               <span
                                 className={combineClasses(
                                   "text-xs font-bold",
-                                  successColors.icon
+                                  successColors.icon,
                                 )}
                                 aria-label="Downloaded"
                               >
@@ -781,7 +781,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                             <span
                               className={combineClasses(
                                 "font-medium block mb-1",
-                                neutralColors.text
+                                neutralColors.text,
                               )}
                             >
                               Resources:
@@ -794,7 +794,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                     "px-2 py-0.5 rounded text-xs font-mono border",
                                     infoColors.bg,
                                     infoColors.text,
-                                    infoColors.border
+                                    infoColors.border,
                                   )}
                                 >
                                   {res}
@@ -803,7 +803,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                 <span
                                   className={combineClasses(
                                     "text-xs",
-                                    neutralColors.icon
+                                    neutralColors.icon,
                                   )}
                                 >
                                   None
@@ -815,7 +815,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                             <span
                               className={combineClasses(
                                 "font-medium block mb-1",
-                                neutralColors.text
+                                neutralColors.text,
                               )}
                             >
                               Verbs:
@@ -830,7 +830,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                     key={i}
                                     className={combineClasses(
                                       "px-2 py-0.5 rounded text-xs font-mono border",
-                                      verbClasses
+                                      verbClasses,
                                     )}
                                     title={verbClassification.description}
                                   >
@@ -841,7 +841,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                 <span
                                   className={combineClasses(
                                     "text-xs",
-                                    neutralColors.icon
+                                    neutralColors.icon,
                                   )}
                                 >
                                   None
@@ -853,7 +853,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                             <span
                               className={combineClasses(
                                 "font-medium block mb-1",
-                                neutralColors.text
+                                neutralColors.text,
                               )}
                             >
                               API Groups:
@@ -866,7 +866,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                     "px-2 py-0.5 rounded text-xs font-mono border",
                                     purpleColors.bg,
                                     purpleColors.text,
-                                    purpleColors.border
+                                    purpleColors.border,
                                   )}
                                 >
                                   {group || '""'}
@@ -875,7 +875,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                 <span
                                   className={combineClasses(
                                     "text-xs",
-                                    neutralColors.icon
+                                    neutralColors.icon,
                                   )}
                                 >
                                   None
@@ -889,13 +889,13 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                             <div
                               className={combineClasses(
                                 "mt-2 pt-2 border-t",
-                                colors.border
+                                colors.border,
                               )}
                             >
                               <span
                                 className={combineClasses(
                                   "font-medium text-sm block mb-1",
-                                  neutralColors.text
+                                  neutralColors.text,
                                 )}
                               >
                                 Resource Names:
@@ -908,7 +908,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                                       "px-2 py-0.5 rounded text-xs font-mono border",
                                       neutralColors.bg,
                                       neutralColors.text,
-                                      neutralColors.border
+                                      neutralColors.border,
                                     )}
                                   >
                                     {name}
@@ -931,7 +931,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               className={combineClasses(
                 "p-4 rounded-lg border",
                 purpleColors.bg,
-                purpleColors.border
+                purpleColors.border,
               )}
             >
               <button
@@ -939,7 +939,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 className={combineClasses(
                   "w-full flex items-center justify-between mb-3",
                   "focus:outline-none focus:ring-2 focus:ring-offset-2 rounded",
-                  purpleColors.ring
+                  purpleColors.ring,
                 )}
                 aria-expanded={subjectsExpanded}
                 aria-controls="subjects-content"
@@ -947,7 +947,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 <h4
                   className={combineClasses(
                     "text-sm font-semibold flex items-center gap-2",
-                    purpleColors.text
+                    purpleColors.text,
                   )}
                 >
                   <K8sResourceIcon
@@ -981,7 +981,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                       className={combineClasses(
                         "rounded-lg p-3 border",
                         neutralColors.bg,
-                        purpleColors.border
+                        purpleColors.border,
                       )}
                     >
                       <div className="flex items-center gap-3 text-sm">
@@ -990,7 +990,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                           size={14}
                           className={combineClasses(
                             purpleColors.icon,
-                            "flex-shrink-0"
+                            "flex-shrink-0",
                           )}
                           aria-hidden="true"
                         />
@@ -999,7 +999,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                             "px-2 py-1 rounded font-medium text-xs border",
                             purpleColors.bg,
                             purpleColors.text,
-                            purpleColors.border
+                            purpleColors.border,
                           )}
                         >
                           {subject.kind}
@@ -1007,7 +1007,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                         <span
                           className={combineClasses(
                             "font-medium",
-                            neutralColors.text
+                            neutralColors.text,
                           )}
                         >
                           {subject.name}
@@ -1018,7 +1018,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                               "px-2 py-0.5 rounded text-xs border",
                               infoColors.bg,
                               infoColors.text,
-                              infoColors.border
+                              infoColors.border,
                             )}
                           >
                             {subject.namespace}
@@ -1038,13 +1038,13 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               className={combineClasses(
                 "p-4 rounded-lg border",
                 indigoColors.bg,
-                indigoColors.border
+                indigoColors.border,
               )}
             >
               <h4
                 className={combineClasses(
                   "text-sm font-semibold mb-3 flex items-center gap-2",
-                  indigoColors.text
+                  indigoColors.text,
                 )}
               >
                 <K8sResourceIcon
@@ -1059,7 +1059,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 className={combineClasses(
                   "rounded-lg p-3 border",
                   neutralColors.bg,
-                  indigoColors.border
+                  indigoColors.border,
                 )}
               >
                 <div className="flex items-center gap-3 text-sm">
@@ -1068,7 +1068,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                     size={14}
                     className={combineClasses(
                       indigoColors.icon,
-                      "flex-shrink-0"
+                      "flex-shrink-0",
                     )}
                     aria-hidden="true"
                   />
@@ -1077,7 +1077,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                       "px-2 py-1 rounded font-medium text-xs border",
                       indigoColors.bg,
                       indigoColors.text,
-                      indigoColors.border
+                      indigoColors.border,
                     )}
                   >
                     {resource.roleRef.kind}
@@ -1085,7 +1085,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   <span
                     className={combineClasses(
                       "font-medium font-mono",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {resource.roleRef.name}
@@ -1110,13 +1110,13 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
         className={combineClasses(
           "p-4 rounded-lg border",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
       >
         <h4
           className={combineClasses(
             "text-sm font-semibold mb-3",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           Metadata
@@ -1131,7 +1131,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
             <div
               className={combineClasses(
                 "mt-1 font-mono text-xs",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               {new Date(resource.createdAt).toLocaleString()}
@@ -1142,7 +1142,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               (
               {Math.floor(
                 (Date.now() - new Date(resource.createdAt).getTime()) /
-                  (1000 * 60 * 60 * 24)
+                  (1000 * 60 * 60 * 24),
               )}{" "}
               days ago)
             </div>
@@ -1158,7 +1158,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               <div
                 className={combineClasses(
                   "mt-1 font-mono text-xs",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 {resource.namespace}
@@ -1176,7 +1176,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
               <span
                 className={combineClasses(
                   "font-medium text-sm",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Labels
@@ -1200,7 +1200,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                     neutralColors.hover,
                     "focus:outline-none focus:ring-2 focus:ring-offset-1",
                     neutralColors.ring,
-                    "flex items-center gap-1"
+                    "flex items-center gap-1",
                   )}
                   aria-expanded={labelsExpanded}
                   aria-controls="labels-list"
@@ -1231,7 +1231,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                     className={combineClasses(
                       "inline-flex items-center text-xs font-mono px-2 py-1 rounded border",
                       neutralColors.bg,
-                      neutralColors.border
+                      neutralColors.border,
                     )}
                     role="listitem"
                     aria-label={`Label: ${key} equals ${value}`}
@@ -1239,7 +1239,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                     <span
                       className={combineClasses(
                         "font-semibold",
-                        infoColors.icon
+                        infoColors.icon,
                       )}
                     >
                       {key}
@@ -1261,7 +1261,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   "transition-colors cursor-pointer",
                   neutralColors.icon,
                   "hover:text-blue-600 dark:hover:text-blue-400",
-                  "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 rounded"
+                  "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 rounded",
                 )}
                 aria-label={`Show ${
                   Object.keys(resource.labels).length - 6
@@ -1278,7 +1278,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
             <span
               className={combineClasses(
                 "font-medium text-sm",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               Labels:
@@ -1286,7 +1286,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
             <div
               className={combineClasses(
                 "mt-1 text-xs italic",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               No labels
@@ -1312,7 +1312,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
           <div
             className={combineClasses(
               "rounded-lg shadow-xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200",
-              neutralColors.bg
+              neutralColors.bg,
             )}
             role="document"
           >
@@ -1327,7 +1327,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 id="copy-dialog-title"
                 className={combineClasses(
                   "text-lg font-semibold",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Copy to Policy Builder?
@@ -1347,7 +1347,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                 className={combineClasses(
                   "rounded-lg p-3 border space-y-2 text-sm",
                   neutralColors.bg,
-                  neutralColors.border
+                  neutralColors.border,
                 )}
               >
                 <div className="flex items-center gap-2">
@@ -1360,7 +1360,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   <span
                     className={combineClasses(
                       "font-medium",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {resource.kind}: {resource.name}-copy
@@ -1393,7 +1393,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         • {subjectCount} subject{subjectCount === 1 ? "" : "s"}
@@ -1428,7 +1428,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   neutralColors.text,
                   neutralColors.border,
                   neutralColors.hover,
-                  neutralColors.ring
+                  neutralColors.ring,
                 )}
                 aria-label="Cancel copy operation"
               >
@@ -1443,7 +1443,7 @@ export const BrowserModeFooter: React.FC<BrowserModeFooterProps> = ({
                   "hover:scale-105 active:scale-95",
                   "bg-purple-600 dark:bg-purple-700 text-white",
                   "hover:bg-purple-700 dark:hover:bg-purple-600",
-                  purpleColors.ring
+                  purpleColors.ring,
                 )}
                 aria-label="Confirm copy to Policy Builder"
               >

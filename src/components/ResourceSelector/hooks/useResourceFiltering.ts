@@ -9,7 +9,7 @@ export const useResourceFiltering = () => {
 
   const allResources = useMemo(
     () => Object.keys(RESOURCE_METADATA) as ResourceType[],
-    []
+    [],
   );
 
   const filteredResources = useMemo(() => {

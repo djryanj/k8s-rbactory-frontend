@@ -12,15 +12,15 @@ describe("ModalFooter", () => {
         onSave={vi.fn()}
         onCancel={vi.fn()}
         onReset={vi.fn()}
-      />
+      />,
     );
 
     expect(
-      screen.getByRole("button", { name: /reset to defaults/i })
+      screen.getByRole("button", { name: /reset to defaults/i }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /cancel/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /save changes/i })
+      screen.getByRole("button", { name: /save changes/i }),
     ).toBeInTheDocument();
   });
 
@@ -31,7 +31,7 @@ describe("ModalFooter", () => {
         onSave={vi.fn()}
         onCancel={vi.fn()}
         onReset={vi.fn()}
-      />
+      />,
     );
 
     const saveButton = screen.getByRole("button", {
@@ -47,7 +47,7 @@ describe("ModalFooter", () => {
         onSave={vi.fn()}
         onCancel={vi.fn()}
         onReset={vi.fn()}
-      />
+      />,
     );
 
     const saveButton = screen.getByRole("button", {
@@ -66,7 +66,7 @@ describe("ModalFooter", () => {
         onSave={onSave}
         onCancel={vi.fn()}
         onReset={vi.fn()}
-      />
+      />,
     );
 
     const saveButton = screen.getByRole("button", {
@@ -87,7 +87,7 @@ describe("ModalFooter", () => {
         onSave={vi.fn()}
         onCancel={onCancel}
         onReset={vi.fn()}
-      />
+      />,
     );
 
     const cancelButton = screen.getByRole("button", { name: /cancel/i });
@@ -106,7 +106,7 @@ describe("ModalFooter", () => {
         onSave={vi.fn()}
         onCancel={vi.fn()}
         onReset={onReset}
-      />
+      />,
     );
 
     const resetButton = screen.getByRole("button", {

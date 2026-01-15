@@ -10,7 +10,7 @@
  */
 export const announceToScreenReader = (
   message: string,
-  priority: "polite" | "assertive" = "polite"
+  priority: "polite" | "assertive" = "polite",
 ): void => {
   const announcement = document.createElement("div");
   announcement.setAttribute("role", "status");
@@ -43,7 +43,7 @@ export const generateAriaId = (prefix: string): string => {
  */
 export const trapFocus = (container: HTMLElement): (() => void) => {
   const focusableElements = container.querySelectorAll<HTMLElement>(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
   );
 
   const firstElement = focusableElements[0];

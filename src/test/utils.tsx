@@ -11,7 +11,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
 
 export function renderWithProviders(
   ui: ReactElement,
-  options?: CustomRenderOptions
+  options?: CustomRenderOptions,
 ) {
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
     <ThemeProvider>

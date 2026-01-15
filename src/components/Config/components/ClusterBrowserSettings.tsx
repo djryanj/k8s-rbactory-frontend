@@ -32,7 +32,7 @@ export const ClusterBrowserSettings: React.FC<ClusterBrowserSettingsProps> = ({
         id="cluster-browser-heading"
         className={combineClasses(
           "text-lg font-semibold mb-4",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         Cluster Browser
@@ -43,7 +43,7 @@ export const ClusterBrowserSettings: React.FC<ClusterBrowserSettingsProps> = ({
         <div
           className={combineClasses(
             "flex items-center justify-between p-4 rounded-lg",
-            "bg-gray-50 dark:bg-gray-700/50"
+            "bg-gray-50 dark:bg-gray-700/50",
           )}
         >
           <div className="flex-1">
@@ -76,7 +76,7 @@ export const ClusterBrowserSettings: React.FC<ClusterBrowserSettingsProps> = ({
                   "after:bg-white after:border-gray-300 after:border",
                   "after:rounded-full after:h-5 after:w-5 after:transition-all",
                   "peer-checked:after:translate-x-full peer-checked:after:border-white",
-                  enabled ? "bg-blue-600" : "bg-gray-200 dark:bg-gray-600"
+                  enabled ? "bg-blue-600" : "bg-gray-200 dark:bg-gray-600",
                 )}
                 role="presentation"
               />
@@ -97,7 +97,7 @@ export const ClusterBrowserSettings: React.FC<ClusterBrowserSettingsProps> = ({
               htmlFor="resource-load-size"
               className={combineClasses(
                 "block text-sm font-medium mb-2",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               Cluster Resource Page Load Size
@@ -112,7 +112,7 @@ export const ClusterBrowserSettings: React.FC<ClusterBrowserSettingsProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring
+                infoColors.ring,
               )}
               aria-describedby="resource-load-size-description"
             >

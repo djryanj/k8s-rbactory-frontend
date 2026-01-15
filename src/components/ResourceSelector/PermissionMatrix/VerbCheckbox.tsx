@@ -100,7 +100,7 @@ export const VerbCheckbox: React.FC<VerbCheckboxProps> = ({
         isSelected
           ? combineClasses(colors.bg, colors.border, "shadow-sm")
           : combineClasses(neutralColors.hover, "border-transparent"),
-        colors.ring
+        colors.ring,
       )}
     >
       <div className="relative flex items-center justify-center mt-0.5">
@@ -112,7 +112,7 @@ export const VerbCheckbox: React.FC<VerbCheckboxProps> = ({
             "h-4 w-4 rounded border-2 transition-colors",
             "focus:ring-2 focus:ring-offset-1",
             colors.ring,
-            isSelected ? checkboxBg : "border-gray-300 dark:border-gray-600"
+            isSelected ? checkboxBg : "border-gray-300 dark:border-gray-600",
           )}
           aria-describedby={`verb-${verb}-description`}
         />
@@ -130,7 +130,7 @@ export const VerbCheckbox: React.FC<VerbCheckboxProps> = ({
           <span
             className={combineClasses(
               "font-medium text-sm",
-              isSelected ? colors.text : neutralColors.text
+              isSelected ? colors.text : neutralColors.text,
             )}
           >
             {verb}

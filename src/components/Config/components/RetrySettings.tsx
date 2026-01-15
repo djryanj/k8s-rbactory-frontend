@@ -23,7 +23,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
   const handleEnabledChange = (enabled: boolean) => {
     onConfigChange({ ...config, enabled });
     announceToScreenReader(
-      `Automatic retries ${enabled ? "enabled" : "disabled"}`
+      `Automatic retries ${enabled ? "enabled" : "disabled"}`,
     );
   };
 
@@ -35,7 +35,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
   const handleInitialDelayChange = (initialDelaySeconds: number) => {
     onConfigChange({ ...config, initialDelaySeconds });
     announceToScreenReader(
-      `Initial retry delay changed to ${initialDelaySeconds} seconds`
+      `Initial retry delay changed to ${initialDelaySeconds} seconds`,
     );
   };
 
@@ -45,7 +45,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
         id="retry-settings-heading"
         className={combineClasses(
           "text-lg font-semibold mb-4 flex items-center gap-2",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         <RefreshCw size={18} aria-hidden="true" />
@@ -57,7 +57,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
         <div
           className={combineClasses(
             "flex items-center justify-between p-4 rounded-lg",
-            "bg-gray-50 dark:bg-gray-700/50"
+            "bg-gray-50 dark:bg-gray-700/50",
           )}
         >
           <div className="flex-1">
@@ -92,7 +92,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
                   "peer-checked:after:translate-x-full peer-checked:after:border-white",
                   config.enabled
                     ? "bg-blue-600"
-                    : "bg-gray-200 dark:bg-gray-600"
+                    : "bg-gray-200 dark:bg-gray-600",
                 )}
                 role="presentation"
               />
@@ -113,7 +113,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
               htmlFor="max-retry-attempts"
               className={combineClasses(
                 "block text-sm font-medium mb-2",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               Maximum Retry Attempts
@@ -128,7 +128,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring
+                infoColors.ring,
               )}
               aria-describedby="max-retry-attempts-description"
             >
@@ -155,7 +155,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
               htmlFor="initial-retry-delay"
               className={combineClasses(
                 "block text-sm font-medium mb-2",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               Initial Retry Delay
@@ -170,7 +170,7 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring
+                infoColors.ring,
               )}
               aria-describedby="initial-retry-delay-description"
             >
@@ -195,13 +195,13 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
             className={combineClasses(
               "p-3 rounded-lg border",
               "bg-blue-50 dark:bg-blue-900/20",
-              "border-blue-200 dark:border-blue-800"
+              "border-blue-200 dark:border-blue-800",
             )}
           >
             <div
               className={combineClasses(
                 "text-xs font-medium mb-2",
-                "text-blue-900 dark:text-blue-100"
+                "text-blue-900 dark:text-blue-100",
               )}
             >
               Retry Schedule Preview:
@@ -209,14 +209,14 @@ export const RetrySettings: React.FC<RetrySettingsProps> = ({
             <div
               className={combineClasses(
                 "text-xs space-y-1",
-                "text-blue-700 dark:text-blue-300"
+                "text-blue-700 dark:text-blue-300",
               )}
             >
               {Array.from({ length: config.maxAttempts }, (_, i) => {
                 const delay = config.initialDelaySeconds * Math.pow(2, i);
                 const cappedDelay = Math.min(delay, 60);
                 const totalTime = Array.from({ length: i + 1 }, (_, j) =>
-                  Math.min(config.initialDelaySeconds * Math.pow(2, j), 60)
+                  Math.min(config.initialDelaySeconds * Math.pow(2, j), 60),
                 ).reduce((a, b) => a + b, 0);
                 return (
                   <div key={i}>

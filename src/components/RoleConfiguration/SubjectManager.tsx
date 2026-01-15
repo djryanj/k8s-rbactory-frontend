@@ -59,7 +59,7 @@ export const SubjectManager: React.FC = () => {
           subjectKind === "ServiceAccount" && subjectNamespace
             ? ` in namespace ${subjectNamespace}`
             : ""
-        }. Total subjects: ${manifest.binding.subjects.length + 1}.`
+        }. Total subjects: ${manifest.binding.subjects.length + 1}.`,
       );
 
       setSubjectName("");
@@ -85,7 +85,7 @@ export const SubjectManager: React.FC = () => {
         manifest.binding.subjects.length - 1
       } subject${
         manifest.binding.subjects.length - 1 === 1 ? "" : "s"
-      } remaining.`
+      } remaining.`,
     );
   };
 
@@ -158,7 +158,7 @@ export const SubjectManager: React.FC = () => {
         <h4
           className={combineClasses(
             "text-base font-semibold flex items-center gap-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           <UserPlus className={infoColors.icon} size={18} aria-hidden="true" />
@@ -183,7 +183,7 @@ export const SubjectManager: React.FC = () => {
           <label
             className={combineClasses(
               "block text-sm font-medium mb-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             Subject Type
@@ -204,14 +204,14 @@ export const SubjectManager: React.FC = () => {
                     ? combineClasses(
                         infoColors.border,
                         infoColors.bg,
-                        "shadow-md hover:shadow-lg"
+                        "shadow-md hover:shadow-lg",
                       )
                     : combineClasses(
                         neutralColors.border,
                         neutralColors.hover,
-                        "hover:shadow-md"
+                        "hover:shadow-md",
                       ),
-                  infoColors.ring
+                  infoColors.ring,
                 )}
               >
                 <input
@@ -233,7 +233,7 @@ export const SubjectManager: React.FC = () => {
                       size={18}
                       className={combineClasses(
                         "transition-all flex-shrink-0",
-                        infoColors.icon
+                        infoColors.icon,
                       )}
                     />
                     <span
@@ -241,7 +241,7 @@ export const SubjectManager: React.FC = () => {
                         "font-medium",
                         subjectKind === "User"
                           ? infoColors.text
-                          : neutralColors.text
+                          : neutralColors.text,
                       )}
                     >
                       User
@@ -252,7 +252,7 @@ export const SubjectManager: React.FC = () => {
                           "ml-auto px-2 py-0.5 rounded text-xs font-medium border",
                           infoColors.bg,
                           infoColors.text,
-                          infoColors.border
+                          infoColors.border,
                         )}
                         aria-label="Currently selected"
                       >
@@ -279,14 +279,14 @@ export const SubjectManager: React.FC = () => {
                     ? combineClasses(
                         infoColors.border,
                         infoColors.bg,
-                        "shadow-md hover:shadow-lg"
+                        "shadow-md hover:shadow-lg",
                       )
                     : combineClasses(
                         neutralColors.border,
                         neutralColors.hover,
-                        "hover:shadow-md"
+                        "hover:shadow-md",
                       ),
-                  infoColors.ring
+                  infoColors.ring,
                 )}
               >
                 <input
@@ -308,7 +308,7 @@ export const SubjectManager: React.FC = () => {
                       size={18}
                       className={combineClasses(
                         "transition-all flex-shrink-0",
-                        infoColors.icon
+                        infoColors.icon,
                       )}
                     />
                     <span
@@ -316,7 +316,7 @@ export const SubjectManager: React.FC = () => {
                         "font-medium",
                         subjectKind === "Group"
                           ? infoColors.text
-                          : neutralColors.text
+                          : neutralColors.text,
                       )}
                     >
                       Group
@@ -327,7 +327,7 @@ export const SubjectManager: React.FC = () => {
                           "ml-auto px-2 py-0.5 rounded text-xs font-medium border",
                           infoColors.bg,
                           infoColors.text,
-                          infoColors.border
+                          infoColors.border,
                         )}
                         aria-label="Currently selected"
                       >
@@ -354,14 +354,14 @@ export const SubjectManager: React.FC = () => {
                     ? combineClasses(
                         infoColors.border,
                         infoColors.bg,
-                        "shadow-md hover:shadow-lg"
+                        "shadow-md hover:shadow-lg",
                       )
                     : combineClasses(
                         neutralColors.border,
                         neutralColors.hover,
-                        "hover:shadow-md"
+                        "hover:shadow-md",
                       ),
-                  infoColors.ring
+                  infoColors.ring,
                 )}
               >
                 <input
@@ -383,7 +383,7 @@ export const SubjectManager: React.FC = () => {
                       size={18}
                       className={combineClasses(
                         "transition-all flex-shrink-0",
-                        infoColors.icon
+                        infoColors.icon,
                       )}
                     />
                     <span
@@ -391,7 +391,7 @@ export const SubjectManager: React.FC = () => {
                         "font-medium",
                         subjectKind === "ServiceAccount"
                           ? infoColors.text
-                          : neutralColors.text
+                          : neutralColors.text,
                       )}
                     >
                       Service Account
@@ -402,7 +402,7 @@ export const SubjectManager: React.FC = () => {
                           "ml-auto px-2 py-0.5 rounded text-xs font-medium border",
                           infoColors.bg,
                           infoColors.text,
-                          infoColors.border
+                          infoColors.border,
                         )}
                         aria-label="Currently selected"
                       >
@@ -431,7 +431,7 @@ export const SubjectManager: React.FC = () => {
               htmlFor="subject-name"
               className={combineClasses(
                 "block text-sm font-medium mb-1",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               Name
@@ -452,7 +452,7 @@ export const SubjectManager: React.FC = () => {
                 neutralColors.text,
                 showSubjectError
                   ? combineClasses(criticalColors.border, criticalColors.ring)
-                  : combineClasses(neutralColors.border, infoColors.ring)
+                  : combineClasses(neutralColors.border, infoColors.ring),
               )}
               aria-describedby={
                 showSubjectError ? "subject-name-error" : "subject-name-hint"
@@ -465,7 +465,7 @@ export const SubjectManager: React.FC = () => {
                 id="subject-name-hint"
                 className={combineClasses(
                   "text-xs mt-1 block",
-                  neutralColors.icon
+                  neutralColors.icon,
                 )}
               >
                 {subjectKind === "User" && "Email or username"}
@@ -481,7 +481,7 @@ export const SubjectManager: React.FC = () => {
                 htmlFor="subject-namespace"
                 className={combineClasses(
                   "block text-sm font-medium mb-1",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Namespace
@@ -500,7 +500,7 @@ export const SubjectManager: React.FC = () => {
                   neutralColors.bg,
                   neutralColors.text,
                   neutralColors.border,
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 aria-describedby="subject-namespace-hint"
               />
@@ -508,7 +508,7 @@ export const SubjectManager: React.FC = () => {
                 id="subject-namespace-hint"
                 className={combineClasses(
                   "text-xs mt-1 block",
-                  neutralColors.icon
+                  neutralColors.icon,
                 )}
               >
                 Where the SA exists
@@ -524,7 +524,7 @@ export const SubjectManager: React.FC = () => {
               "p-2 border rounded text-sm",
               criticalColors.bg,
               criticalColors.text,
-              criticalColors.border
+              criticalColors.border,
             )}
             role="alert"
             aria-live="assertive"
@@ -540,7 +540,7 @@ export const SubjectManager: React.FC = () => {
             canAddSubject
               ? getButtonClasses("primary", "slate", "md")
               : getDisabledButtonClasses("md"),
-            "w-full"
+            "w-full",
           )}
           aria-label={
             canAddSubject
@@ -568,7 +568,7 @@ export const SubjectManager: React.FC = () => {
           <div
             className={combineClasses(
               "text-center py-6 px-4 rounded-lg",
-              "bg-gray-50 dark:bg-gray-800/50"
+              "bg-gray-50 dark:bg-gray-800/50",
             )}
             role="status"
           >
@@ -591,14 +591,14 @@ export const SubjectManager: React.FC = () => {
                     "flex items-center justify-between p-3 rounded-lg border transition-all transform-gpu",
                     "hover:shadow-md hover:scale-[1.01]",
                     "bg-gray-50 dark:bg-gray-700/50",
-                    neutralColors.border
+                    neutralColors.border,
                   )}
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div
                       className={combineClasses(
                         "flex-shrink-0 p-2 rounded-lg",
-                        subjectColors.bg
+                        subjectColors.bg,
                       )}
                       aria-hidden="true"
                     >
@@ -612,7 +612,7 @@ export const SubjectManager: React.FC = () => {
                       <div
                         className={combineClasses(
                           "font-medium truncate",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {subject.name}
@@ -620,7 +620,7 @@ export const SubjectManager: React.FC = () => {
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         <span>{subject.kind}</span>
@@ -646,7 +646,7 @@ export const SubjectManager: React.FC = () => {
                       "hover:shadow-md",
                       criticalColors.text,
                       criticalColors.hover,
-                      criticalColors.ring
+                      criticalColors.ring,
                     )}
                     aria-label={`Remove ${subject.kind} ${subject.name}${
                       subject.namespace
@@ -682,7 +682,7 @@ export const SubjectManager: React.FC = () => {
                 (s: Subject) =>
                   `${s.kind} ${s.name}${
                     s.namespace ? ` in namespace ${s.namespace}` : ""
-                  }`
+                  }`,
               )
               .join(", ")}
           </>

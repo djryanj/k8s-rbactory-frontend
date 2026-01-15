@@ -47,7 +47,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
   }
 
   const currentIndex = permissions.findIndex(
-    (p) => p.resource === currentPermission.resource
+    (p) => p.resource === currentPermission.resource,
   );
   const hasPrevious = currentIndex > 0;
   const hasNext = currentIndex < permissions.length - 1;
@@ -116,13 +116,13 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
         className={combineClasses(
           "px-4 pt-4 pb-3 border-b",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
       >
         <h3
           className={combineClasses(
             "text-lg font-semibold",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           Configure Permissions
@@ -141,7 +141,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
         className={combineClasses(
           "p-4 border-b",
           "bg-gray-50 dark:bg-gray-800",
-          neutralColors.border
+          neutralColors.border,
         )}
       >
         <div className="flex items-start gap-3">
@@ -157,7 +157,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                 <h4
                   className={combineClasses(
                     "text-base font-semibold",
-                    neutralColors.text
+                    neutralColors.text,
                   )}
                 >
                   {displayName}
@@ -168,7 +168,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                       "text-xs px-2 py-0.5 rounded-full border",
                       "bg-gray-100 dark:bg-gray-700",
                       "text-gray-700 dark:text-gray-300",
-                      "border-gray-300 dark:border-gray-600"
+                      "border-gray-300 dark:border-gray-600",
                     )}
                     aria-label="Custom resource"
                   >
@@ -187,7 +187,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                   criticalColors.text,
                   criticalColors.hover,
                   criticalColors.border,
-                  criticalColors.ring
+                  criticalColors.ring,
                 )}
                 aria-label={`Remove ${displayName} from role`}
                 title={`Remove ${displayName}`}
@@ -200,7 +200,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
             <p
               className={combineClasses(
                 "text-xs mt-0.5 mb-2",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               {description}
@@ -209,7 +209,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
             <div
               className={combineClasses(
                 "text-xs flex items-center gap-2 flex-wrap",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               <span className="font-mono">{currentPermission.resource}</span>
@@ -226,7 +226,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
           className={combineClasses(
             "px-4 py-3 border-b",
             "bg-gray-50 dark:bg-gray-800",
-            neutralColors.border
+            neutralColors.border,
           )}
         >
           <div className="flex items-center justify-between mb-3">
@@ -242,9 +242,9 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                   ? combineClasses(
                       infoColors.text,
                       infoColors.hover,
-                      infoColors.ring
+                      infoColors.ring,
                     )
-                  : neutralColors.icon
+                  : neutralColors.icon,
               )}
               aria-label="Previous resource"
             >
@@ -268,9 +268,9 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                   ? combineClasses(
                       infoColors.text,
                       infoColors.hover,
-                      infoColors.ring
+                      infoColors.ring,
                     )
-                  : neutralColors.icon
+                  : neutralColors.icon,
               )}
               aria-label="Next resource"
             >
@@ -286,7 +286,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                 htmlFor="resource-quick-select"
                 className={combineClasses(
                   "text-xs font-medium mb-1 block",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Jump to resource:
@@ -303,7 +303,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
                   neutralColors.bg,
                   neutralColors.text,
                   neutralColors.border,
-                  infoColors.ring
+                  infoColors.ring,
                 )}
               >
                 {permissions.map((p) => {
@@ -325,7 +325,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
       <div
         className={combineClasses(
           "p-4 flex-1 overflow-y-auto",
-          neutralColors.bg
+          neutralColors.bg,
         )}
       >
         <PermissionMatrix
@@ -340,7 +340,7 @@ export const PermissionConfigPanel: React.FC<PermissionConfigPanelProps> = ({
         className={combineClasses(
           "p-3 border-t text-xs",
           neutralColors.border,
-          infoColors.bg
+          infoColors.bg,
         )}
       >
         <div className="flex items-center justify-between">

@@ -54,7 +54,7 @@ export const BindingRelationshipView: React.FC<
         ].filter(Boolean) as HTMLDivElement[];
 
         const currentIndex = sections.findIndex((section) =>
-          section.contains(document.activeElement)
+          section.contains(document.activeElement),
         );
 
         if (currentIndex === -1) return;
@@ -65,7 +65,7 @@ export const BindingRelationshipView: React.FC<
             : (currentIndex - 1 + sections.length) % sections.length;
 
         const firstFocusable = sections[nextIndex]?.querySelector<HTMLElement>(
-          'button, [href], input, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, [tabindex]:not([tabindex="-1"])',
         );
 
         firstFocusable?.focus();
@@ -74,9 +74,9 @@ export const BindingRelationshipView: React.FC<
             nextIndex === 0
               ? "principals"
               : nextIndex === 1
-              ? "binding"
-              : "role"
-          } section`
+                ? "binding"
+                : "role"
+          } section`,
         );
       }
     };
@@ -123,7 +123,7 @@ export const BindingRelationshipView: React.FC<
             className={combineClasses(
               "rounded-lg p-4 border-2",
               purpleColors.bg,
-              purpleColors.border
+              purpleColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -138,7 +138,7 @@ export const BindingRelationshipView: React.FC<
                   id={`${principalsId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    purpleColors.text
+                    purpleColors.text,
                   )}
                 >
                   Principals
@@ -158,7 +158,7 @@ export const BindingRelationshipView: React.FC<
                   <CopyButtonGroup
                     name={`${
                       binding.subjects.filter(
-                        (s) => s.kind === "ServiceAccount"
+                        (s) => s.kind === "ServiceAccount",
                       ).length
                     } ServiceAccounts`}
                     kind="ServiceAccounts"
@@ -180,7 +180,7 @@ export const BindingRelationshipView: React.FC<
                   className={combineClasses(
                     "rounded px-3 py-2 text-sm border",
                     neutralColors.bg,
-                    purpleColors.border
+                    purpleColors.border,
                   )}
                   role="listitem"
                   aria-label={`Principal ${idx + 1}: ${subject.kind} ${
@@ -197,7 +197,7 @@ export const BindingRelationshipView: React.FC<
                       size={14}
                       className={combineClasses(
                         purpleColors.icon,
-                        "flex-shrink-0"
+                        "flex-shrink-0",
                       )}
                       aria-hidden="true"
                     />
@@ -205,7 +205,7 @@ export const BindingRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "font-medium",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {subject.name}
@@ -213,7 +213,7 @@ export const BindingRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         {subject.kind}
@@ -246,7 +246,7 @@ export const BindingRelationshipView: React.FC<
             className={combineClasses(
               "rounded-lg p-4 border-2",
               infoColors.bg,
-              infoColors.border
+              infoColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -261,7 +261,7 @@ export const BindingRelationshipView: React.FC<
                   id={`${bindingId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    infoColors.text
+                    infoColors.text,
                   )}
                 >
                   {binding.kind}
@@ -281,7 +281,7 @@ export const BindingRelationshipView: React.FC<
               className={combineClasses(
                 "rounded px-3 py-2 border",
                 neutralColors.bg,
-                infoColors.border
+                infoColors.border,
               )}
             >
               <div className="flex items-center gap-2">
@@ -295,7 +295,7 @@ export const BindingRelationshipView: React.FC<
                   <div
                     className={combineClasses(
                       "font-medium",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {binding.name}
@@ -311,7 +311,7 @@ export const BindingRelationshipView: React.FC<
                     id={`${bindingId}-description`}
                     className={combineClasses(
                       "mt-1 text-xs",
-                      neutralColors.icon
+                      neutralColors.icon,
                     )}
                   >
                     References: {binding.roleRef?.name}
@@ -340,7 +340,7 @@ export const BindingRelationshipView: React.FC<
             className={combineClasses(
               "rounded-lg p-4 border-2",
               successColors.bg,
-              successColors.border
+              successColors.border,
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -355,7 +355,7 @@ export const BindingRelationshipView: React.FC<
                   id={`${roleId}-heading`}
                   className={combineClasses(
                     "font-semibold text-base",
-                    successColors.text
+                    successColors.text,
                   )}
                 >
                   {binding.roleRef?.kind || "Role"}
@@ -378,7 +378,7 @@ export const BindingRelationshipView: React.FC<
                 className={combineClasses(
                   "rounded px-3 py-2 border",
                   neutralColors.bg,
-                  successColors.border
+                  successColors.border,
                 )}
                 role="article"
                 aria-label={`Role ${role.name} with ${
@@ -391,7 +391,7 @@ export const BindingRelationshipView: React.FC<
                     size={14}
                     className={combineClasses(
                       successColors.icon,
-                      "flex-shrink-0"
+                      "flex-shrink-0",
                     )}
                     aria-hidden="true"
                   />
@@ -399,7 +399,7 @@ export const BindingRelationshipView: React.FC<
                     <div
                       className={combineClasses(
                         "font-medium",
-                        neutralColors.text
+                        neutralColors.text,
                       )}
                     >
                       {role.name}
@@ -408,7 +408,7 @@ export const BindingRelationshipView: React.FC<
                       <div
                         className={combineClasses(
                           "text-xs",
-                          neutralColors.icon
+                          neutralColors.icon,
                         )}
                       >
                         Namespace: {role.namespace}
@@ -417,7 +417,7 @@ export const BindingRelationshipView: React.FC<
                     <div
                       className={combineClasses(
                         "mt-1 text-xs",
-                        neutralColors.icon
+                        neutralColors.icon,
                       )}
                     >
                       {role.rules?.length || 0} rule(s)
@@ -430,7 +430,7 @@ export const BindingRelationshipView: React.FC<
                 className={combineClasses(
                   "rounded px-3 py-2 border",
                   neutralColors.bg,
-                  successColors.border
+                  successColors.border,
                 )}
                 role="alert"
                 aria-live="polite"
@@ -443,7 +443,7 @@ export const BindingRelationshipView: React.FC<
                 <div
                   className={combineClasses(
                     "text-xs mt-1 flex items-center gap-1",
-                    warningColors.icon
+                    warningColors.icon,
                   )}
                 >
                   <AlertCircle size={12} aria-hidden="true" />
@@ -462,7 +462,7 @@ export const BindingRelationshipView: React.FC<
           className={combineClasses(
             "p-4 rounded-lg border",
             infoColors.bg,
-            infoColors.border
+            infoColors.border,
           )}
           aria-labelledby={`${relatedBindingsId}-heading`}
           role="region"
@@ -471,7 +471,7 @@ export const BindingRelationshipView: React.FC<
             id={`${relatedBindingsId}-heading`}
             className={combineClasses(
               "font-semibold text-base mb-3 flex items-center gap-2",
-              infoColors.text
+              infoColors.text,
             )}
           >
             <K8sResourceIcon
@@ -491,7 +491,7 @@ export const BindingRelationshipView: React.FC<
                 className={combineClasses(
                   "rounded px-3 py-2 text-sm border",
                   neutralColors.bg,
-                  infoColors.border
+                  infoColors.border,
                 )}
                 role="listitem"
                 aria-label={`Related binding ${idx + 1}: ${rb.name} with ${
@@ -509,7 +509,7 @@ export const BindingRelationshipView: React.FC<
                     <div
                       className={combineClasses(
                         "font-medium",
-                        neutralColors.text
+                        neutralColors.text,
                       )}
                     >
                       {rb.name}

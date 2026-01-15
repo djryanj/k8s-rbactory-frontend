@@ -65,7 +65,7 @@ export const AppLayout: React.FC = () => {
     if (activeTab === "browser" && !showClusterBrowser) {
       setActiveTab("policybuilder");
       announceToScreenReader(
-        "Cluster browser disabled, switched to Policy Builder tab"
+        "Cluster browser disabled, switched to Policy Builder tab",
       );
     }
   }, [activeTab, showClusterBrowser]);
@@ -75,7 +75,7 @@ export const AppLayout: React.FC = () => {
     announceToScreenReader(
       `Switched to ${
         tab === "policybuilder" ? "Policy Builder" : "Cluster Browser"
-      } tab`
+      } tab`,
     );
   }, []);
 
@@ -97,7 +97,7 @@ export const AppLayout: React.FC = () => {
         className={combineClasses(
           "border-b shadow-sm sticky top-0 z-50 transition-all duration-300 ease-in-out",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -106,7 +106,7 @@ export const AppLayout: React.FC = () => {
               "flex items-center justify-between overflow-hidden transition-all duration-300 ease-in-out",
               scrolled
                 ? "h-0 opacity-0 transform -translate-y-4"
-                : "h-16 opacity-100 transform translate-y-0"
+                : "h-16 opacity-100 transform translate-y-0",
             )}
             aria-hidden={scrolled}
           >
@@ -118,7 +118,7 @@ export const AppLayout: React.FC = () => {
                 <h1
                   className={combineClasses(
                     "text-xl font-bold",
-                    neutralColors.text
+                    neutralColors.text,
                   )}
                 >
                   K8s RBACtory
@@ -130,7 +130,7 @@ export const AppLayout: React.FC = () => {
           <div
             className={combineClasses(
               "flex items-center justify-between transition-all duration-300 ease-in-out",
-              scrolled ? "py-3" : "py-0 -mb-px"
+              scrolled ? "py-3" : "py-0 -mb-px",
             )}
           >
             <nav
@@ -151,13 +151,13 @@ export const AppLayout: React.FC = () => {
                   activeTab === "policybuilder"
                     ? combineClasses(
                         "border-k8s-blue text-k8s-blue dark:text-k8s-lightblue",
-                        infoColors.ring
+                        infoColors.ring,
                       )
                     : combineClasses(
                         "border-transparent",
                         neutralColors.icon,
-                        neutralColors.hover
-                      )
+                        neutralColors.hover,
+                      ),
                 )}
               >
                 <Wand2 size={18} aria-hidden="true" />
@@ -178,13 +178,13 @@ export const AppLayout: React.FC = () => {
                     activeTab === "browser"
                       ? combineClasses(
                           "border-k8s-blue text-k8s-blue dark:text-k8s-lightblue",
-                          infoColors.ring
+                          infoColors.ring,
                         )
                       : combineClasses(
                           "border-transparent",
                           neutralColors.icon,
-                          neutralColors.hover
-                        )
+                          neutralColors.hover,
+                        ),
                   )}
                 >
                   <Database size={18} aria-hidden="true" />
@@ -207,7 +207,7 @@ export const AppLayout: React.FC = () => {
                   "hover:scale-105 active:scale-95",
                   neutralColors.text,
                   neutralColors.hover,
-                  neutralColors.ring
+                  neutralColors.ring,
                 )}
                 aria-label="Open settings"
                 title="Settings"
@@ -254,7 +254,7 @@ export const AppLayout: React.FC = () => {
         className={combineClasses(
           "border-t mt-12",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="contentinfo"
       >
@@ -270,7 +270,7 @@ export const AppLayout: React.FC = () => {
                   className={combineClasses(
                     "text-k8s-blue dark:text-k8s-lightblue hover:underline",
                     "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:rounded",
-                    infoColors.ring
+                    infoColors.ring,
                   )}
                 >
                   Kubernetes
@@ -280,7 +280,7 @@ export const AppLayout: React.FC = () => {
             <nav
               className={combineClasses(
                 "flex items-center gap-4 text-sm",
-                neutralColors.icon
+                neutralColors.icon,
               )}
               aria-label="Footer navigation"
             >
@@ -291,7 +291,7 @@ export const AppLayout: React.FC = () => {
                 className={combineClasses(
                   "hover:text-k8s-blue dark:hover:text-k8s-lightblue transition-colors",
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:rounded",
-                  infoColors.ring
+                  infoColors.ring,
                 )}
               >
                 Report Issue
@@ -304,7 +304,7 @@ export const AppLayout: React.FC = () => {
                 className={combineClasses(
                   "hover:text-k8s-blue dark:hover:text-k8s-lightblue transition-colors",
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:rounded",
-                  infoColors.ring
+                  infoColors.ring,
                 )}
               >
                 Apache License 2.0

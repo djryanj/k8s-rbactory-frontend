@@ -15,7 +15,7 @@ export const RoleConfiguration: React.FC = () => {
       className={combineClasses(
         "rounded-lg border p-6 transform-gpu transition-all space-y-8",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
       aria-labelledby="role-config-heading"
     >
@@ -25,7 +25,7 @@ export const RoleConfiguration: React.FC = () => {
           id="role-config-heading"
           className={combineClasses(
             "text-xl font-bold mb-2 flex items-center gap-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           <Settings className={infoColors.icon} size={24} aria-hidden="true" />

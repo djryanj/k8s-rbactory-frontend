@@ -17,11 +17,11 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     expect(
-      screen.getByLabelText(/enable cluster browser/i)
+      screen.getByLabelText(/enable cluster browser/i),
     ).toBeInTheDocument();
   });
 
@@ -32,7 +32,7 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     const checkbox = screen.getByRole("checkbox", {
@@ -51,7 +51,7 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={onEnabledChange}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     const checkbox = screen.getByRole("checkbox", {
@@ -69,11 +69,11 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     expect(
-      screen.getByLabelText(/cluster resource page load size/i)
+      screen.getByLabelText(/cluster resource page load size/i),
     ).toBeInTheDocument();
   });
 
@@ -84,11 +84,11 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     expect(
-      screen.queryByLabelText(/cluster resource page load size/i)
+      screen.queryByLabelText(/cluster resource page load size/i),
     ).not.toBeInTheDocument();
   });
 
@@ -102,7 +102,7 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={onPageSizeChange}
-      />
+      />,
     );
 
     const select = screen.getByLabelText(/cluster resource page load size/i);
@@ -120,14 +120,14 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     const select = screen.getByLabelText(/cluster resource page load size/i);
     await user.selectOptions(select, "100");
 
     expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(
-      "Page load size changed to 100 items"
+      "Page load size changed to 100 items",
     );
   });
 
@@ -138,7 +138,7 @@ describe("ClusterBrowserSettings", () => {
         pageSize={20}
         onEnabledChange={vi.fn()}
         onPageSizeChange={vi.fn()}
-      />
+      />,
     );
 
     const select = screen.getByLabelText(/cluster resource page load size/i);

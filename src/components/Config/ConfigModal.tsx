@@ -50,11 +50,11 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
   // Local state for form values
   const [localEndpoint, setLocalEndpoint] = useState(apiEndpoint);
   const [localBrowserEnabled, setLocalBrowserEnabled] = useState(
-    clusterBrowserEnabled
+    clusterBrowserEnabled,
   );
   const [localTheme, setLocalTheme] = useState<ThemeOption>(theme);
   const [localResourceLoadSize, setLocalResourceLoadSize] = useState(
-    defaultResourceLoadSize
+    defaultResourceLoadSize,
   );
   const [localRetryConfig, setLocalRetryConfig] =
     useState<RetryConfig>(retryConfig);
@@ -131,7 +131,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
       // Only reset cluster browser settings if feature is available
       if (isClusterBrowserAvailable) {
         setLocalEndpoint(
-          import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1"
+          import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1",
         );
         setLocalBrowserEnabled(true);
         setLocalResourceLoadSize(20);
@@ -155,7 +155,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
       setTheme(newTheme); // Apply immediately for preview
       announceToScreenReader(`Theme changed to ${newTheme}`);
     },
-    [setTheme]
+    [setTheme],
   );
 
   // Handle API endpoint change
@@ -167,7 +167,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
   const handleBrowserToggle = useCallback((enabled: boolean) => {
     setLocalBrowserEnabled(enabled);
     announceToScreenReader(
-      `Cluster browser ${enabled ? "enabled" : "disabled"}`
+      `Cluster browser ${enabled ? "enabled" : "disabled"}`,
     );
   }, []);
 
@@ -213,7 +213,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
         ref={modalRef}
         className={combineClasses(
           "rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto",
-          neutralColors.bg
+          neutralColors.bg,
         )}
         role="document"
       >

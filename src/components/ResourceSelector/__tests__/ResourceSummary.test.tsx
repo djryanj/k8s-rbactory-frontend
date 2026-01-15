@@ -11,7 +11,7 @@ describe("ResourceSummary", () => {
           totalResources={5}
           customResourcesCount={0}
           totalPermissions={10}
-        />
+        />,
       );
 
       expect(screen.getByText(/total resources: 5/i)).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("ResourceSummary", () => {
           totalResources={5}
           customResourcesCount={0}
           totalPermissions={10}
-        />
+        />,
       );
 
       expect(screen.getByText(/total permissions: 10/i)).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe("ResourceSummary", () => {
           totalResources={5}
           customResourcesCount={2}
           totalPermissions={10}
-        />
+        />,
       );
 
       expect(screen.getByText(/2 custom/i)).toBeInTheDocument();
@@ -47,7 +47,7 @@ describe("ResourceSummary", () => {
           totalResources={5}
           customResourcesCount={0}
           totalPermissions={10}
-        />
+        />,
       );
 
       expect(screen.queryByText(/custom/i)).not.toBeInTheDocument();
@@ -59,11 +59,11 @@ describe("ResourceSummary", () => {
           totalResources={5}
           customResourcesCount={0}
           totalPermissions={10}
-        />
+        />,
       );
 
       expect(
-        screen.getByText(/resources with no verbs will not be included/i)
+        screen.getByText(/resources with no verbs will not be included/i),
       ).toBeInTheDocument();
     });
   });
@@ -75,7 +75,7 @@ describe("ResourceSummary", () => {
           totalResources={5}
           customResourcesCount={2}
           totalPermissions={10}
-        />
+        />,
       );
 
       const summary = screen.getByRole("status");
@@ -91,7 +91,7 @@ describe("ResourceSummary", () => {
           totalResources={0}
           customResourcesCount={0}
           totalPermissions={0}
-        />
+        />,
       );
 
       expect(screen.getByText(/total resources: 0/i)).toBeInTheDocument();
@@ -103,7 +103,7 @@ describe("ResourceSummary", () => {
           totalResources={100}
           customResourcesCount={50}
           totalPermissions={500}
-        />
+        />,
       );
 
       expect(screen.getByText(/total resources: 100/i)).toBeInTheDocument();

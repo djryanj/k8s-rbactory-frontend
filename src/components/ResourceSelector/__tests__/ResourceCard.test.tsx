@@ -21,14 +21,14 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByText("Pods")).toBeInTheDocument();
       expect(screen.getByText(/manage pod lifecycle/i)).toBeInTheDocument();
       expect(screen.getByRole("button")).toHaveAttribute(
         "aria-pressed",
-        "false"
+        "false",
       );
     });
 
@@ -38,12 +38,12 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByRole("button")).toHaveAttribute(
         "aria-pressed",
-        "true"
+        "true",
       );
       const checkmark = screen.getByRole("button").querySelector("svg");
       expect(checkmark).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe("ResourceCard", () => {
           isSelected={true}
           isActive={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByText("Configuring")).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe("ResourceCard", () => {
           isCustom={true}
           apiGroup="mycompany.com"
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByText("Custom")).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe("ResourceCard", () => {
           isCustom={true}
           hasNoVerbs={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByText("No permissions configured")).toBeInTheDocument();
@@ -97,7 +97,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const deselectButton = screen.getByLabelText(/deselect pods/i);
@@ -113,11 +113,11 @@ describe("ResourceCard", () => {
           showRemoveButton={true}
           onToggle={mockOnToggle}
           onRemove={mockOnRemove}
-        />
+        />,
       );
 
       expect(
-        screen.getByLabelText(/permanently remove mycrd/i)
+        screen.getByLabelText(/permanently remove mycrd/i),
       ).toBeInTheDocument();
     });
   });
@@ -130,7 +130,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       await user.click(screen.getByRole("button"));
@@ -146,7 +146,7 @@ describe("ResourceCard", () => {
           isSelected={true}
           onToggle={mockOnToggle}
           onClick={mockOnClick}
-        />
+        />,
       );
 
       await user.click(screen.getByRole("button"));
@@ -161,7 +161,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const deselectButton = screen.getByLabelText(/deselect pods/i);
@@ -181,7 +181,7 @@ describe("ResourceCard", () => {
           showRemoveButton={true}
           onToggle={mockOnToggle}
           onRemove={mockOnRemove}
-        />
+        />,
       );
 
       await user.click(screen.getByLabelText(/permanently remove mycrd/i));
@@ -197,7 +197,7 @@ describe("ResourceCard", () => {
           isSelected={true}
           onToggle={mockOnToggle}
           onClick={mockOnClick}
-        />
+        />,
       );
 
       await user.click(screen.getByLabelText(/deselect pods/i));
@@ -217,7 +217,7 @@ describe("ResourceCard", () => {
           onToggle={mockOnToggle}
           onClick={mockOnClick}
           onRemove={mockOnRemove}
-        />
+        />,
       );
 
       await user.click(screen.getByLabelText(/permanently remove mycrd/i));
@@ -236,7 +236,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -253,7 +253,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -269,7 +269,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -284,17 +284,17 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
       expect(card).toHaveAttribute(
         "aria-label",
-        expect.stringContaining("Not selected")
+        expect.stringContaining("Not selected"),
       );
       expect(card).toHaveAttribute(
         "aria-label",
-        expect.stringContaining("Click to select")
+        expect.stringContaining("Click to select"),
       );
     });
 
@@ -305,17 +305,17 @@ describe("ResourceCard", () => {
           isSelected={true}
           onToggle={mockOnToggle}
           onClick={mockOnClick}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
       expect(card).toHaveAttribute(
         "aria-label",
-        expect.stringContaining("Selected")
+        expect.stringContaining("Selected"),
       );
       expect(card).toHaveAttribute(
         "aria-label",
-        expect.stringContaining("Click to configure")
+        expect.stringContaining("Click to configure"),
       );
     });
 
@@ -325,12 +325,12 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByRole("button")).toHaveAttribute(
         "aria-pressed",
-        "false"
+        "false",
       );
 
       rerender(
@@ -338,12 +338,12 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       expect(screen.getByRole("button")).toHaveAttribute(
         "aria-pressed",
-        "true"
+        "true",
       );
     });
 
@@ -356,12 +356,12 @@ describe("ResourceCard", () => {
           showRemoveButton={true}
           onToggle={mockOnToggle}
           onRemove={mockOnRemove}
-        />
+        />,
       );
 
       expect(screen.getByLabelText(/deselect mycrd/i)).toBeInTheDocument();
       expect(
-        screen.getByLabelText(/permanently remove mycrd/i)
+        screen.getByLabelText(/permanently remove mycrd/i),
       ).toBeInTheDocument();
     });
   });
@@ -373,7 +373,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={false}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -388,7 +388,7 @@ describe("ResourceCard", () => {
           resource={"pods" as ResourceType}
           isSelected={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -402,7 +402,7 @@ describe("ResourceCard", () => {
           isSelected={true}
           isActive={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -417,7 +417,7 @@ describe("ResourceCard", () => {
           isCustom={true}
           hasNoVerbs={true}
           onToggle={mockOnToggle}
-        />
+        />,
       );
 
       const card = screen.getByRole("button");
@@ -493,7 +493,7 @@ describe("ResourceCard", () => {
           render(<PermissionConfigPanel {...defaultProps} />);
 
           expect(
-            screen.getByText(/2 permissions configured/i)
+            screen.getByText(/2 permissions configured/i),
           ).toBeInTheDocument();
         });
 
@@ -502,10 +502,10 @@ describe("ResourceCard", () => {
 
           // Should not have a "Remove from Role" button
           expect(
-            screen.queryByRole("button", { name: /remove from role/i })
+            screen.queryByRole("button", { name: /remove from role/i }),
           ).not.toBeInTheDocument();
           expect(
-            screen.queryByRole("button", { name: /deselect resource/i })
+            screen.queryByRole("button", { name: /deselect resource/i }),
           ).not.toBeInTheDocument();
         });
       });
@@ -515,10 +515,10 @@ describe("ResourceCard", () => {
           render(<PermissionConfigPanel {...defaultProps} />);
 
           expect(
-            screen.getByRole("button", { name: /previous resource/i })
+            screen.getByRole("button", { name: /previous resource/i }),
           ).toBeInTheDocument();
           expect(
-            screen.getByRole("button", { name: /next resource/i })
+            screen.getByRole("button", { name: /next resource/i }),
           ).toBeInTheDocument();
         });
 
@@ -551,7 +551,7 @@ describe("ResourceCard", () => {
           render(<PermissionConfigPanel {...defaultProps} />);
 
           await user.click(
-            screen.getByRole("button", { name: /next resource/i })
+            screen.getByRole("button", { name: /next resource/i }),
           );
 
           expect(mockOnResourceChange).toHaveBeenCalledWith("services");
@@ -563,11 +563,11 @@ describe("ResourceCard", () => {
             <PermissionConfigPanel
               {...defaultProps}
               activeResource={"services" as ResourceType}
-            />
+            />,
           );
 
           await user.click(
-            screen.getByRole("button", { name: /previous resource/i })
+            screen.getByRole("button", { name: /previous resource/i }),
           );
 
           expect(mockOnResourceChange).toHaveBeenCalledWith("pods");
@@ -578,14 +578,14 @@ describe("ResourceCard", () => {
             <PermissionConfigPanel
               {...defaultProps}
               permissions={[defaultProps.permissions[0]]}
-            />
+            />,
           );
 
           expect(
-            screen.queryByRole("button", { name: /previous resource/i })
+            screen.queryByRole("button", { name: /previous resource/i }),
           ).not.toBeInTheDocument();
           expect(
-            screen.queryByRole("button", { name: /next resource/i })
+            screen.queryByRole("button", { name: /next resource/i }),
           ).not.toBeInTheDocument();
         });
       });
@@ -607,11 +607,11 @@ describe("ResourceCard", () => {
             <PermissionConfigPanel
               {...defaultProps}
               permissions={manyPermissions}
-            />
+            />,
           );
 
           expect(
-            screen.getByLabelText(/jump to resource/i)
+            screen.getByLabelText(/jump to resource/i),
           ).toBeInTheDocument();
         });
 
@@ -619,7 +619,7 @@ describe("ResourceCard", () => {
           render(<PermissionConfigPanel {...defaultProps} />);
 
           expect(
-            screen.queryByLabelText(/jump to resource/i)
+            screen.queryByLabelText(/jump to resource/i),
           ).not.toBeInTheDocument();
         });
 
@@ -640,7 +640,7 @@ describe("ResourceCard", () => {
             <PermissionConfigPanel
               {...defaultProps}
               permissions={manyPermissions}
-            />
+            />,
           );
 
           const dropdown = screen.getByLabelText(/jump to resource/i);
@@ -655,7 +655,7 @@ describe("ResourceCard", () => {
           render(<PermissionConfigPanel {...defaultProps} />);
 
           expect(
-            screen.getByText(/2 permissions configured/i)
+            screen.getByText(/2 permissions configured/i),
           ).toBeInTheDocument();
         });
 
@@ -670,11 +670,11 @@ describe("ResourceCard", () => {
                   verbs: ["get"],
                 },
               ]}
-            />
+            />,
           );
 
           expect(
-            screen.getByText(/1 permission configured/i)
+            screen.getByText(/1 permission configured/i),
           ).toBeInTheDocument();
         });
 
@@ -685,14 +685,14 @@ describe("ResourceCard", () => {
               permissions={[
                 { resource: "pods" as ResourceType, apiGroup: "", verbs: [] },
               ]}
-            />
+            />,
           );
 
           expect(
-            screen.getByText(/no permissions configured/i)
+            screen.getByText(/no permissions configured/i),
           ).toBeInTheDocument();
           expect(
-            screen.getByText(/will not be included in the yaml/i)
+            screen.getByText(/will not be included in the yaml/i),
           ).toBeInTheDocument();
         });
       });
@@ -710,7 +710,7 @@ describe("ResourceCard", () => {
                 },
               ]}
               activeResource={"mycrd" as ResourceType}
-            />
+            />,
           );
 
           expect(screen.getByText("mycrd")).toBeInTheDocument();
@@ -724,10 +724,10 @@ describe("ResourceCard", () => {
           render(<PermissionConfigPanel {...defaultProps} />);
 
           expect(
-            screen.getByRole("button", { name: /previous resource/i })
+            screen.getByRole("button", { name: /previous resource/i }),
           ).toBeInTheDocument();
           expect(
-            screen.getByRole("button", { name: /next resource/i })
+            screen.getByRole("button", { name: /next resource/i }),
           ).toBeInTheDocument();
         });
 
@@ -747,13 +747,13 @@ describe("ResourceCard", () => {
 
           // Should render nothing
           expect(
-            screen.queryByText("Configure Permissions")
+            screen.queryByText("Configure Permissions"),
           ).not.toBeInTheDocument();
         });
 
         it("defaults to first permission when activeResource is null", () => {
           render(
-            <PermissionConfigPanel {...defaultProps} activeResource={null} />
+            <PermissionConfigPanel {...defaultProps} activeResource={null} />,
           );
 
           expect(screen.getByText("Pods")).toBeInTheDocument();
@@ -771,12 +771,12 @@ describe("ResourceCard", () => {
                 },
               ]}
               activeResource={"unknownresource" as ResourceType}
-            />
+            />,
           );
 
           expect(screen.getByText("unknownresource")).toBeInTheDocument();
           expect(
-            screen.getByText("Custom resource definition")
+            screen.getByText("Custom resource definition"),
           ).toBeInTheDocument();
         });
       });

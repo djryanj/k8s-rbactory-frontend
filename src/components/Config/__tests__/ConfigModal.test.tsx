@@ -20,16 +20,16 @@ describe("ConfigModal", () => {
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /settings/i })
+      screen.getByRole("heading", { name: /settings/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /appearance/i })
+      screen.getByRole("heading", { name: /appearance/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /api configuration/i })
+      screen.getByRole("heading", { name: /api configuration/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /cluster browser/i })
+      screen.getByRole("heading", { name: /cluster browser/i }),
     ).toBeInTheDocument();
   });
 
@@ -37,7 +37,7 @@ describe("ConfigModal", () => {
     renderWithProviders(<ConfigModal onClose={vi.fn()} />);
 
     expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(
-      "Settings dialog opened"
+      "Settings dialog opened",
     );
   });
 
@@ -125,7 +125,7 @@ describe("ConfigModal", () => {
     await user.click(darkTheme);
 
     expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(
-      "Theme changed to dark"
+      "Theme changed to dark",
     );
   });
 
@@ -150,7 +150,7 @@ describe("ConfigModal", () => {
     await user.click(saveButton);
 
     expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(
-      "Settings saved successfully"
+      "Settings saved successfully",
     );
     expect(onClose).toHaveBeenCalled();
   });
@@ -168,10 +168,10 @@ describe("ConfigModal", () => {
     await user.click(resetButton);
 
     expect(window.confirm).toHaveBeenCalledWith(
-      "Reset all settings to defaults?"
+      "Reset all settings to defaults?",
     );
     expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(
-      "All settings reset to defaults"
+      "All settings reset to defaults",
     );
 
     vi.restoreAllMocks();
@@ -190,7 +190,7 @@ describe("ConfigModal", () => {
 
     expect(window.confirm).toHaveBeenCalled();
     expect(mockAnnounceToScreenReader).not.toHaveBeenCalledWith(
-      "All settings reset to defaults"
+      "All settings reset to defaults",
     );
 
     vi.restoreAllMocks();
@@ -205,10 +205,10 @@ describe("ConfigModal", () => {
       renderWithProviders(<ConfigModal onClose={vi.fn()} />);
 
       expect(
-        screen.queryByRole("heading", { name: /api configuration/i })
+        screen.queryByRole("heading", { name: /api configuration/i }),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByRole("heading", { name: /cluster browser/i })
+        screen.queryByRole("heading", { name: /cluster browser/i }),
       ).not.toBeInTheDocument();
     });
 
@@ -216,10 +216,10 @@ describe("ConfigModal", () => {
       renderWithProviders(<ConfigModal onClose={vi.fn()} />);
 
       expect(
-        screen.getByRole("heading", { name: /appearance/i })
+        screen.getByRole("heading", { name: /appearance/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("heading", { name: /settings/i })
+        screen.getByRole("heading", { name: /settings/i }),
       ).toBeInTheDocument();
     });
   });

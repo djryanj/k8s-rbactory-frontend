@@ -25,7 +25,7 @@ export const CopyButtonGroup: React.FC<CopyButtonGroupProps> = ({
     e: React.MouseEvent,
     content: string,
     label: string,
-    description: string
+    description: string,
   ) => {
     e.stopPropagation();
     onCopy(content, label);
@@ -39,7 +39,7 @@ export const CopyButtonGroup: React.FC<CopyButtonGroupProps> = ({
     neutralColors.hover,
     neutralColors.ring,
     "min-h-[32px] min-w-[32px]", // Touch target size
-    "inline-flex items-center justify-center"
+    "inline-flex items-center justify-center",
   );
 
   return (
@@ -109,7 +109,7 @@ export const CopyButtonGroup: React.FC<CopyButtonGroupProps> = ({
             e,
             kubectlCmd,
             `${resourceLabel}-kubectl`,
-            "kubectl command"
+            "kubectl command",
           )
         }
         className={buttonBaseClasses}

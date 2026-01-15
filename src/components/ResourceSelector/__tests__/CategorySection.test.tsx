@@ -95,7 +95,7 @@ describe("CategorySection", () => {
         <CategorySection
           {...defaultProps}
           selectedResources={["pods"] as ResourceType[]}
-        />
+        />,
       );
 
       expect(screen.getByText(/1 selected/i)).toBeInTheDocument();
@@ -112,7 +112,7 @@ describe("CategorySection", () => {
       render(<CategorySection {...defaultProps} />);
 
       expect(
-        screen.getByRole("group", { name: /workloads resources/i })
+        screen.getByRole("group", { name: /workloads resources/i }),
       ).toBeInTheDocument();
       expect(screen.getByText("Pods")).toBeInTheDocument();
       expect(screen.getByText("Deployments")).toBeInTheDocument();
@@ -141,7 +141,7 @@ describe("CategorySection", () => {
           category="custom"
           resources={[]}
           customResources={[{ resource: "mycrd", apiGroup: "mycompany.com" }]}
-        />
+        />,
       );
 
       expect(screen.getByText("Custom Resources")).toBeInTheDocument();
@@ -156,11 +156,11 @@ describe("CategorySection", () => {
           resources={[]}
           customResources={[]}
           onAddCustomResource={mockOnAddCustomResource}
-        />
+        />,
       );
 
       expect(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       ).toBeInTheDocument();
     });
 
@@ -173,11 +173,11 @@ describe("CategorySection", () => {
           resources={[]}
           customResources={[]}
           onAddCustomResource={mockOnAddCustomResource}
-        />
+        />,
       );
 
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
       expect(mockOnAddCustomResource).toHaveBeenCalledTimes(1);
     });
@@ -193,7 +193,7 @@ describe("CategorySection", () => {
           customResources={[]}
           showCustomResourceForm={true}
           customResourceFormComponent={formComponent}
-        />
+        />,
       );
 
       expect(screen.getByTestId("custom-form")).toBeInTheDocument();
@@ -211,11 +211,11 @@ describe("CategorySection", () => {
           showCustomResourceForm={true}
           customResourceFormComponent={formComponent}
           onAddCustomResource={mockOnAddCustomResource}
-        />
+        />,
       );
 
       expect(
-        screen.queryByRole("button", { name: /add custom resource/i })
+        screen.queryByRole("button", { name: /add custom resource/i }),
       ).not.toBeInTheDocument();
     });
 
@@ -227,11 +227,11 @@ describe("CategorySection", () => {
           resources={[]}
           customResources={[]}
           onAddCustomResource={mockOnAddCustomResource}
-        />
+        />,
       );
 
       expect(
-        screen.getByText(/no custom resources added yet/i)
+        screen.getByText(/no custom resources added yet/i),
       ).toBeInTheDocument();
     });
 
@@ -244,11 +244,11 @@ describe("CategorySection", () => {
           selectedResources={[]}
           customResources={[{ resource: "mycrd", apiGroup: "mycompany.com" }]}
           onCustomResourceRemove={mockOnCustomResourceRemove}
-        />
+        />,
       );
 
       expect(
-        screen.getByLabelText(/permanently remove mycrd/i)
+        screen.getByLabelText(/permanently remove mycrd/i),
       ).toBeInTheDocument();
     });
   });
@@ -264,7 +264,7 @@ describe("CategorySection", () => {
 
     it("expands and collapses on header click", () => {
       const { rerender } = render(
-        <CategorySection {...defaultProps} isExpanded={false} />
+        <CategorySection {...defaultProps} isExpanded={false} />,
       );
 
       expect(screen.queryByRole("group")).not.toBeInTheDocument();
@@ -290,7 +290,7 @@ describe("CategorySection", () => {
         <CategorySection
           {...defaultProps}
           selectedResources={["pods"] as ResourceType[]}
-        />
+        />,
       );
 
       const podsCard = screen.getByRole("button", { name: /pods/i });
@@ -324,7 +324,7 @@ describe("CategorySection", () => {
           {...defaultProps}
           selectedResources={["pods"] as ResourceType[]}
           inlineExpansion={true}
-        />
+        />,
       );
 
       // Permission matrix should be rendered inline
@@ -354,11 +354,11 @@ describe("CategorySection", () => {
           {...defaultProps}
           selectedResources={["pods"] as ResourceType[]}
           inlineExpansion={false}
-        />
+        />,
       );
 
       expect(
-        screen.queryByText(/permissions for pods/i)
+        screen.queryByText(/permissions for pods/i),
       ).not.toBeInTheDocument();
     });
   });
@@ -371,7 +371,7 @@ describe("CategorySection", () => {
       expect(header).toHaveAttribute("aria-expanded", "true");
       expect(header).toHaveAttribute(
         "aria-controls",
-        "category-workload-content"
+        "category-workload-content",
       );
     });
 
@@ -409,7 +409,7 @@ describe("CategorySection", () => {
         <CategorySection
           {...defaultProps}
           selectedResources={["pods", "deployments"] as ResourceType[]}
-        />
+        />,
       );
 
       expect(screen.getByText(/2 selected/i)).toBeInTheDocument();
@@ -421,7 +421,7 @@ describe("CategorySection", () => {
           {...defaultProps}
           resources={["pods", "deployments", "services"] as ResourceType[]}
           selectedResources={["pods"] as ResourceType[]}
-        />
+        />,
       );
 
       expect(screen.getByText(/3 resources/i)).toBeInTheDocument();

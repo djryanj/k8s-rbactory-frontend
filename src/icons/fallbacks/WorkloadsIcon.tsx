@@ -2,7 +2,7 @@
 import React from "react";
 
 export const WorkloadsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
-  props
+  props,
 ) => (
   <svg
     viewBox="0 0 24 24"

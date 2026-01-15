@@ -153,29 +153,26 @@ export interface IAPIClient {
   listRoles(
     namespace?: string,
     limit?: number,
-    offset?: number
+    offset?: number,
   ): Promise<RBACListResponse>;
 
-  listClusterRoles(
-    limit?: number,
-    offset?: number
-  ): Promise<RBACListResponse>;
+  listClusterRoles(limit?: number, offset?: number): Promise<RBACListResponse>;
 
   listRoleBindings(
     namespace?: string,
     limit?: number,
-    offset?: number
+    offset?: number,
   ): Promise<RBACListResponse>;
 
   listClusterRoleBindings(
     limit?: number,
-    offset?: number
+    offset?: number,
   ): Promise<RBACListResponse>;
 
   listPrincipals(
     namespace?: string,
     limit?: number,
-    offset?: number
+    offset?: number,
   ): Promise<PrincipalListResponse>;
 
   // Resource counts
@@ -189,6 +186,6 @@ export interface IAPIClient {
   getRelationships(
     kind: string,
     namespace: string,
-    name: string
+    name: string,
   ): Promise<RelationshipResponse>;
 }

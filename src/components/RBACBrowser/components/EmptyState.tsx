@@ -37,7 +37,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
           colors.bg,
           colors.border,
-          "border-2"
+          "border-2",
         )}
         aria-hidden="true"
       >
@@ -57,7 +57,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <p
           className={combineClasses(
             "text-sm max-w-md mx-auto",
-            neutralColors.icon
+            neutralColors.icon,
           )}
           id="empty-state-description"
         >
@@ -76,7 +76,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             "bg-blue-600 dark:bg-blue-500 text-white",
             "hover:bg-blue-700 dark:hover:bg-blue-600",
             "focus:ring-blue-500",
-            "min-h-[44px]" // Touch target size
+            "min-h-[44px]", // Touch target size
           )}
           aria-label="Retry loading resources"
           aria-describedby={

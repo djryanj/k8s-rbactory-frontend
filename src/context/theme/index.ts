@@ -4,6 +4,6 @@ export {
   type ThemeContextType,
   type Theme,
   type ResolvedTheme,
-} from './ThemeContext';
-export { ThemeProvider } from './ThemeProvider';
-export { useTheme } from './useTheme';
+} from "./ThemeContext";
+export { ThemeProvider } from "./ThemeProvider";
+export { useTheme } from "./useTheme";

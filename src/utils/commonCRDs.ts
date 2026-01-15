@@ -17,7 +17,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "argoproj.io",
     category: "GitOps",
     description: "Argo CD application for GitOps deployments",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "appprojects.argoproj.io": {
     name: "appprojects",
@@ -25,9 +33,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "argoproj.io",
     category: "GitOps",
     description: "Argo CD project for organizing applications",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Argo Workflows
   "workflows.argoproj.io": {
     name: "workflows",
@@ -35,7 +51,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "argoproj.io",
     category: "GitOps",
     description: "Argo workflow for container-native workflows",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "workflowtemplates.argoproj.io": {
     name: "workflowtemplates",
@@ -43,9 +67,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "argoproj.io",
     category: "GitOps",
     description: "Reusable workflow template",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Cert-Manager
   "certificates.cert-manager.io": {
     name: "certificates",
@@ -53,7 +85,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "cert-manager.io",
     category: "Security",
     description: "TLS certificate managed by cert-manager",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "certificaterequests.cert-manager.io": {
     name: "certificaterequests",
@@ -61,7 +101,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "cert-manager.io",
     category: "Security",
     description: "Request for a TLS certificate",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "issuers.cert-manager.io": {
     name: "issuers",
@@ -69,7 +117,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "cert-manager.io",
     category: "Security",
     description: "Certificate issuer (namespace-scoped)",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "clusterissuers.cert-manager.io": {
     name: "clusterissuers",
@@ -77,9 +133,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "cert-manager.io",
     category: "Security",
     description: "Certificate issuer (cluster-scoped)",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Istio
   "virtualservices.networking.istio.io": {
     name: "virtualservices",
@@ -87,7 +151,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "networking.istio.io",
     category: "Service Mesh",
     description: "Istio virtual service for traffic routing",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "destinationrules.networking.istio.io": {
     name: "destinationrules",
@@ -95,7 +167,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "networking.istio.io",
     category: "Service Mesh",
     description: "Istio destination rule for traffic policies",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "gateways.networking.istio.io": {
     name: "gateways",
@@ -103,7 +183,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "networking.istio.io",
     category: "Service Mesh",
     description: "Istio gateway for ingress/egress traffic",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "serviceentries.networking.istio.io": {
     name: "serviceentries",
@@ -111,9 +199,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "networking.istio.io",
     category: "Service Mesh",
     description: "Istio service entry for external services",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Prometheus Operator
   "prometheuses.monitoring.coreos.com": {
     name: "prometheuses",
@@ -121,7 +217,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "monitoring.coreos.com",
     category: "Monitoring",
     description: "Prometheus server instance",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "servicemonitors.monitoring.coreos.com": {
     name: "servicemonitors",
@@ -129,7 +233,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "monitoring.coreos.com",
     category: "Monitoring",
     description: "Prometheus service monitor for scraping metrics",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "podmonitors.monitoring.coreos.com": {
     name: "podmonitors",
@@ -137,7 +249,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "monitoring.coreos.com",
     category: "Monitoring",
     description: "Prometheus pod monitor for scraping metrics",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "alertmanagers.monitoring.coreos.com": {
     name: "alertmanagers",
@@ -145,9 +265,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "monitoring.coreos.com",
     category: "Monitoring",
     description: "Alertmanager instance for handling alerts",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Knative
   "services.serving.knative.dev": {
     name: "services",
@@ -155,7 +283,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "serving.knative.dev",
     category: "Serverless",
     description: "Knative serving service",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "routes.serving.knative.dev": {
     name: "routes",
@@ -163,9 +299,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "serving.knative.dev",
     category: "Serverless",
     description: "Knative route for traffic routing",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Flux CD
   "gitrepositories.source.toolkit.fluxcd.io": {
     name: "gitrepositories",
@@ -173,7 +317,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "source.toolkit.fluxcd.io",
     category: "GitOps",
     description: "Flux Git repository source",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "kustomizations.kustomize.toolkit.fluxcd.io": {
     name: "kustomizations",
@@ -181,7 +333,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "kustomize.toolkit.fluxcd.io",
     category: "GitOps",
     description: "Flux Kustomization for applying manifests",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "helmreleases.helm.toolkit.fluxcd.io": {
     name: "helmreleases",
@@ -189,9 +349,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "helm.toolkit.fluxcd.io",
     category: "GitOps",
     description: "Flux Helm release",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // External Secrets Operator
   "externalsecrets.external-secrets.io": {
     name: "externalsecrets",
@@ -199,7 +367,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "external-secrets.io",
     category: "Security",
     description: "External secret synchronized from external provider",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "secretstores.external-secrets.io": {
     name: "secretstores",
@@ -207,9 +383,17 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "external-secrets.io",
     category: "Security",
     description: "External secret store configuration",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
-  
+
   // Crossplane
   "compositeresourcedefinitions.apiextensions.crossplane.io": {
     name: "compositeresourcedefinitions",
@@ -217,7 +401,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "apiextensions.crossplane.io",
     category: "Infrastructure",
     description: "Crossplane composite resource definition",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
   "compositions.apiextensions.crossplane.io": {
     name: "compositions",
@@ -225,7 +417,15 @@ export const COMMON_CRDS: Record<string, CommonCRD> = {
     apiGroup: "apiextensions.crossplane.io",
     category: "Infrastructure",
     description: "Crossplane composition template",
-    commonVerbs: ["get", "list", "watch", "create", "update", "patch", "delete"],
+    commonVerbs: [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ],
   },
 };
 
@@ -242,17 +442,17 @@ export type CRDCategory = (typeof CRD_CATEGORIES)[number];
 
 export function getCRDsByCategory(): Record<CRDCategory, CommonCRD[]> {
   const result = {} as Record<CRDCategory, CommonCRD[]>;
-  
-  CRD_CATEGORIES.forEach(category => {
+
+  CRD_CATEGORIES.forEach((category) => {
     result[category] = [];
   });
-  
-  Object.values(COMMON_CRDS).forEach(crd => {
+
+  Object.values(COMMON_CRDS).forEach((crd) => {
     const category = crd.category as CRDCategory;
     if (result[category]) {
       result[category].push(crd);
     }
   });
-  
+
   return result;
 }

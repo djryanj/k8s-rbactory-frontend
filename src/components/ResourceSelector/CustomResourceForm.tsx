@@ -72,7 +72,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
       className={combineClasses(
         "p-4 rounded-lg border",
         "bg-gray-50 dark:bg-gray-800/50",
-        neutralColors.border
+        neutralColors.border,
       )}
       aria-label="Custom resource form"
     >
@@ -83,7 +83,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
             htmlFor="common-crd-select"
             className={combineClasses(
               "block text-sm font-medium mb-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             Quick Select Common CRD
@@ -99,7 +99,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
               neutralColors.bg,
               neutralColors.text,
               neutralColors.border,
-              infoColors.ring
+              infoColors.ring,
             )}
           >
             <option value="">
@@ -117,7 +117,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
                     </option>
                   ))}
                 </optgroup>
-              ) : null
+              ) : null,
             )}
           </select>
           <p className={combineClasses("text-xs mt-1", neutralColors.icon)}>
@@ -132,7 +132,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
               htmlFor="custom-resource-name"
               className={combineClasses(
                 "block text-sm font-medium mb-1",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               Resource Name
@@ -157,7 +157,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 error ? criticalColors.border : neutralColors.border,
-                error ? criticalColors.ring : infoColors.ring
+                error ? criticalColors.ring : infoColors.ring,
               )}
               required
               aria-describedby="resource-name-help"
@@ -175,7 +175,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
               htmlFor="custom-api-group"
               className={combineClasses(
                 "block text-sm font-medium mb-1",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               API Group
@@ -200,7 +200,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring
+                infoColors.ring,
               )}
               required
               aria-describedby="api-group-help"
@@ -221,7 +221,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
               "p-3 border rounded-lg text-sm",
               criticalColors.bg,
               criticalColors.text,
-              criticalColors.border
+              criticalColors.border,
             )}
             role="alert"
             aria-live="assertive"
@@ -247,14 +247,14 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
                     "hover:shadow-lg active:scale-[0.98]",
                     "hover:scale-[1.02]",
                     successColors.hover,
-                    successColors.ring
+                    successColors.ring,
                   )
                 : combineClasses(
                     "bg-gray-300 dark:bg-gray-600",
                     "text-gray-500 dark:text-gray-400",
                     "border-2 border-gray-300 dark:border-gray-600",
-                    "opacity-60"
-                  )
+                    "opacity-60",
+                  ),
             )}
             aria-label={
               isFormValid
@@ -275,7 +275,7 @@ export const CustomResourceForm: React.FC<CustomResourceFormProps> = ({
               neutralColors.text,
               neutralColors.border,
               neutralColors.hover,
-              neutralColors.ring
+              neutralColors.ring,
             )}
             aria-label="Cancel adding custom resource"
           >

@@ -27,7 +27,7 @@ export const RolePresetsCompact: React.FC = () => {
           preset.permissions.length
         } resource${preset.permissions.length === 1 ? "" : "s"}. ${
           preset.isClusterRole ? "Cluster-scoped role" : "Namespace-scoped role"
-        }.`
+        }.`,
       );
     }
   };
@@ -38,7 +38,7 @@ export const RolePresetsCompact: React.FC = () => {
     announceToScreenReader(
       newState
         ? "Quick start templates expanded"
-        : "Quick start templates collapsed"
+        : "Quick start templates collapsed",
     );
   };
 
@@ -47,7 +47,7 @@ export const RolePresetsCompact: React.FC = () => {
       className={combineClasses(
         "rounded-lg border overflow-hidden transform-gpu transition-all",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
       aria-labelledby="presets-heading"
     >
@@ -58,7 +58,7 @@ export const RolePresetsCompact: React.FC = () => {
         className={combineClasses(
           "w-full flex items-center gap-3 p-4 transition-all text-left",
           "focus:outline-none",
-          neutralColors.hover
+          neutralColors.hover,
         )}
         aria-expanded={isExpanded}
         aria-controls="presets-content"
@@ -67,7 +67,7 @@ export const RolePresetsCompact: React.FC = () => {
           className={combineClasses(
             "p-2 rounded-lg flex-shrink-0 transition-transform",
             infoColors.bg,
-            isExpanded && "scale-110"
+            isExpanded && "scale-110",
           )}
         >
           <Zap
@@ -82,7 +82,7 @@ export const RolePresetsCompact: React.FC = () => {
             id="presets-heading"
             className={combineClasses(
               "font-semibold text-base flex items-center gap-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             Quick Start Templates
@@ -91,7 +91,7 @@ export const RolePresetsCompact: React.FC = () => {
                 className={combineClasses(
                   "text-xs px-2 py-0.5 rounded-full border font-medium",
                   neutralColors.icon,
-                  neutralColors.border
+                  neutralColors.border,
                 )}
               >
                 {PRESET_ROLES.length} available
@@ -128,7 +128,7 @@ export const RolePresetsCompact: React.FC = () => {
           id="presets-content"
           className={combineClasses(
             "border-t p-4 space-y-4",
-            neutralColors.border
+            neutralColors.border,
           )}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -152,16 +152,16 @@ export const RolePresetsCompact: React.FC = () => {
                       ? combineClasses(
                           successColors.border,
                           successColors.bg,
-                          "shadow-sm"
+                          "shadow-sm",
                         )
                       : combineClasses(
                           neutralColors.border,
                           neutralColors.bg,
                           neutralColors.hover,
                           "hover:shadow-lg hover:scale-[1.02] active:scale-[0.99]",
-                          "cursor-pointer"
+                          "cursor-pointer",
                         ),
-                    infoColors.ring
+                    infoColors.ring,
                   )}
                   aria-label={
                     isLoaded
@@ -175,7 +175,7 @@ export const RolePresetsCompact: React.FC = () => {
                     <h4
                       className={combineClasses(
                         "font-medium text-sm",
-                        isLoaded ? successColors.text : neutralColors.text
+                        isLoaded ? successColors.text : neutralColors.text,
                       )}
                     >
                       {preset.name}
@@ -185,7 +185,7 @@ export const RolePresetsCompact: React.FC = () => {
                         "text-xs px-2 py-0.5 rounded border font-medium flex-shrink-0",
                         scopeColors.bg,
                         scopeColors.text,
-                        scopeColors.border
+                        scopeColors.border,
                       )}
                       aria-label={`${
                         preset.isClusterRole ? "Cluster" : "Namespace"
@@ -198,7 +198,7 @@ export const RolePresetsCompact: React.FC = () => {
                   <p
                     className={combineClasses(
                       "text-xs mb-3",
-                      neutralColors.icon
+                      neutralColors.icon,
                     )}
                   >
                     {preset.description}
@@ -216,7 +216,7 @@ export const RolePresetsCompact: React.FC = () => {
                       <span
                         className={combineClasses(
                           "flex items-center gap-1 text-xs font-medium px-2 py-1 rounded",
-                          successColors.text
+                          successColors.text,
                         )}
                       >
                         <Check size={14} aria-hidden="true" />

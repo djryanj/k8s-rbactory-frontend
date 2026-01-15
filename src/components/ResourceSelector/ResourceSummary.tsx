@@ -20,7 +20,7 @@ export const ResourceSummary: React.FC<ResourceSummaryProps> = ({
       className={combineClasses(
         "p-4 border rounded-lg",
         infoColors.bg,
-        infoColors.border
+        infoColors.border,
       )}
       role="status"
       aria-live="polite"

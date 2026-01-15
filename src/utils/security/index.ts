@@ -1,11 +1,11 @@
 // src/utils/security/index.ts
 /**
  * Security utilities for RBAC risk assessment
- * 
+ *
  * This module provides comprehensive security risk classification for
  * Kubernetes RBAC verbs and risk level definitions used throughout
  * the application for consistent security analysis and user education.
- * 
+ *
  * @module utils/security
  */
 

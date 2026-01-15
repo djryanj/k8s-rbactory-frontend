@@ -46,7 +46,7 @@ describe("BasicInformation", () => {
       renderWithContext(<BasicInformation />);
 
       expect(
-        screen.getByText(/lowercase alphanumeric characters or hyphens/i)
+        screen.getByText(/lowercase alphanumeric characters or hyphens/i),
       ).toBeInTheDocument();
     });
   });
@@ -72,7 +72,7 @@ describe("BasicInformation", () => {
       await user.type(bindingInput, "new-binding");
 
       expect(mockRBACContext.updateBindingName).toHaveBeenCalledWith(
-        "new-binding"
+        "new-binding",
       );
     });
   });
@@ -170,7 +170,7 @@ describe("BasicInformation", () => {
         expect(errorMessage).toHaveAttribute("role", "alert");
         expect(roleInput).toHaveAttribute(
           "aria-describedby",
-          "role-name-error"
+          "role-name-error",
         );
       });
     });

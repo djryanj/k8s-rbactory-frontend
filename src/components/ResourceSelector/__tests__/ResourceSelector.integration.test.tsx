@@ -14,7 +14,7 @@ const renderResourceSelector = () => {
   return render(
     <RBACProvider>
       <ResourceSelector />
-    </RBACProvider>
+    </RBACProvider>,
   );
 };
 
@@ -37,8 +37,8 @@ describe("ResourceSelector Integration", () => {
 
       expect(
         screen.getByText(
-          "Select resources from the left panel to configure their permissions here."
-        )
+          "Select resources from the left panel to configure their permissions here.",
+        ),
       ).toBeInTheDocument();
     });
   });
@@ -108,14 +108,14 @@ describe("ResourceSelector Integration", () => {
       await user.click(screen.getByRole("button", { name: /services/i }));
       await waitFor(() => {
         expect(
-          screen.getByText(/permissions for services/i)
+          screen.getByText(/permissions for services/i),
         ).toBeInTheDocument();
       });
 
       // Pods should still be selected (in background)
       expect(screen.getByRole("button", { name: /pods/i })).toHaveAttribute(
         "aria-pressed",
-        "true"
+        "true",
       );
     });
   });
@@ -133,7 +133,7 @@ describe("ResourceSelector Integration", () => {
 
       // Click add custom resource button
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       // Fill form
@@ -142,7 +142,7 @@ describe("ResourceSelector Integration", () => {
 
       // Submit
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       // Should appear in custom resources list
@@ -162,12 +162,12 @@ describe("ResourceSelector Integration", () => {
       });
       await user.click(customSection);
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       // Wait for it to appear
@@ -179,7 +179,7 @@ describe("ResourceSelector Integration", () => {
       const certCard = screen.getByRole("button", { name: /certificates/i });
       await user.hover(certCard);
       const deselectButton = within(certCard).getByLabelText(
-        /deselect certificates/i
+        /deselect certificates/i,
       );
       await user.click(deselectButton);
 
@@ -187,7 +187,7 @@ describe("ResourceSelector Integration", () => {
       await waitFor(() => {
         expect(screen.getByText("certificates")).toBeInTheDocument();
         expect(
-          screen.getByText("No permissions configured")
+          screen.getByText("No permissions configured"),
         ).toBeInTheDocument();
       });
     });
@@ -202,12 +202,12 @@ describe("ResourceSelector Integration", () => {
       });
       await user.click(customSection);
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -216,7 +216,7 @@ describe("ResourceSelector Integration", () => {
 
       // Permanently remove
       const removeButton = screen.getByLabelText(
-        /permanently remove certificates/i
+        /permanently remove certificates/i,
       );
       await user.click(removeButton);
 
@@ -261,7 +261,7 @@ describe("ResourceSelector Integration", () => {
       await user.type(searchInput, "nonexistentresource");
 
       expect(
-        screen.getByText(/no resources match your search/i)
+        screen.getByText(/no resources match your search/i),
       ).toBeInTheDocument();
     });
   });
@@ -339,7 +339,7 @@ describe("ResourceSelector Integration", () => {
 
       // Main heading should be present
       expect(
-        screen.getByRole("heading", { name: /select resources/i })
+        screen.getByRole("heading", { name: /select resources/i }),
       ).toBeInTheDocument();
     });
 
@@ -392,12 +392,12 @@ describe("ResourceSelector Integration", () => {
       });
       await user.click(customSection);
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {

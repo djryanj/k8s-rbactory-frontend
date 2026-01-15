@@ -54,7 +54,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
         className={combineClasses(
           "rounded-lg border-2 border-dashed p-12",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="status"
         aria-label="No RBAC configuration"
@@ -65,7 +65,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
               neutralColors.bg,
               neutralColors.border,
-              "border-2"
+              "border-2",
             )}
             aria-hidden="true"
           >
@@ -78,7 +78,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           <h3
             className={combineClasses(
               "text-lg font-semibold mb-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             No Configuration Yet
@@ -97,7 +97,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
         className={combineClasses(
           "rounded-lg border-2 border-dashed p-12",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="status"
         aria-label="No resource selected"
@@ -108,7 +108,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
               neutralColors.bg,
               neutralColors.border,
-              "border-2"
+              "border-2",
             )}
             aria-hidden="true"
           >
@@ -121,7 +121,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           <h3
             className={combineClasses(
               "text-lg font-semibold mb-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             No Resource Selected
@@ -142,7 +142,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
         className={combineClasses(
           "rounded-lg border-2 p-6",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="region"
         aria-labelledby="generator-diagram-title"
@@ -151,7 +151,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           id="generator-diagram-title"
           className={combineClasses(
             "text-lg font-semibold mb-4 flex items-center gap-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           <K8sResourceIcon
@@ -185,7 +185,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
         className={combineClasses(
           "rounded-lg border-2 p-6 relative",
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="region"
         aria-labelledby="browser-diagram-title"
@@ -202,7 +202,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               <Loader
                 className={combineClasses(
                   "animate-spin mb-3 mx-auto",
-                  infoColors.icon
+                  infoColors.icon,
                 )}
                 size={32}
                 aria-hidden="true"
@@ -210,7 +210,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               <p
                 className={combineClasses(
                   "text-sm font-medium",
-                  neutralColors.text
+                  neutralColors.text,
                 )}
               >
                 Loading relationships...
@@ -227,7 +227,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
             id="browser-diagram-title"
             className={combineClasses(
               "text-lg font-semibold flex items-center gap-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             <K8sResourceIcon

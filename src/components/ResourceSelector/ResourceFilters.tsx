@@ -40,7 +40,7 @@ export const ResourceFilters: React.FC<ResourceFiltersProps> = ({
           <Search
             className={combineClasses(
               "absolute left-3 top-1/2 transform -translate-y-1/2",
-              neutralColors.icon
+              neutralColors.icon,
             )}
             size={18}
             aria-hidden="true"
@@ -57,7 +57,7 @@ export const ResourceFilters: React.FC<ResourceFiltersProps> = ({
               neutralColors.bg,
               neutralColors.text,
               neutralColors.border,
-              infoColors.ring
+              infoColors.ring,
             )}
             aria-describedby="search-results-count"
           />
@@ -69,7 +69,7 @@ export const ResourceFilters: React.FC<ResourceFiltersProps> = ({
           <Filter
             className={combineClasses(
               "absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none",
-              neutralColors.icon
+              neutralColors.icon,
             )}
             size={18}
             aria-hidden="true"
@@ -84,7 +84,7 @@ export const ResourceFilters: React.FC<ResourceFiltersProps> = ({
               neutralColors.bg,
               neutralColors.text,
               neutralColors.border,
-              infoColors.ring
+              infoColors.ring,
             )}
           >
             <option value="all">All Categories</option>
@@ -127,7 +127,7 @@ export const ResourceFilters: React.FC<ResourceFiltersProps> = ({
               criticalColors.text,
               criticalColors.hover,
               criticalColors.border,
-              criticalColors.ring
+              criticalColors.ring,
             )}
             aria-label={`Clear all ${selectedCount} selected resources`}
           >

@@ -10,6 +10,6 @@ export const copyToClipboard = (text: string, label: string): void => {
     },
     (err) => {
       console.error("Failed to copy:", err);
-    }
+    },
   );
 };

@@ -10,7 +10,7 @@ describe("ModalHeader", () => {
 
     expect(screen.getByText("Test Settings")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Test Settings" })
+      screen.getByRole("heading", { name: "Test Settings" }),
     ).toBeInTheDocument();
   });
 
@@ -32,7 +32,11 @@ describe("ModalHeader", () => {
     const ref = React.createRef<HTMLButtonElement>();
 
     render(
-      <ModalHeader title="Settings" onClose={vi.fn()} firstFocusableRef={ref} />
+      <ModalHeader
+        title="Settings"
+        onClose={vi.fn()}
+        firstFocusableRef={ref}
+      />,
     );
 
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);

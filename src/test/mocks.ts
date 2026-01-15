@@ -1,36 +1,36 @@
 // src/test/mocks.ts
-import { vi } from 'vitest';
-import type { 
-  ResourceType, 
-  VerbType, 
+import { vi } from "vitest";
+import type {
+  ResourceType,
+  VerbType,
   ResourcePermission,
   RBACManifest,
   Subject,
   SubjectType,
-} from '../types/rbac.types';
+} from "../types/rbac.types";
 
 export const createMockPermission = (
-  resource: ResourceType = 'pods',
-  verbs: VerbType[] = []
+  resource: ResourceType = "pods",
+  verbs: VerbType[] = [],
 ): ResourcePermission => ({
   resource,
-  apiGroup: '',
+  apiGroup: "",
   verbs,
 });
 
 export const createMockManifest = (): RBACManifest => ({
   role: {
-    name: 'test-role',
+    name: "test-role",
     isClusterRole: false,
-    namespace: 'default',
+    namespace: "default",
     permissions: [] as ResourcePermission[],
   },
   binding: {
-    name: 'test-binding',
-    namespace: 'default',
+    name: "test-binding",
+    namespace: "default",
     roleRef: {
-      kind: 'Role' as const,
-      name: 'test-role',
+      kind: "Role" as const,
+      name: "test-role",
     },
     subjects: [] as Subject[],
   },
@@ -53,25 +53,27 @@ export const mockUseRBAC = () => ({
 });
 
 // Helper to create a mock RBAC context with custom permissions
-export const createMockRBACContext = (permissions: ResourcePermission[] = []) => {
+export const createMockRBACContext = (
+  permissions: ResourcePermission[] = [],
+) => {
   const manifest: RBACManifest = {
     role: {
-      name: 'test-role',
+      name: "test-role",
       isClusterRole: false,
-      namespace: 'default',
+      namespace: "default",
       permissions: permissions,
     },
     binding: {
-      name: 'test-binding',
-      namespace: 'default',
+      name: "test-binding",
+      namespace: "default",
       roleRef: {
-        kind: 'Role' as const,
-        name: 'test-role',
+        kind: "Role" as const,
+        name: "test-role",
       },
       subjects: [] as Subject[],
     },
   };
-  
+
   return {
     manifest,
     addPermission: vi.fn(),
@@ -91,28 +93,58 @@ export const createMockRBACContext = (permissions: ResourcePermission[] = []) =>
 
 // Helper to create a mock subject
 export const createMockSubject = (
-  kind: SubjectType = 'User',
-  name: string = 'test-user',
-  namespace?: string
+  kind: SubjectType = "User",
+  name: string = "test-user",
+  namespace?: string,
 ): Subject => {
   const subject: Subject = {
     kind,
     name,
   };
-  
-  if (namespace && kind === 'ServiceAccount') {
+
+  if (namespace && kind === "ServiceAccount") {
     subject.namespace = namespace;
   }
-  
+
   return subject;
 };
 
 // Preset mock permissions for common scenarios
 export const mockPermissions = {
-  readPods: (): ResourcePermission => createMockPermission('pods', ['get', 'list', 'watch']),
-  writePods: (): ResourcePermission => createMockPermission('pods', ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']),
-  readDeployments: (): ResourcePermission => createMockPermission('deployments', ['get', 'list', 'watch']),
-  writeDeployments: (): ResourcePermission => createMockPermission('deployments', ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']),
-  readServices: (): ResourcePermission => createMockPermission('services', ['get', 'list', 'watch']),
-  writeServices: (): ResourcePermission => createMockPermission('services', ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']),
+  readPods: (): ResourcePermission =>
+    createMockPermission("pods", ["get", "list", "watch"]),
+  writePods: (): ResourcePermission =>
+    createMockPermission("pods", [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ]),
+  readDeployments: (): ResourcePermission =>
+    createMockPermission("deployments", ["get", "list", "watch"]),
+  writeDeployments: (): ResourcePermission =>
+    createMockPermission("deployments", [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ]),
+  readServices: (): ResourcePermission =>
+    createMockPermission("services", ["get", "list", "watch"]),
+  writeServices: (): ResourcePermission =>
+    createMockPermission("services", [
+      "get",
+      "list",
+      "watch",
+      "create",
+      "update",
+      "patch",
+      "delete",
+    ]),
 };

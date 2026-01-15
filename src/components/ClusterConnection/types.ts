@@ -6,6 +6,8 @@ export enum ErrorType {
   NETWORK = "network",
   SERVER = "server",
   AUTHENTICATION = "authentication",
+  CORS = "cors",
+  ENDPOINT_CONFIG = "endpoint_config",
   UNKNOWN = "unknown",
 }
 

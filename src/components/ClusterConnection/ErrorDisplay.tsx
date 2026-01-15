@@ -17,6 +17,10 @@ const getErrorColors = (type: ErrorType) => {
     case ErrorType.RBAC:
     case ErrorType.AUTHENTICATION:
       return warningColors;
+    case ErrorType.CORS:
+      return warningColors;
+    case ErrorType.ENDPOINT_CONFIG:
+      return warningColors;
     case ErrorType.NETWORK:
     case ErrorType.SERVER:
     case ErrorType.UNKNOWN:
@@ -36,6 +40,12 @@ const shouldShowSettingsButton = (type: ErrorType): boolean => {
       return true;
     case ErrorType.AUTHENTICATION:
       // Authentication errors might be due to wrong credentials/token
+      return true;
+    case ErrorType.CORS:
+      // CORS errors require backend configuration, but user might need to change endpoint
+      return true;
+    case ErrorType.ENDPOINT_CONFIG:
+      // Definitely show settings for endpoint config issues
       return true;
     case ErrorType.RBAC:
       // RBAC errors require cluster-level configuration, not app settings
@@ -69,7 +79,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
       className={combineClasses(
         "mt-3 rounded-lg border",
         errorColors.bg,
-        errorColors.border
+        errorColors.border,
       )}
       role="alert"
       aria-live="assertive"
@@ -85,7 +95,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
           <h3
             className={combineClasses(
               "text-sm font-semibold mb-1",
-              errorColors.text
+              errorColors.text,
             )}
           >
             {error.title}
@@ -99,7 +109,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
             <p
               className={combineClasses(
                 "text-xs font-medium mb-2",
-                errorColors.text
+                errorColors.text,
               )}
             >
               Suggested Actions:
@@ -110,7 +120,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
                   key={index}
                   className={combineClasses(
                     "text-xs flex items-start gap-2",
-                    errorColors.icon
+                    errorColors.icon,
                   )}
                 >
                   <span className="flex-shrink-0 mt-0.5" aria-hidden="true">
@@ -133,7 +143,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
                 "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded px-2 py-1",
                 errorColors.text,
                 "hover:underline",
-                errorColors.ring
+                errorColors.ring,
               )}
               aria-label="Open settings to check configuration"
             >
@@ -156,7 +166,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
               errorColors.border,
               errorColors.text,
               errorColors.hover,
-              errorColors.ring
+              errorColors.ring,
             )}
             aria-expanded={showDetails}
             aria-controls="error-details"
@@ -174,13 +184,13 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
               id="error-details"
               className={combineClasses(
                 "px-3 py-2 border-t",
-                errorColors.border
+                errorColors.border,
               )}
             >
               <pre
                 className={combineClasses(
                   "text-xs font-mono whitespace-pre-wrap break-words",
-                  errorColors.icon
+                  errorColors.icon,
                 )}
               >
                 {error.details}

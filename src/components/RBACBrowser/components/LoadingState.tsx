@@ -29,7 +29,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
           "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
           infoColors.bg,
           infoColors.border,
-          "border-2"
+          "border-2",
         )}
         aria-hidden="true"
       >
@@ -52,7 +52,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
         <p
           className={combineClasses(
             "text-xs mt-2 max-w-md text-center",
-            neutralColors.icon
+            neutralColors.icon,
           )}
           id="loading-submessage"
         >

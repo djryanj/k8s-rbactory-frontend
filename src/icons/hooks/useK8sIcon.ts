@@ -32,7 +32,7 @@ export function useK8sIcon(options: UseK8sIconOptions): UseK8sIconReturn {
         hasImageError: hasError,
         ...(category !== undefined && { explicitCategory: category }),
       }),
-    [kind, category, hasError]
+    [kind, category, hasError],
   );
 
   const handleError = useCallback(() => {

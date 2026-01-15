@@ -4,13 +4,13 @@
  * Unified security risk/severity level system
  * Used across verb classification, security analysis, and UI components
  */
-export type SecurityLevel = 
-  | "critical-destructive"  // Immediate, irreversible damage (delete, *, etc.)
-  | "critical-sensitive"    // Access to sensitive data (secrets, configmaps)
-  | "high"                  // Privilege escalation, impersonation
-  | "medium"                // Resource modification without escalation
-  | "low"                   // Read-only access
-  | "safe";                 // Minimal risk operations
+export type SecurityLevel =
+  | "critical-destructive" // Immediate, irreversible damage (delete, *, etc.)
+  | "critical-sensitive" // Access to sensitive data (secrets, configmaps)
+  | "high" // Privilege escalation, impersonation
+  | "medium" // Resource modification without escalation
+  | "low" // Read-only access
+  | "safe"; // Minimal risk operations
 
 /**
  * Verb operation category
@@ -219,7 +219,10 @@ export type SecurityIssue =
  * Type guard to check if an issue is critical level
  */
 export const isCriticalIssue = (issue: SecurityIssue): boolean => {
-  return issue.severity === "critical-destructive" || issue.severity === "critical-sensitive";
+  return (
+    issue.severity === "critical-destructive" ||
+    issue.severity === "critical-sensitive"
+  );
 };
 
 /**
@@ -248,7 +251,9 @@ export const getIssuePriority = (issue: SecurityIssue): number => {
  * Sort issues by severity (highest first)
  * Returns a new array without mutating the original
  */
-export const sortIssuesBySeverity = (issues: readonly SecurityIssue[]): SecurityIssue[] => {
+export const sortIssuesBySeverity = (
+  issues: readonly SecurityIssue[],
+): SecurityIssue[] => {
   return [...issues].sort((a, b) => getIssuePriority(b) - getIssuePriority(a));
 };
 
@@ -267,10 +272,14 @@ export interface RiskLevelDefinition {
  * Comprehensive definitions for each security risk level
  * Used in tooltips, documentation, and security analysis
  */
-export const RISK_LEVEL_DEFINITIONS: Record<SecurityLevel, RiskLevelDefinition> = {
+export const RISK_LEVEL_DEFINITIONS: Record<
+  SecurityLevel,
+  RiskLevelDefinition
+> = {
   "critical-destructive": {
     title: "Critical Risk: Destructive Permissions",
-    shortDescription: "Can cause immediate, irreversible damage or grant unrestricted access",
+    shortDescription:
+      "Can cause immediate, irreversible damage or grant unrestricted access",
     description:
       "Permissions that can cause immediate, irreversible damage or grant unrestricted access to the cluster.",
     examples: [
@@ -295,7 +304,8 @@ export const RISK_LEVEL_DEFINITIONS: Record<SecurityLevel, RiskLevelDefinition> 
   },
   high: {
     title: "High Risk",
-    shortDescription: "Enables privilege escalation, impersonation, or security bypass",
+    shortDescription:
+      "Enables privilege escalation, impersonation, or security bypass",
     description:
       "Permissions that enable privilege escalation, impersonation, or can modify security-critical resources.",
     examples: [
@@ -308,7 +318,8 @@ export const RISK_LEVEL_DEFINITIONS: Record<SecurityLevel, RiskLevelDefinition> 
   },
   medium: {
     title: "Medium Risk",
-    shortDescription: "Allows resource modification without direct privilege escalation",
+    shortDescription:
+      "Allows resource modification without direct privilege escalation",
     description:
       "Permissions that allow modification of resources but don't directly enable privilege escalation.",
     examples: [
@@ -358,7 +369,7 @@ export const getRiskLevelDescription = (level: SecurityLevel): string => {
  * Get the risk level definition by risk level key
  */
 export const getRiskLevelDefinition = (
-  level: SecurityLevel
+  level: SecurityLevel,
 ): RiskLevelDefinition => {
   return RISK_LEVEL_DEFINITIONS[level];
 };

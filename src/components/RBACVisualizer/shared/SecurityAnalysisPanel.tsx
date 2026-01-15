@@ -68,19 +68,19 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
 
   // Count severity levels - now handles both critical variants
   const criticalSeverityCount = securityIssues.filter((issue) =>
-    isCriticalIssue(issue)
+    isCriticalIssue(issue),
   ).length;
 
   const highSeverityCount = securityIssues.filter(
-    (issue) => issue.severity === "high"
+    (issue) => issue.severity === "high",
   ).length;
 
   const mediumSeverityCount = securityIssues.filter(
-    (issue) => issue.severity === "medium"
+    (issue) => issue.severity === "medium",
   ).length;
 
   const lowSeverityCount = securityIssues.filter(
-    (issue) => issue.severity === "low"
+    (issue) => issue.severity === "low",
   ).length;
 
   // Context-specific messaging
@@ -124,7 +124,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
           "p-4 rounded-lg border",
           successColors.bg,
           successColors.border,
-          className
+          className,
         )}
         role="status"
         aria-label="No security issues detected"
@@ -139,7 +139,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
             <div
               className={combineClasses(
                 "font-semibold text-sm",
-                successColors.text
+                successColors.text,
               )}
             >
               No Security Issues Detected
@@ -160,7 +160,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
         "p-4 rounded-lg border",
         purpleColors.bg,
         purpleColors.border,
-        className
+        className,
       )}
       role="region"
       aria-labelledby="security-analysis-heading"
@@ -171,7 +171,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
           id="security-analysis-heading"
           className={combineClasses(
             "text-sm font-semibold flex items-center gap-2",
-            purpleColors.text
+            purpleColors.text,
           )}
         >
           <Shield size={16} aria-hidden="true" />
@@ -189,7 +189,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
                 "px-2 py-0.5 rounded-full font-medium border",
                 "bg-red-100 dark:bg-red-900/30",
                 "text-red-900 dark:text-red-100",
-                "border-red-300 dark:border-red-700"
+                "border-red-300 dark:border-red-700",
               )}
               role="status"
               aria-label={`${criticalSeverityCount} critical severity ${
@@ -205,7 +205,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
                 "px-2 py-0.5 rounded-full font-medium border",
                 "bg-orange-100 dark:bg-orange-900/30",
                 "text-orange-900 dark:text-orange-100",
-                "border-orange-300 dark:border-orange-700"
+                "border-orange-300 dark:border-orange-700",
               )}
               role="status"
               aria-label={`${highSeverityCount} high severity ${
@@ -221,7 +221,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
                 "px-2 py-0.5 rounded-full font-medium border",
                 "bg-amber-100 dark:bg-amber-900/30",
                 "text-amber-900 dark:text-amber-100",
-                "border-amber-300 dark:border-amber-700"
+                "border-amber-300 dark:border-amber-700",
               )}
               role="status"
               aria-label={`${mediumSeverityCount} medium severity ${
@@ -237,7 +237,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
                 "px-2 py-0.5 rounded-full font-medium border",
                 "bg-blue-100 dark:bg-blue-900/30",
                 "text-blue-900 dark:text-blue-100",
-                "border-blue-300 dark:border-blue-700"
+                "border-blue-300 dark:border-blue-700",
               )}
               role="status"
               aria-label={`${lowSeverityCount} low severity ${
@@ -265,7 +265,7 @@ export const SecurityAnalysisPanel: React.FC<SecurityAnalysisPanelProps> = ({
           className={combineClasses(
             "mt-3 p-3 rounded-lg border text-xs",
             "bg-blue-50 dark:bg-blue-900/20",
-            "border-blue-200 dark:border-blue-800"
+            "border-blue-200 dark:border-blue-800",
           )}
           role="note"
         >

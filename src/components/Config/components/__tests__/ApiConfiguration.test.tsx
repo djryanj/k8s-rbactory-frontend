@@ -11,7 +11,7 @@ describe("ApiConfiguration", () => {
       <ApiConfiguration
         endpoint="http://localhost:8080/api/v1"
         onEndpointChange={vi.fn()}
-      />
+      />,
     );
 
     const input = screen.getByLabelText(/backend api endpoint/i);
@@ -27,7 +27,7 @@ describe("ApiConfiguration", () => {
       <ApiConfiguration
         endpoint="http://localhost:8080/api/v1"
         onEndpointChange={onEndpointChange}
-      />
+      />,
     );
 
     const input = screen.getByLabelText(/backend api endpoint/i);
@@ -46,13 +46,13 @@ describe("ApiConfiguration", () => {
       <ApiConfiguration
         endpoint="http://localhost:8080/api/v1"
         onEndpointChange={vi.fn()}
-      />
+      />,
     );
 
     expect(
       screen.getByText(
-        /the backend api server endpoint for cluster operations/i
-      )
+        /the backend api server endpoint for cluster operations/i,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -61,18 +61,18 @@ describe("ApiConfiguration", () => {
       <ApiConfiguration
         endpoint="http://localhost:8080/api/v1"
         onEndpointChange={vi.fn()}
-      />
+      />,
     );
 
     const input = screen.getByLabelText(/backend api endpoint/i);
     expect(input).toHaveAttribute("type", "url");
     expect(input).toHaveAttribute(
       "placeholder",
-      "http://localhost:8080/api/v1"
+      "http://localhost:8080/api/v1",
     );
     expect(input).toHaveAttribute(
       "aria-describedby",
-      "api-endpoint-description"
+      "api-endpoint-description",
     );
   });
 });

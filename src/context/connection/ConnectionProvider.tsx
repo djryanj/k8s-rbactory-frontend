@@ -23,8 +23,11 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
   // Refs for cleanup and preventing duplicate checks
   const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isMountedRef = useRef(true);
-  const hasInitialCheckRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const isInitialMount = useRef(true);
+  const checkConnectionRef = useRef<
+    ((attempt: number) => Promise<void>) | undefined
+  >(undefined);
 
   // Convert user config to internal format
   const retryConfig = {
@@ -42,7 +45,14 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      isMountedRef.current = false;
+      console.log("ConnectionProvider unmounting, cleaning up...");
+
+      // Cancel any in-flight requests
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Clear timers
       if (retryTimeoutRef.current) {
         clearTimeout(retryTimeoutRef.current);
       }
@@ -66,7 +76,7 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
       retryConfig.initialDelayMs,
       retryConfig.backoffMultiplier,
       retryConfig.maxDelayMs,
-    ]
+    ],
   );
 
   /**
@@ -88,12 +98,10 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
 
   /**
    * Schedules a retry with exponential backoff
+   * Uses checkConnectionRef to avoid circular dependency
    */
   const scheduleRetry = useCallback(
-    (
-      attempt: number,
-      checkConnectionFn: (attempt: number) => Promise<void>
-    ) => {
+    (attempt: number) => {
       if (attempt >= retryConfig.maxAttempts) {
         console.log("Max retry attempts reached");
         setRetrying(false);
@@ -110,7 +118,7 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log(
         `Scheduling retry ${attempt + 1}/${
           retryConfig.maxAttempts
-        } in ${delayMs}ms`
+        } in ${delayMs}ms`,
       );
 
       // Update countdown every second
@@ -128,14 +136,14 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }, 1000);
 
-      // Schedule the actual retry
+      // Schedule the actual retry - call through ref to avoid circular dependency
       retryTimeoutRef.current = setTimeout(() => {
-        if (isMountedRef.current) {
-          void checkConnectionFn(attempt + 1);
+        if (checkConnectionRef.current) {
+          void checkConnectionRef.current(attempt + 1);
         }
       }, delayMs);
     },
-    [retryConfig.maxAttempts, calculateNextDelay]
+    [retryConfig.maxAttempts, calculateNextDelay],
   );
 
   /**
@@ -143,75 +151,94 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   const checkConnection = useCallback(
     async (attempt: number = 0) => {
+      console.log(`Starting connection check, attempt ${attempt}`);
+
       // Cancel any existing retry
       if (attempt === 0) {
         cancelRetry();
       }
 
+      // Cancel any previous in-flight request
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Create new abort controller for this request
+      const abortController = new AbortController();
+      abortControllerRef.current = abortController;
+
       setLoading(true);
       setError(null);
 
       try {
-        const isConnected = await apiClient.checkConnection();
+        // Step 1: Check health endpoint
+        console.log("Checking health endpoint...");
 
-        if (!isMountedRef.current) return;
+        // This will now throw an error instead of returning false
+        await apiClient.checkConnection();
 
-        if (isConnected) {
-          // Success - fetch cluster info
-          try {
-            const info = await apiClient.getClusterInfo();
+        console.log("Health check passed");
 
-            if (!isMountedRef.current) return;
+        // Check if this request was aborted
+        if (abortController.signal.aborted) {
+          console.log("Request was aborted, stopping");
+          return;
+        }
 
-            setConnected(true);
-            setClusterInfo(info);
-            setError(null);
-            setRetrying(false);
-            setRetryCount(0);
-            setNextRetryIn(null);
-            setLoading(false);
+        // Step 2: Fetch cluster info
+        console.log("Fetching cluster info...");
 
-            console.log("Successfully connected to cluster");
-          } catch (clusterInfoError) {
-            // Health check passed but cluster info failed
-            console.error("Failed to get cluster info:", clusterInfoError);
+        try {
+          const info = await apiClient.getClusterInfo();
+          console.log("Cluster info retrieved successfully:", info);
 
-            if (!isMountedRef.current) return;
-
-            setConnected(false);
-            setClusterInfo(null);
-
-            let errorMessage = "Failed to retrieve cluster information";
-            if (isAPIError(clusterInfoError)) {
-              errorMessage = clusterInfoError.message;
-            } else if (clusterInfoError instanceof Error) {
-              errorMessage = clusterInfoError.message;
-            }
-
-            setError(errorMessage);
-            setLoading(false);
-
-            // Schedule retry if enabled
-            if (userRetryConfig.enabled && attempt < retryConfig.maxAttempts) {
-              scheduleRetry(attempt, checkConnection);
-            } else {
-              setRetrying(false);
-              setRetryCount(0);
-              setNextRetryIn(null);
-            }
+          // Check if aborted before updating state
+          if (abortController.signal.aborted) {
+            console.log(
+              "Request was aborted after cluster info fetch, stopping",
+            );
+            return;
           }
-        } else {
-          // Connection check returned false
-          if (!isMountedRef.current) return;
+
+          // Success!
+          setConnected(true);
+          setClusterInfo(info);
+          setError(null);
+          setRetrying(false);
+          setRetryCount(0);
+          setNextRetryIn(null);
+
+          console.log("Connection successful");
+        } catch (clusterInfoError) {
+          // Check if aborted
+          if (abortController.signal.aborted) {
+            console.log("Request was aborted during error handling");
+            return;
+          }
+
+          // Health check passed but cluster info failed
+          console.error("Failed to get cluster info:", clusterInfoError);
 
           setConnected(false);
           setClusterInfo(null);
-          setError("Unable to connect to API server");
-          setLoading(false);
 
-          // Schedule retry if enabled and not exceeded max attempts
+          let errorMessage = "Failed to retrieve cluster information";
+          if (isAPIError(clusterInfoError)) {
+            errorMessage = clusterInfoError.message;
+
+            console.log("[ConnectionProvider] Cluster info APIError:", {
+              message: clusterInfoError.message,
+              statusCode: clusterInfoError.statusCode,
+            });
+          } else if (clusterInfoError instanceof Error) {
+            errorMessage = clusterInfoError.message;
+          }
+
+          setError(errorMessage);
+
+          // Schedule retry if enabled
           if (userRetryConfig.enabled && attempt < retryConfig.maxAttempts) {
-            scheduleRetry(attempt, checkConnection);
+            scheduleRetry(attempt);
           } else {
             setRetrying(false);
             setRetryCount(0);
@@ -219,9 +246,14 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
           }
         }
       } catch (err) {
-        console.error("Connection check failed:", err);
+        // Check if aborted
+        if (abortController.signal.aborted) {
+          console.log("Request was aborted during error handling");
+          return;
+        }
 
-        if (!isMountedRef.current) return;
+        // Health check failed - this is where CORS errors will land
+        console.error("Health check failed:", err);
 
         setConnected(false);
         setClusterInfo(null);
@@ -229,7 +261,14 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
         // Extract detailed error message
         let errorMessage = "An unknown error occurred";
         if (isAPIError(err)) {
+          // Use the detailed error message from APIError
           errorMessage = err.message;
+
+          console.log("[ConnectionProvider] Health check APIError:", {
+            message: err.message,
+            statusCode: err.statusCode,
+            details: err.details,
+          });
 
           if (process.env.NODE_ENV === "development") {
             console.error("API Error Details:", {
@@ -240,18 +279,36 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
           }
         } else if (err instanceof Error) {
           errorMessage = err.message;
+          console.log(
+            "[ConnectionProvider] Health check standard Error:",
+            err.message,
+          );
+        } else {
+          console.log(
+            "[ConnectionProvider] Health check unknown error type:",
+            err,
+          );
         }
 
+        console.log(
+          "[ConnectionProvider] Setting error state to:",
+          errorMessage,
+        );
         setError(errorMessage);
-        setLoading(false);
 
         // Schedule retry if enabled and not exceeded max attempts
         if (userRetryConfig.enabled && attempt < retryConfig.maxAttempts) {
-          scheduleRetry(attempt, checkConnection);
+          scheduleRetry(attempt);
         } else {
           setRetrying(false);
           setRetryCount(0);
           setNextRetryIn(null);
+        }
+      } finally {
+        // Only clear loading if this request wasn't aborted
+        if (!abortController.signal.aborted) {
+          console.log("Clearing loading state");
+          setLoading(false);
         }
       }
     },
@@ -260,23 +317,36 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
       scheduleRetry,
       retryConfig.maxAttempts,
       userRetryConfig.enabled,
-    ]
+    ],
   );
 
-  // Initial connection check - only runs once on mount or when endpoint changes
+  // Update the ref whenever checkConnection changes
   useEffect(() => {
-    // Reset the initial check flag when endpoint changes
-    hasInitialCheckRef.current = false;
-  }, [apiEndpoint]);
+    checkConnectionRef.current = checkConnection;
+  }, [checkConnection]);
 
+  // Initial connection check - runs when apiEndpoint changes
   useEffect(() => {
-    // Only run if we haven't done the initial check yet
-    if (!hasInitialCheckRef.current) {
-      hasInitialCheckRef.current = true;
-      console.log("Running initial connection check");
-      void checkConnection(0);
+    // Skip the first mount in Strict Mode (development only)
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      console.log("Initial mount, scheduling connection check");
+      // Small delay to allow component to fully mount
+      const timer = setTimeout(() => {
+        console.log("Running initial connection check");
+        if (checkConnectionRef.current) {
+          void checkConnectionRef.current(0);
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
     }
-  }, [apiEndpoint]); // Only depend on apiEndpoint, not checkConnection
+
+    console.log("API endpoint changed, running connection check");
+    if (checkConnectionRef.current) {
+      void checkConnectionRef.current(0);
+    }
+  }, [apiEndpoint]); // Intentionally only depend on apiEndpoint
 
   const value: ConnectionContextType = {
     connected,
@@ -286,7 +356,12 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
     retrying,
     retryCount,
     nextRetryIn,
-    checkConnection: () => checkConnection(0),
+    checkConnection: () => {
+      if (checkConnectionRef.current) {
+        return checkConnectionRef.current(0);
+      }
+      return Promise.resolve();
+    },
     cancelRetry,
     apiClientInstance: apiClient,
   };

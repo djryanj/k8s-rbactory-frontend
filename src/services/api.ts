@@ -1,6 +1,6 @@
 // src/services/api.ts
-export type { PaginatedResponse } from '../types/api.types';
-import { type IAPIClient } from '../types/api.types';
+export type { PaginatedResponse } from "../types/api.types";
+import { type IAPIClient } from "../types/api.types";
 
 export interface ClusterRBACResource {
   kind: string;
@@ -105,17 +105,17 @@ export class APIError extends Error {
     message: string,
     statusCode: number,
     details?: Record<string, unknown>,
-    validationErrors?: Array<{ field: string; message: string }>
+    validationErrors?: Array<{ field: string; message: string }>,
   ) {
     super(message);
     this.name = "APIError";
     this.statusCode = statusCode;
-    
+
     // Only set optional properties if they have defined values
     if (details !== undefined) {
       this.details = details;
     }
-    
+
     if (validationErrors !== undefined) {
       this.validationErrors = validationErrors;
     }
@@ -133,7 +133,7 @@ export const isAPIError = (error: unknown): error is APIError => {
  * Type guard to check if a value is a valid JSON response
  */
 const isJsonResponse = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null;
+  return typeof value === "object" && value !== null;
 };
 
 class APIClient implements IAPIClient {
@@ -143,7 +143,8 @@ class APIClient implements IAPIClient {
 
   constructor(baseURL?: string) {
     // Use provided baseURL, environment variable, or default
-    this.baseURL = baseURL || import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    this.baseURL =
+      baseURL || import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1";
   }
 
   setBaseURL(url: string): void {
@@ -166,21 +167,20 @@ class APIClient implements IAPIClient {
     if (contentType?.includes("application/json")) {
       try {
         const errorData: unknown = await response.json();
-        
+
         if (isJsonResponse(errorData)) {
           const typedError = errorData as APIErrorResponse;
-          
+
           const message =
             typedError.message ||
             typedError.error ||
             `HTTP ${response.status}: ${response.statusText}`;
 
-          // Only pass defined values to constructor
           return new APIError(
             message,
             typedError.statusCode || response.status,
-            typedError.details, // May be undefined, handled in constructor
-            typedError.errors   // May be undefined, handled in constructor
+            typedError.details,
+            typedError.errors,
           );
         }
       } catch (parseError) {
@@ -192,23 +192,24 @@ class APIClient implements IAPIClient {
     try {
       const text = await response.text();
       if (text) {
-        return new APIError(text, response.status);
+        // Include status code in the message for better error detection
+        const messageWithStatus = `HTTP ${response.status}: ${text}`;
+        return new APIError(messageWithStatus, response.status);
       }
     } catch (textError) {
       console.error("Failed to parse text error response:", textError);
     }
 
-    // Final fallback
+    // Final fallback - make sure status code is included
     return new APIError(
       `HTTP ${response.status}: ${response.statusText}`,
-      response.status
+      response.status,
     );
   }
-
   private async fetchWithTimeout(
     url: string,
     options: RequestInit = {},
-    timeout = 60000
+    timeout = 60000,
   ): Promise<Response> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -217,6 +218,7 @@ class APIClient implements IAPIClient {
       const response = await fetch(url, {
         ...options,
         signal: controller.signal,
+        mode: "cors",
       });
       clearTimeout(timeoutId);
 
@@ -229,7 +231,7 @@ class APIClient implements IAPIClient {
       return response;
     } catch (error) {
       clearTimeout(timeoutId);
-      
+
       // Re-throw APIError as-is
       if (error instanceof APIError) {
         throw error;
@@ -237,21 +239,45 @@ class APIClient implements IAPIClient {
 
       // Handle abort/timeout
       if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          throw new APIError('Request timeout', 408);
+        if (error.name === "AbortError") {
+          throw new APIError("Request timeout", 408);
         }
-        // Handle network errors
-        if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
+
+        // Enhanced CORS error detection
+        if (
+          error.message.includes("Failed to fetch") ||
+          error.message.includes("NetworkError") ||
+          error.message.includes("Load failed")
+        ) {
+          // This is likely a CORS error or network error
+          // Try to provide more context
+          const corsHint =
+            "This is likely a CORS (Cross-Origin Resource Sharing) error. " +
+            "The backend server must be configured to allow requests from this origin. " +
+            `Origin: ${window.location.origin}, Target: ${url}`;
+
           throw new APIError(
-            'Network error: Unable to reach the server',
+            `Network error: ${error.message}. ${corsHint}`,
             0,
-            { originalError: error.message }
+            {
+              originalError: error.message,
+              url: url,
+              origin: window.location.origin,
+            },
           );
         }
+
+        // Handle other network errors
+        if (error.message.includes("fetch")) {
+          throw new APIError("Network error: Unable to reach the server", 0, {
+            originalError: error.message,
+          });
+        }
+
         throw new APIError(error.message, 0);
       }
-      
-      throw new APIError('Unknown error occurred', 0);
+
+      throw new APIError("Unknown error occurred", 0);
     }
   }
 
@@ -261,7 +287,7 @@ class APIClient implements IAPIClient {
   private async fetchJSON<T>(
     url: string,
     options?: RequestInit,
-    timeout?: number
+    timeout?: number,
   ): Promise<T> {
     const response = await this.fetchWithTimeout(url, options, timeout);
     const data: unknown = await response.json();
@@ -275,9 +301,9 @@ class APIClient implements IAPIClient {
       this.connected = true;
       return true;
     } catch (error) {
-      console.error('Connection check failed:', error);
+      console.error("Connection check failed:", error);
       this.connected = false;
-      return false;
+      throw error;
     }
   }
 
@@ -293,8 +319,8 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch cluster info',
-        0
+        error instanceof Error ? error.message : "Failed to fetch cluster info",
+        0,
       );
     }
   }
@@ -302,7 +328,7 @@ class APIClient implements IAPIClient {
   async listNamespaces(): Promise<string[]> {
     try {
       const data = await this.fetchJSON<{ namespaces: string[] }>(
-        `${this.baseURL}/namespaces`
+        `${this.baseURL}/namespaces`,
       );
       return data.namespaces;
     } catch (error) {
@@ -310,8 +336,8 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch namespaces',
-        0
+        error instanceof Error ? error.message : "Failed to fetch namespaces",
+        0,
       );
     }
   }
@@ -319,16 +345,16 @@ class APIClient implements IAPIClient {
   async listRoles(
     namespace?: string,
     limit: number = 50,
-    offset: number = 0
+    offset: number = 0,
   ): Promise<RBACListResponse> {
     const params = new URLSearchParams({
       limit: limit.toString(),
       offset: offset.toString(),
     });
     if (namespace) {
-      params.append('namespace', namespace);
+      params.append("namespace", namespace);
     }
-    
+
     try {
       const url = `${this.baseURL}/roles?${params}`;
       return await this.fetchJSON<RBACListResponse>(url);
@@ -337,32 +363,34 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch roles',
-        0
+        error instanceof Error ? error.message : "Failed to fetch roles",
+        0,
       );
     }
   }
 
   async listClusterRoles(
     limit: number = 50,
-    offset: number = 0
+    offset: number = 0,
   ): Promise<RBACListResponse> {
     const params = new URLSearchParams({
       limit: limit.toString(),
       offset: offset.toString(),
     });
-    
+
     try {
       return await this.fetchJSON<RBACListResponse>(
-        `${this.baseURL}/clusterroles?${params}`
+        `${this.baseURL}/clusterroles?${params}`,
       );
     } catch (error) {
       if (isAPIError(error)) {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch cluster roles',
-        0
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch cluster roles",
+        0,
       );
     }
   }
@@ -370,16 +398,16 @@ class APIClient implements IAPIClient {
   async listRoleBindings(
     namespace?: string,
     limit: number = 50,
-    offset: number = 0
+    offset: number = 0,
   ): Promise<RBACListResponse> {
     const params = new URLSearchParams({
       limit: limit.toString(),
       offset: offset.toString(),
     });
     if (namespace) {
-      params.append('namespace', namespace);
+      params.append("namespace", namespace);
     }
-    
+
     try {
       const url = `${this.baseURL}/rolebindings?${params}`;
       return await this.fetchJSON<RBACListResponse>(url);
@@ -388,32 +416,36 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch role bindings',
-        0
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch role bindings",
+        0,
       );
     }
   }
 
   async listClusterRoleBindings(
     limit: number = 50,
-    offset: number = 0
+    offset: number = 0,
   ): Promise<RBACListResponse> {
     const params = new URLSearchParams({
       limit: limit.toString(),
       offset: offset.toString(),
     });
-    
+
     try {
       return await this.fetchJSON<RBACListResponse>(
-        `${this.baseURL}/clusterrolebindings?${params}`
+        `${this.baseURL}/clusterrolebindings?${params}`,
       );
     } catch (error) {
       if (isAPIError(error)) {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch cluster role bindings',
-        0
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch cluster role bindings",
+        0,
       );
     }
   }
@@ -421,16 +453,16 @@ class APIClient implements IAPIClient {
   async listPrincipals(
     namespace?: string,
     limit: number = 50,
-    offset: number = 0
+    offset: number = 0,
   ): Promise<PrincipalListResponse> {
     const params = new URLSearchParams({
       limit: limit.toString(),
       offset: offset.toString(),
     });
     if (namespace) {
-      params.append('namespace', namespace);
+      params.append("namespace", namespace);
     }
-    
+
     try {
       const url = `${this.baseURL}/principals?${params}`;
       return await this.fetchJSON<PrincipalListResponse>(url);
@@ -439,8 +471,8 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch principals',
-        0
+        error instanceof Error ? error.message : "Failed to fetch principals",
+        0,
       );
     }
   }
@@ -453,8 +485,8 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch counts',
-        0
+        error instanceof Error ? error.message : "Failed to fetch counts",
+        0,
       );
     }
   }
@@ -462,15 +494,15 @@ class APIClient implements IAPIClient {
   async getRole(namespace: string, name: string): Promise<ClusterRBACResource> {
     try {
       return await this.fetchJSON<ClusterRBACResource>(
-        `${this.baseURL}/roles/${namespace}/${name}`
+        `${this.baseURL}/roles/${namespace}/${name}`,
       );
     } catch (error) {
       if (isAPIError(error)) {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch role',
-        0
+        error instanceof Error ? error.message : "Failed to fetch role",
+        0,
       );
     }
   }
@@ -478,15 +510,15 @@ class APIClient implements IAPIClient {
   async getClusterRole(name: string): Promise<ClusterRBACResource> {
     try {
       return await this.fetchJSON<ClusterRBACResource>(
-        `${this.baseURL}/clusterroles/${name}`
+        `${this.baseURL}/clusterroles/${name}`,
       );
     } catch (error) {
       if (isAPIError(error)) {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch cluster role',
-        0
+        error instanceof Error ? error.message : "Failed to fetch cluster role",
+        0,
       );
     }
   }
@@ -494,12 +526,12 @@ class APIClient implements IAPIClient {
   async getRelationships(
     kind: string,
     namespace: string,
-    name: string
+    name: string,
   ): Promise<RelationshipResponse> {
-    const url = namespace 
+    const url = namespace
       ? `${this.baseURL}/relationships/${kind}/${namespace}/${name}`
       : `${this.baseURL}/relationships/${kind}/${name}`;
-    
+
     try {
       return await this.fetchJSON<RelationshipResponse>(url);
     } catch (error) {
@@ -507,8 +539,10 @@ class APIClient implements IAPIClient {
         throw error;
       }
       throw new APIError(
-        error instanceof Error ? error.message : 'Failed to fetch relationships',
-        0
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch relationships",
+        0,
       );
     }
   }

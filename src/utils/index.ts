@@ -7,6 +7,6 @@ export * from "./featureFlags";
 export * from "./filenameUtils";
 export * from "./presetRoles";
 export * from "./resourceMetadata";
-export * from "./security"; 
+export * from "./security";
 export * from "./validation";
 export * from "./yamlGenerator";

@@ -62,11 +62,11 @@ export const YamlPreview: React.FC = () => {
     }
 
     const permissionsWithoutVerbs = manifest.role.permissions.filter(
-      (p) => p.verbs.length === 0
+      (p) => p.verbs.length === 0,
     );
     if (permissionsWithoutVerbs.length > 0) {
       issues.push(
-        `${permissionsWithoutVerbs.length} resource(s) have no verbs selected`
+        `${permissionsWithoutVerbs.length} resource(s) have no verbs selected`,
       );
     }
 
@@ -98,8 +98,8 @@ export const YamlPreview: React.FC = () => {
       viewMode === "combined"
         ? `${manifest.role.name}-rbac.yaml`
         : viewMode === "role"
-        ? `${manifest.role.name}-role.yaml`
-        : `${manifest.binding.name}-binding.yaml`;
+          ? `${manifest.role.name}-role.yaml`
+          : `${manifest.binding.name}-binding.yaml`;
 
     downloadYAML(yamlContent, filename);
     announceToScreenReader(`Downloaded ${filename}`);
@@ -112,9 +112,9 @@ export const YamlPreview: React.FC = () => {
         mode === "combined"
           ? "combined Role and Binding"
           : mode === "role"
-          ? "Role only"
-          : "Binding only"
-      }`
+            ? "Role only"
+            : "Binding only"
+      }`,
     );
   };
 
@@ -122,7 +122,7 @@ export const YamlPreview: React.FC = () => {
     const newState = !isCollapsed;
     setIsCollapsed(newState);
     announceToScreenReader(
-      `YAML preview ${newState ? "collapsed" : "expanded"}`
+      `YAML preview ${newState ? "collapsed" : "expanded"}`,
     );
   };
 
@@ -141,7 +141,7 @@ export const YamlPreview: React.FC = () => {
       className={combineClasses(
         "rounded-lg border overflow-hidden",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
       aria-labelledby="yaml-preview-heading"
     >
@@ -172,7 +172,7 @@ export const YamlPreview: React.FC = () => {
             onClick={handleToggleCollapse}
             className={combineClasses(
               "text-gray-300 dark:text-gray-400 hover:text-white transition-all p-2 rounded",
-              "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+              "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white",
             )}
             aria-label={
               isCollapsed ? "Expand YAML preview" : "Collapse YAML preview"
@@ -208,14 +208,14 @@ export const YamlPreview: React.FC = () => {
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white",
                   viewMode === mode
                     ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    : "bg-gray-600 dark:bg-gray-800 text-gray-200 dark:text-gray-300 hover:bg-gray-500 dark:hover:bg-gray-700"
+                    : "bg-gray-600 dark:bg-gray-800 text-gray-200 dark:text-gray-300 hover:bg-gray-500 dark:hover:bg-gray-700",
                 )}
               >
                 {mode === "combined"
                   ? "Combined"
                   : mode === "role"
-                  ? "Role Only"
-                  : "Binding Only"}
+                    ? "Role Only"
+                    : "Binding Only"}
               </button>
             ))}
           </div>
@@ -230,7 +230,7 @@ export const YamlPreview: React.FC = () => {
               className={combineClasses(
                 "border-b px-4 py-3",
                 warningColors.bg,
-                warningColors.border
+                warningColors.border,
               )}
               role="alert"
               aria-live="polite"
@@ -239,7 +239,7 @@ export const YamlPreview: React.FC = () => {
                 <AlertCircle
                   className={combineClasses(
                     "flex-shrink-0 mt-0.5",
-                    warningColors.icon
+                    warningColors.icon,
                   )}
                   size={18}
                   aria-hidden="true"
@@ -248,7 +248,7 @@ export const YamlPreview: React.FC = () => {
                   <p
                     className={combineClasses(
                       "text-sm font-medium mb-1",
-                      warningColors.text
+                      warningColors.text,
                     )}
                   >
                     Validation Warnings
@@ -256,7 +256,7 @@ export const YamlPreview: React.FC = () => {
                   <ul
                     className={combineClasses(
                       "text-sm space-y-1",
-                      warningColors.text
+                      warningColors.text,
                     )}
                     aria-label="Validation issues"
                   >
@@ -265,7 +265,7 @@ export const YamlPreview: React.FC = () => {
                         <span
                           className={combineClasses(
                             "w-1 h-1 rounded-full",
-                            "bg-yellow-600 dark:bg-yellow-400"
+                            "bg-yellow-600 dark:bg-yellow-400",
                           )}
                           aria-hidden="true"
                         ></span>
@@ -302,7 +302,7 @@ export const YamlPreview: React.FC = () => {
                   "flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium transition-all",
                   "focus:outline-none focus:ring-2 focus:ring-offset-1",
                   "bg-gray-700 dark:bg-gray-800 hover:bg-gray-600 dark:hover:bg-gray-700 text-white",
-                  "focus:ring-white"
+                  "focus:ring-white",
                 )}
                 aria-label={
                   copied ? "YAML copied to clipboard" : "Copy YAML to clipboard"
@@ -329,7 +329,7 @@ export const YamlPreview: React.FC = () => {
                   successColors.bg,
                   "text-white",
                   successColors.hover,
-                  "focus:ring-white"
+                  "focus:ring-white",
                 )}
                 aria-label="Download YAML file"
               >
@@ -344,13 +344,13 @@ export const YamlPreview: React.FC = () => {
             className={combineClasses(
               "border-t px-4 py-3",
               "bg-gray-50 dark:bg-gray-700/50",
-              neutralColors.border
+              neutralColors.border,
             )}
           >
             <dl
               className={combineClasses(
                 "flex items-center justify-between text-xs flex-wrap gap-2",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               <div className="flex items-center gap-4">
@@ -389,7 +389,7 @@ export const YamlPreview: React.FC = () => {
             className={combineClasses(
               "border-t px-4 py-3",
               infoColors.bg,
-              infoColors.border
+              infoColors.border,
             )}
           >
             <details
@@ -404,7 +404,7 @@ export const YamlPreview: React.FC = () => {
                   "cursor-pointer text-sm font-medium flex items-center gap-2 list-none",
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded",
                   infoColors.text,
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 tabIndex={0}
                 role="button"
@@ -420,7 +420,7 @@ export const YamlPreview: React.FC = () => {
               <div
                 className={combineClasses(
                   "mt-3 space-y-2 text-sm",
-                  infoColors.text
+                  infoColors.text,
                 )}
                 role="region"
                 aria-label="YAML application instructions"
@@ -430,7 +430,7 @@ export const YamlPreview: React.FC = () => {
                   <pre
                     className={combineClasses(
                       "p-2 rounded text-xs overflow-x-auto mt-1",
-                      "bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100"
+                      "bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100",
                     )}
                     tabIndex={0}
                     role="code"
@@ -444,7 +444,7 @@ export const YamlPreview: React.FC = () => {
                   <pre
                     className={combineClasses(
                       "p-2 rounded text-xs overflow-x-auto mt-1",
-                      "bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100"
+                      "bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100",
                     )}
                     tabIndex={0}
                     role="code"
@@ -462,7 +462,7 @@ export const YamlPreview: React.FC = () => {
                   <pre
                     className={combineClasses(
                       "p-2 rounded text-xs overflow-x-auto mt-1",
-                      "bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100"
+                      "bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100",
                     )}
                     tabIndex={0}
                     role="code"

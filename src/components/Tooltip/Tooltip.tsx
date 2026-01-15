@@ -114,7 +114,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           "transition-colors",
           neutralColors.icon,
           "hover:text-blue-600 dark:hover:text-blue-400",
-          "focus:ring-blue-500"
+          "focus:ring-blue-500",
         )}
         aria-label="More information"
         aria-describedby={isVisible ? "tooltip-content" : undefined}
@@ -139,7 +139,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             "animate-in fade-in zoom-in-95 duration-200",
             "bg-gray-900 dark:bg-gray-100",
             "text-white dark:text-gray-900",
-            "border-gray-700 dark:border-gray-300"
+            "border-gray-700 dark:border-gray-300",
           )}
           style={{
             top: `${position.top}px`,
@@ -160,7 +160,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
               side === "left" &&
                 "right-[-5px] top-1/2 -translate-y-1/2 border-t border-r",
               side === "right" &&
-                "left-[-5px] top-1/2 -translate-y-1/2 border-b border-l"
+                "left-[-5px] top-1/2 -translate-y-1/2 border-b border-l",
             )}
             aria-hidden="true"
           />

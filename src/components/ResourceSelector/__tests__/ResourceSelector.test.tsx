@@ -15,7 +15,7 @@ describe("ResourceSelector", () => {
     return render(
       <RBACProvider>
         <ResourceSelector />
-      </RBACProvider>
+      </RBACProvider>,
     );
   };
 

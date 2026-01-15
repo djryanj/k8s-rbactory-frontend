@@ -80,30 +80,30 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
               "ring-2",
               infoColors.ring,
               "shadow-md",
-              "hover:shadow-xl"
+              "hover:shadow-xl",
             )
           : isSelected
-          ? combineClasses(
-              successColors.bg,
-              successColors.border,
-              "shadow-sm",
-              "hover:shadow-lg"
-            )
-          : hasNoVerbs && isCustom
-          ? combineClasses(
-              "border-dashed",
-              neutralColors.bg,
-              neutralColors.border,
-              "opacity-60",
-              "hover:opacity-90",
-              "hover:border-solid"
-            )
-          : combineClasses(
-              neutralColors.bg,
-              neutralColors.border,
-              neutralColors.hover,
-              "hover:border-gray-400 dark:hover:border-gray-500"
-            )
+            ? combineClasses(
+                successColors.bg,
+                successColors.border,
+                "shadow-sm",
+                "hover:shadow-lg",
+              )
+            : hasNoVerbs && isCustom
+              ? combineClasses(
+                  "border-dashed",
+                  neutralColors.bg,
+                  neutralColors.border,
+                  "opacity-60",
+                  "hover:opacity-90",
+                  "hover:border-solid",
+                )
+              : combineClasses(
+                  neutralColors.bg,
+                  neutralColors.border,
+                  neutralColors.hover,
+                  "hover:border-gray-400 dark:hover:border-gray-500",
+                ),
       )}
       role="button"
       tabIndex={0}
@@ -126,7 +126,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
           "absolute top-2 left-2 w-6 h-6 rounded-full flex items-center justify-center transition-all",
           isSelected
             ? "bg-green-600 shadow-sm scale-100 opacity-100"
-            : "bg-gray-200 dark:bg-gray-700 scale-90 opacity-50 group-hover:scale-100 group-hover:opacity-70"
+            : "bg-gray-200 dark:bg-gray-700 scale-90 opacity-50 group-hover:scale-100 group-hover:opacity-70",
         )}
         aria-hidden="true"
       >
@@ -152,7 +152,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
             "text-gray-600 dark:text-gray-400",
             "hover:text-red-600 dark:hover:text-red-400",
             "hover:bg-red-50 dark:hover:bg-red-900/20",
-            criticalColors.ring
+            criticalColors.ring,
           )}
           aria-label={`Deselect ${displayName}`}
           title="Deselect this resource"
@@ -178,7 +178,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
             criticalColors.text,
             criticalColors.hover,
             "hover:border-red-300 dark:hover:border-red-700",
-            criticalColors.ring
+            criticalColors.ring,
           )}
           aria-label={`Permanently remove ${displayName}`}
           title="Permanently remove this custom resource"
@@ -197,8 +197,8 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
             isActive
               ? combineClasses(infoColors.icon, "scale-110")
               : isSelected
-              ? combineClasses(successColors.icon, "scale-105")
-              : neutralColors.icon
+                ? combineClasses(successColors.icon, "scale-105")
+                : neutralColors.icon,
           )}
         />
 
@@ -210,8 +210,8 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
                 isActive
                   ? infoColors.text
                   : isSelected
-                  ? successColors.text
-                  : neutralColors.text
+                    ? successColors.text
+                    : neutralColors.text,
               )}
             >
               {displayName}
@@ -222,7 +222,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
                   "text-xs px-2 py-0.5 rounded-full border transition-all",
                   "bg-gray-100 dark:bg-gray-700",
                   "text-gray-700 dark:text-gray-300",
-                  "border-gray-300 dark:border-gray-600"
+                  "border-gray-300 dark:border-gray-600",
                 )}
                 aria-label="Custom resource"
               >
@@ -234,7 +234,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
                 className={combineClasses(
                   "text-xs px-2 py-0.5 rounded-full animate-pulse",
                   infoColors.bg,
-                  infoColors.text
+                  infoColors.text,
                 )}
               >
                 Configuring
@@ -253,7 +253,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
             <div
               className={combineClasses(
                 "text-xs italic mt-1",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               No permissions configured

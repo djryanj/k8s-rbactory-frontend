@@ -22,8 +22,8 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   const kindBadgeColors = isRole
     ? successColors
     : isBinding
-    ? ACCESSIBLE_COLORS.purple
-    : neutralColors;
+      ? ACCESSIBLE_COLORS.purple
+      : neutralColors;
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't trigger if clicking on import button
@@ -45,13 +45,13 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
           ? combineClasses(
               neutralColors.border,
               "bg-gray-100 dark:bg-gray-700",
-              "shadow-sm"
+              "shadow-sm",
             )
           : combineClasses(
               neutralColors.bg,
               neutralColors.border,
-              "hover:border-gray-400 dark:hover:border-gray-500"
-            )
+              "hover:border-gray-400 dark:hover:border-gray-500",
+            ),
       )}
       role="button"
       tabIndex={0}
@@ -86,7 +86,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
           "absolute top-2 left-2 w-6 h-6 rounded-full flex items-center justify-center transition-all",
           isSelected
             ? "bg-green-600 dark:bg-green-500 shadow-sm scale-100 opacity-100"
-            : "bg-gray-200 dark:bg-gray-700 scale-90 opacity-50 group-hover:scale-100 group-hover:opacity-70"
+            : "bg-gray-200 dark:bg-gray-700 scale-90 opacity-50 group-hover:scale-100 group-hover:opacity-70",
         )}
         aria-hidden="true"
       >
@@ -104,7 +104,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
           size={40}
           className={combineClasses(
             "transition-all flex-shrink-0 mt-1",
-            neutralColors.icon
+            neutralColors.icon,
           )}
         />
 
@@ -113,7 +113,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
             <div
               className={combineClasses(
                 "font-semibold text-base transition-colors",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               {resource.name}
@@ -125,7 +125,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
                 "inline-flex items-center px-2 py-0.5 text-xs rounded font-medium border flex-shrink-0",
                 kindBadgeColors.bg,
                 kindBadgeColors.text,
-                kindBadgeColors.border
+                kindBadgeColors.border,
               )}
               aria-label={`Type: ${resource.kind}`}
             >
@@ -139,7 +139,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
                   "inline-flex items-center px-2 py-0.5 text-xs rounded font-medium border flex-shrink-0",
                   "bg-gray-100 dark:bg-gray-700",
                   "text-gray-700 dark:text-gray-300",
-                  "border-gray-300 dark:border-gray-600"
+                  "border-gray-300 dark:border-gray-600",
                 )}
                 aria-label={`Namespace: ${resource.namespace}`}
               >

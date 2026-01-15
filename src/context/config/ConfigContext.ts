@@ -1,5 +1,5 @@
 // src/context/config/ConfigContext.ts
-import { createContext } from 'react';
+import { createContext } from "react";
 
 /**
  * Retry configuration for connection attempts
@@ -31,4 +31,6 @@ export interface ConfigContextType {
   resetConfig: () => void;
 }
 
-export const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
+export const ConfigContext = createContext<ConfigContextType | undefined>(
+  undefined,
+);

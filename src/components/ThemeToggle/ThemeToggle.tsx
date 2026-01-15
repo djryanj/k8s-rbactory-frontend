@@ -61,7 +61,7 @@ export const ThemeToggle: React.FC = () => {
           "focus:outline-none focus:ring-2 focus:ring-offset-1",
           neutralColors.bg,
           neutralColors.hover,
-          infoColors.ring
+          infoColors.ring,
         )}
         aria-label={`Current theme: ${currentTheme?.label}. Click to change theme.`}
         aria-expanded={showMenu}
@@ -76,7 +76,7 @@ export const ThemeToggle: React.FC = () => {
         <span
           className={combineClasses(
             "text-sm font-medium hidden sm:inline",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           Theme
@@ -98,7 +98,7 @@ export const ThemeToggle: React.FC = () => {
             className={combineClasses(
               "absolute right-0 mt-2 w-48 rounded-lg shadow-lg border z-20 overflow-hidden",
               neutralColors.bg,
-              neutralColors.border
+              neutralColors.border,
             )}
           >
             {themes.map(({ value, label, icon: Icon }) => {
@@ -117,13 +117,13 @@ export const ThemeToggle: React.FC = () => {
                     isSelected
                       ? combineClasses(
                           "bg-k8s-blue text-white",
-                          infoColors.ring
+                          infoColors.ring,
                         )
                       : combineClasses(
                           neutralColors.text,
                           neutralColors.hover,
-                          infoColors.ring
-                        )
+                          infoColors.ring,
+                        ),
                   )}
                   aria-label={`${label} theme${
                     isSelected ? " (selected)" : ""

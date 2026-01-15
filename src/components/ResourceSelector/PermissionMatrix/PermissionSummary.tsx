@@ -47,7 +47,7 @@ export const PermissionSummary: React.FC<PermissionSummaryProps> = ({
                   "inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium border",
                   neutralColors.bg,
                   neutralColors.text,
-                  neutralColors.border
+                  neutralColors.border,
                 )}
                 role="listitem"
               >
@@ -60,7 +60,7 @@ export const PermissionSummary: React.FC<PermissionSummaryProps> = ({
                   className={combineClasses(
                     "hover:text-red-600 dark:hover:text-red-400 transition-colors",
                     "focus:outline-none focus:ring-1 focus:ring-red-500 rounded",
-                    "p-0.5"
+                    "p-0.5",
                   )}
                   aria-label={`Remove ${verb} permission`}
                   title={`Remove ${verb}`}

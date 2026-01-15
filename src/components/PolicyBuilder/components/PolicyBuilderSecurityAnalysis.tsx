@@ -55,7 +55,7 @@ export const PolicyBuilderSecurityAnalysis: React.FC = () => {
 
   // Don't show if no permissions have verbs selected
   const hasActivePermissions = manifest.role.permissions.some(
-    (p) => p.verbs.length > 0
+    (p) => p.verbs.length > 0,
   );
   if (!hasActivePermissions) {
     return null;

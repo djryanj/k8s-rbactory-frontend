@@ -53,7 +53,7 @@ export const BasicInformation: React.FC = () => {
     setTouchedFields((prev) => ({ ...prev, bindingName: true }));
     if (validationErrors.bindingName) {
       announceToScreenReader(
-        `Binding name error: ${validationErrors.bindingName}`
+        `Binding name error: ${validationErrors.bindingName}`,
       );
     }
   };
@@ -63,7 +63,7 @@ export const BasicInformation: React.FC = () => {
       <h4
         className={combineClasses(
           "text-base font-semibold",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         Basic Information
@@ -75,7 +75,7 @@ export const BasicInformation: React.FC = () => {
             htmlFor="role-name"
             className={combineClasses(
               "block text-sm font-medium mb-1",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             Role Name
@@ -98,7 +98,7 @@ export const BasicInformation: React.FC = () => {
               neutralColors.text,
               showRoleNameError
                 ? combineClasses(criticalColors.border, criticalColors.ring)
-                : combineClasses(neutralColors.border, infoColors.ring)
+                : combineClasses(neutralColors.border, infoColors.ring),
             )}
             aria-describedby={
               showRoleNameError ? "role-name-error" : "role-name-hint"
@@ -120,7 +120,7 @@ export const BasicInformation: React.FC = () => {
               id="role-name-hint"
               className={combineClasses(
                 "mt-1 text-xs block",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               Lowercase alphanumeric characters or hyphens
@@ -133,7 +133,7 @@ export const BasicInformation: React.FC = () => {
             htmlFor="binding-name"
             className={combineClasses(
               "block text-sm font-medium mb-1",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             Binding Name
@@ -156,7 +156,7 @@ export const BasicInformation: React.FC = () => {
               neutralColors.text,
               showBindingNameError
                 ? combineClasses(criticalColors.border, criticalColors.ring)
-                : combineClasses(neutralColors.border, infoColors.ring)
+                : combineClasses(neutralColors.border, infoColors.ring),
             )}
             aria-describedby={
               showBindingNameError ? "binding-name-error" : "binding-name-hint"
@@ -178,7 +178,7 @@ export const BasicInformation: React.FC = () => {
               id="binding-name-hint"
               className={combineClasses(
                 "mt-1 text-xs block",
-                neutralColors.icon
+                neutralColors.icon,
               )}
             >
               Lowercase alphanumeric characters or hyphens

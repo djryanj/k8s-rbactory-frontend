@@ -5,41 +5,41 @@
  * These types ensure type safety throughout the application
  */
 
-export type ResourceType = 
-  | 'pods'
-  | 'services'
-  | 'deployments'
-  | 'configmaps'
-  | 'secrets'
-  | 'namespaces'
-  | 'nodes'
-  | 'persistentvolumes'
-  | 'persistentvolumeclaims'
-  | 'serviceaccounts'
-  | 'roles'
-  | 'rolebindings'
-  | 'replicasets'
-  | 'statefulsets'
-  | 'daemonsets'
-  | 'jobs'
-  | 'cronjobs'
-  | 'ingresses'
-  | 'networkpolicies'
-  | 'events'
-  | 'clusterroles'
-  | 'clusterrolebindings';
+export type ResourceType =
+  | "pods"
+  | "services"
+  | "deployments"
+  | "configmaps"
+  | "secrets"
+  | "namespaces"
+  | "nodes"
+  | "persistentvolumes"
+  | "persistentvolumeclaims"
+  | "serviceaccounts"
+  | "roles"
+  | "rolebindings"
+  | "replicasets"
+  | "statefulsets"
+  | "daemonsets"
+  | "jobs"
+  | "cronjobs"
+  | "ingresses"
+  | "networkpolicies"
+  | "events"
+  | "clusterroles"
+  | "clusterrolebindings";
 
-export type VerbType = 
-  | 'get'
-  | 'list'
-  | 'watch'
-  | 'create'
-  | 'update'
-  | 'patch'
-  | 'delete'
-  | 'deletecollection';
+export type VerbType =
+  | "get"
+  | "list"
+  | "watch"
+  | "create"
+  | "update"
+  | "patch"
+  | "delete"
+  | "deletecollection";
 
-export type SubjectType = 'User' | 'Group' | 'ServiceAccount';
+export type SubjectType = "User" | "Group" | "ServiceAccount";
 
 export interface Subject {
   kind: SubjectType;
@@ -56,7 +56,7 @@ export interface ResourcePermission {
 
 export interface RBACRole {
   name: string;
-  isClusterRole: boolean; 
+  isClusterRole: boolean;
   namespace: string; // Namespace for Role (ignored if isClusterRole is true)
   permissions: ResourcePermission[];
 }
@@ -65,7 +65,7 @@ export interface RBACBinding {
   name: string;
   namespace?: string; // undefined means ClusterRoleBinding
   roleRef: {
-    kind: 'Role' | 'ClusterRole';
+    kind: "Role" | "ClusterRole";
     name: string;
   };
   subjects: Subject[];
@@ -83,7 +83,13 @@ export interface CategoryInfo {
   color: string;
 }
 
-export type CategoryKey = 'workload' | 'config' | 'network' | 'storage' | 'rbac' | 'cluster';
+export type CategoryKey =
+  | "workload"
+  | "config"
+  | "network"
+  | "storage"
+  | "rbac"
+  | "cluster";
 
 // Resource metadata for UI display
 export interface ResourceMetadata {

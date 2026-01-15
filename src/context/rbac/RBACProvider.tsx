@@ -31,7 +31,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [manifest, setManifest] = useState<RBACManifest>(initialManifest);
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
-    {}
+    {},
   );
 
   // Add reset counter to track when reset happens
@@ -49,7 +49,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
         return newErrors;
       });
     },
-    []
+    [],
   );
 
   const validateRoleName = useCallback((name: string): string | undefined => {
@@ -68,7 +68,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       return undefined;
     },
-    []
+    [],
   );
 
   const validateNamespace = useCallback(
@@ -79,7 +79,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       return undefined;
     },
-    []
+    [],
   );
 
   const updateRoleName = useCallback(
@@ -97,7 +97,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
       }));
       updateValidationError("roleName", validateRoleName(name));
     },
-    [validateRoleName, updateValidationError]
+    [validateRoleName, updateValidationError],
   );
 
   const updateBindingName = useCallback(
@@ -108,7 +108,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
       }));
       updateValidationError("bindingName", validateBindingName(name));
     },
-    [validateBindingName, updateValidationError]
+    [validateBindingName, updateValidationError],
   );
 
   const toggleClusterRole = useCallback(() => {
@@ -142,20 +142,20 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
         updateValidationError("namespace", validateNamespace(namespace));
       }
     },
-    [manifest.role.isClusterRole, validateNamespace, updateValidationError]
+    [manifest.role.isClusterRole, validateNamespace, updateValidationError],
   );
 
   const addPermission = useCallback((permission: ResourcePermission) => {
     setManifest((prev) => {
       // Check if resource already exists - DUPLICATE PREVENTION
       const exists = prev.role.permissions.some(
-        (p) => p.resource === permission.resource
+        (p) => p.resource === permission.resource,
       );
 
       if (exists) {
         // Resource already exists - don't add duplicate
         console.warn(
-          `Resource ${permission.resource} already exists in permissions`
+          `Resource ${permission.resource} already exists in permissions`,
         );
         return prev; // Return unchanged state
       }
@@ -177,7 +177,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
       role: {
         ...prev.role,
         permissions: prev.role.permissions.filter(
-          (p) => p.resource !== resource
+          (p) => p.resource !== resource,
         ),
       },
     }));
@@ -190,12 +190,12 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
         role: {
           ...prev.role,
           permissions: prev.role.permissions.map((p) =>
-            p.resource === resource ? { ...p, verbs } : p
+            p.resource === resource ? { ...p, verbs } : p,
           ),
         },
       }));
     },
-    []
+    [],
   );
 
   const clearPermissionVerbs = (resource: string) => {
@@ -204,7 +204,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
       role: {
         ...prev.role,
         permissions: prev.role.permissions.map((p) =>
-          p.resource === resource ? { ...p, verbs: [] } : p
+          p.resource === resource ? { ...p, verbs: [] } : p,
         ),
       },
     }));
@@ -248,7 +248,7 @@ export const RBACProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       }));
     },
-    []
+    [],
   );
 
   const resetManifest = useCallback(() => {

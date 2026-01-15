@@ -67,10 +67,10 @@ describe("PermissionConfigPanel", () => {
 
       // Should not have a "Remove from Role" button
       expect(
-        screen.queryByRole("button", { name: /remove from role/i })
+        screen.queryByRole("button", { name: /remove from role/i }),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByRole("button", { name: /deselect resource/i })
+        screen.queryByRole("button", { name: /deselect resource/i }),
       ).not.toBeInTheDocument();
     });
   });
@@ -80,10 +80,10 @@ describe("PermissionConfigPanel", () => {
       render(<PermissionConfigPanel {...defaultProps} />);
 
       expect(
-        screen.getByRole("button", { name: /previous resource/i })
+        screen.getByRole("button", { name: /previous resource/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /next resource/i })
+        screen.getByRole("button", { name: /next resource/i }),
       ).toBeInTheDocument();
     });
 
@@ -124,11 +124,11 @@ describe("PermissionConfigPanel", () => {
         <PermissionConfigPanel
           {...defaultProps}
           activeResource={"services" as ResourceType}
-        />
+        />,
       );
 
       await user.click(
-        screen.getByRole("button", { name: /previous resource/i })
+        screen.getByRole("button", { name: /previous resource/i }),
       );
 
       expect(mockOnResourceChange).toHaveBeenCalledWith("pods");
@@ -139,14 +139,14 @@ describe("PermissionConfigPanel", () => {
         <PermissionConfigPanel
           {...defaultProps}
           permissions={[defaultProps.permissions[0]]}
-        />
+        />,
       );
 
       expect(
-        screen.queryByRole("button", { name: /previous resource/i })
+        screen.queryByRole("button", { name: /previous resource/i }),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByRole("button", { name: /next resource/i })
+        screen.queryByRole("button", { name: /next resource/i }),
       ).not.toBeInTheDocument();
     });
   });
@@ -164,7 +164,7 @@ describe("PermissionConfigPanel", () => {
         <PermissionConfigPanel
           {...defaultProps}
           permissions={manyPermissions}
-        />
+        />,
       );
 
       expect(screen.getByLabelText(/jump to resource/i)).toBeInTheDocument();
@@ -174,7 +174,7 @@ describe("PermissionConfigPanel", () => {
       render(<PermissionConfigPanel {...defaultProps} />);
 
       expect(
-        screen.queryByLabelText(/jump to resource/i)
+        screen.queryByLabelText(/jump to resource/i),
       ).not.toBeInTheDocument();
     });
 
@@ -191,7 +191,7 @@ describe("PermissionConfigPanel", () => {
         <PermissionConfigPanel
           {...defaultProps}
           permissions={manyPermissions}
-        />
+        />,
       );
 
       const dropdown = screen.getByLabelText(/jump to resource/i);
@@ -215,7 +215,7 @@ describe("PermissionConfigPanel", () => {
           permissions={[
             { resource: "pods" as ResourceType, apiGroup: "", verbs: ["get"] },
           ]}
-        />
+        />,
       );
 
       expect(screen.getByText(/1 permission configured/i)).toBeInTheDocument();
@@ -228,14 +228,14 @@ describe("PermissionConfigPanel", () => {
           permissions={[
             { resource: "pods" as ResourceType, apiGroup: "", verbs: [] },
           ]}
-        />
+        />,
       );
 
       expect(
-        screen.getByText(/no permissions configured/i)
+        screen.getByText(/no permissions configured/i),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/will not be included in the yaml/i)
+        screen.getByText(/will not be included in the yaml/i),
       ).toBeInTheDocument();
     });
   });
@@ -253,7 +253,7 @@ describe("PermissionConfigPanel", () => {
             },
           ]}
           activeResource={"mycrd" as ResourceType}
-        />
+        />,
       );
 
       expect(screen.getByText("mycrd")).toBeInTheDocument();
@@ -267,10 +267,10 @@ describe("PermissionConfigPanel", () => {
       render(<PermissionConfigPanel {...defaultProps} />);
 
       expect(
-        screen.getByRole("button", { name: /previous resource/i })
+        screen.getByRole("button", { name: /previous resource/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /next resource/i })
+        screen.getByRole("button", { name: /next resource/i }),
       ).toBeInTheDocument();
     });
 
@@ -290,7 +290,7 @@ describe("PermissionConfigPanel", () => {
 
       // Should render nothing
       expect(
-        screen.queryByText("Configure Permissions")
+        screen.queryByText("Configure Permissions"),
       ).not.toBeInTheDocument();
     });
 
@@ -312,12 +312,12 @@ describe("PermissionConfigPanel", () => {
             },
           ]}
           activeResource={"unknownresource" as ResourceType}
-        />
+        />,
       );
 
       expect(screen.getByText("unknownresource")).toBeInTheDocument();
       expect(
-        screen.getByText("Custom resource definition")
+        screen.getByText("Custom resource definition"),
       ).toBeInTheDocument();
     });
   });

@@ -23,7 +23,7 @@ import type {
  */
 const createResourceVerbMap = (
   resources: readonly string[],
-  verbs: readonly string[]
+  verbs: readonly string[],
 ): Record<string, string[]> => {
   const map: Record<string, string[]> = {};
   resources.forEach((resource) => {
@@ -49,7 +49,7 @@ const safeArray = <T>(arr: T[] | undefined): T[] => {
 };
 
 export const analyzeRoleSecurity = (
-  role: ClusterRBACResource
+  role: ClusterRBACResource,
 ): SecurityIssue[] => {
   const issues: SecurityIssue[] = [];
 
@@ -60,12 +60,14 @@ export const analyzeRoleSecurity = (
     (rule) =>
       rule.resources?.includes("*") &&
       rule.verbs?.includes("*") &&
-      (rule.apiGroups?.includes("*") || rule.apiGroups?.includes(""))
+      (rule.apiGroups?.includes("*") || rule.apiGroups?.includes("")),
   );
 
   if (wildcardRules.length > 0) {
-    const allApiGroups = wildcardRules.flatMap((r) => safeArray(r.apiGroups).length > 0 ? r.apiGroups! : ["*"]);
-    
+    const allApiGroups = wildcardRules.flatMap((r) =>
+      safeArray(r.apiGroups).length > 0 ? r.apiGroups! : ["*"],
+    );
+
     const issue: WildcardAllIssue = {
       severity: "critical-destructive",
       title: "Cluster Admin Equivalent",
@@ -107,7 +109,7 @@ export const analyzeRoleSecurity = (
 
   // Check for wildcard resources - HIGH
   const resourceRules = role.rules.filter((rule) =>
-    rule.resources?.includes("*")
+    rule.resources?.includes("*"),
   );
   if (resourceRules.length > 0 && !hasWildcardAll) {
     const allVerbs = resourceRules.flatMap((r) => safeArray(r.verbs));
@@ -132,7 +134,7 @@ export const analyzeRoleSecurity = (
   // Check for sensitive resource access - CRITICAL
   const sensitiveResources = ["secrets", "configmaps", "serviceaccounts"];
   const sensitiveRules = role.rules.filter((rule) =>
-    rule.resources?.some((r) => sensitiveResources.includes(r))
+    rule.resources?.some((r) => sensitiveResources.includes(r)),
   );
 
   if (sensitiveRules.length > 0) {
@@ -146,7 +148,7 @@ export const analyzeRoleSecurity = (
       "delete",
     ];
     const hasDangerousAccess = sensitiveRules.some((rule) =>
-      rule.verbs?.some((v) => dangerousVerbs.includes(v))
+      rule.verbs?.some((v) => dangerousVerbs.includes(v)),
     );
 
     if (hasDangerousAccess) {
@@ -154,7 +156,7 @@ export const analyzeRoleSecurity = (
       sensitiveRules.forEach((rule) => {
         const resources = safeArray(rule.resources);
         const verbs = safeArray(rule.verbs);
-        
+
         resources.forEach((resource) => {
           if (sensitiveResources.includes(resource)) {
             if (!resourceVerbMap[resource]) {
@@ -189,7 +191,7 @@ export const analyzeRoleSecurity = (
   // Check for destructive permissions - CRITICAL
   const dangerousVerbs = ["delete", "deletecollection"];
   const destructiveRules = role.rules.filter((rule) =>
-    rule.verbs?.some((v) => dangerousVerbs.includes(v))
+    rule.verbs?.some((v) => dangerousVerbs.includes(v)),
   );
 
   if (destructiveRules.length > 0) {
@@ -198,7 +200,9 @@ export const analyzeRoleSecurity = (
     destructiveRules.forEach((rule) => {
       const verbs = safeArray(rule.verbs);
       const resources = safeArray(rule.resources);
-      const destructiveVerbsInRule = verbs.filter((v) => dangerousVerbs.includes(v));
+      const destructiveVerbsInRule = verbs.filter((v) =>
+        dangerousVerbs.includes(v),
+      );
 
       resources.forEach((resource) => {
         if (!resourceVerbMap[resource]) {
@@ -236,14 +240,14 @@ export const analyzeRoleSecurity = (
     "clusterrolebindings",
   ];
   const escalationRules = role.rules.filter((rule) =>
-    rule.resources?.some((r) => rbacResources.includes(r))
+    rule.resources?.some((r) => rbacResources.includes(r)),
   );
 
   if (escalationRules.length > 0) {
     const canModify = escalationRules.some((rule) =>
       rule.verbs?.some((v) =>
-        ["create", "update", "patch", "delete", "bind", "escalate"].includes(v)
-      )
+        ["create", "update", "patch", "delete", "bind", "escalate"].includes(v),
+      ),
     );
 
     if (canModify) {
@@ -251,7 +255,7 @@ export const analyzeRoleSecurity = (
       escalationRules.forEach((rule) => {
         const resources = safeArray(rule.resources);
         const verbs = safeArray(rule.verbs);
-        
+
         resources.forEach((resource) => {
           if (rbacResources.includes(resource)) {
             if (!resourceVerbMap[resource]) {
@@ -288,7 +292,7 @@ export const analyzeRoleSecurity = (
     const nonRbacRules = role.rules.filter(
       (rule) =>
         !rule.resources?.every((r) => rbacResources.includes(r)) &&
-        rule.resources?.length
+        rule.resources?.length,
     );
 
     if (nonRbacRules.length > 0) {
@@ -312,7 +316,7 @@ export const analyzeRoleSecurity = (
 
 export const analyzeBindingSecurity = (
   binding: ClusterRBACResource,
-  role?: ClusterRBACResource
+  role?: ClusterRBACResource,
 ): SecurityIssue[] => {
   const issues: SecurityIssue[] = [];
 
@@ -354,7 +358,7 @@ export const analyzeBindingSecurity = (
 
   // Check for wildcard subjects - CRITICAL
   const wildcardSubjects = safeArray(binding.subjects).filter(
-    (s) => s.name === "*" || s.name.includes("*")
+    (s) => s.name === "*" || s.name.includes("*"),
   );
 
   if (wildcardSubjects.length > 0) {
@@ -374,7 +378,7 @@ export const analyzeBindingSecurity = (
 
   // Check for system:authenticated group - CRITICAL
   const hasAuthenticatedGroup = safeArray(binding.subjects).some(
-    (s) => s.kind === "Group" && s.name === "system:authenticated"
+    (s) => s.kind === "Group" && s.name === "system:authenticated",
   );
 
   if (hasAuthenticatedGroup) {
@@ -395,7 +399,7 @@ export const analyzeBindingSecurity = (
 
   // Check for system:unauthenticated group - CRITICAL
   const hasUnauthenticatedGroup = safeArray(binding.subjects).some(
-    (s) => s.kind === "Group" && s.name === "system:unauthenticated"
+    (s) => s.kind === "Group" && s.name === "system:unauthenticated",
   );
 
   if (hasUnauthenticatedGroup) {
@@ -425,7 +429,7 @@ export const analyzeBindingSecurity = (
 
 export const analyzePrincipalSecurity = (
   principal: ClusterRBACResource,
-  roles: readonly ClusterRBACResource[]
+  roles: readonly ClusterRBACResource[],
 ): SecurityIssue[] => {
   const issues: SecurityIssue[] = [];
 
@@ -437,10 +441,8 @@ export const analyzePrincipalSecurity = (
     (issue, index, self) =>
       index ===
       self.findIndex(
-        (i) =>
-          i.title === issue.title &&
-          i.details.type === issue.details.type
-      )
+        (i) => i.title === issue.title && i.details.type === issue.details.type,
+      ),
   );
 
   // Add context that these are inherited from roles

@@ -30,7 +30,7 @@ export const analyzeRule = (rule: {
   // Check for sensitive resources - CRITICAL
   const sensitiveResources = ["secrets", "configmaps", "serviceaccounts"];
   const hasSensitiveResources = rule.resources?.some((r) =>
-    sensitiveResources.includes(r)
+    sensitiveResources.includes(r),
   );
 
   if (hasSensitiveResources) {
@@ -44,7 +44,7 @@ export const analyzeRule = (rule: {
       "delete",
     ];
     const hasDangerousAccess = rule.verbs?.some((v) =>
-      dangerousVerbs.includes(v)
+      dangerousVerbs.includes(v),
     );
 
     if (hasDangerousAccess) {
@@ -59,7 +59,7 @@ export const analyzeRule = (rule: {
   // Check for destructive permissions - CRITICAL
   const dangerousVerbs = ["delete", "deletecollection"];
   const hasDestructiveVerbs = rule.verbs?.some((v) =>
-    dangerousVerbs.includes(v)
+    dangerousVerbs.includes(v),
   );
 
   if (hasDestructiveVerbs) {
@@ -78,12 +78,12 @@ export const analyzeRule = (rule: {
     "clusterrolebindings",
   ];
   const hasRbacResources = rule.resources?.some((r) =>
-    rbacResources.includes(r)
+    rbacResources.includes(r),
   );
 
   if (hasRbacResources) {
     const canModify = rule.verbs?.some((v) =>
-      ["create", "update", "patch", "delete", "bind", "escalate"].includes(v)
+      ["create", "update", "patch", "delete", "bind", "escalate"].includes(v),
     );
 
     if (canModify) {

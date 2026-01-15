@@ -79,14 +79,14 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
     const classification = classifyVerb(verb);
     const action = selectedVerbs.includes(verb) ? "removed" : "added";
     announceToScreenReader(
-      `${verb} permission ${action} for ${resource}. Risk level: ${classification.risk}`
+      `${verb} permission ${action} for ${resource}. Risk level: ${classification.risk}`,
     );
   };
 
   const handleSelectAll = () => {
     updatePermissionVerbs(resource, availableVerbs);
     announceToScreenReader(
-      `All ${availableVerbs.length} permissions selected for ${resource}`
+      `All ${availableVerbs.length} permissions selected for ${resource}`,
     );
   };
 
@@ -110,7 +110,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
           id={`permission-matrix-${resource}`}
           className={combineClasses(
             "text-sm font-semibold mb-1 flex items-center gap-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           <ShieldCheck size={16} aria-hidden="true" />
@@ -127,7 +127,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
           className={combineClasses(
             "mb-3 p-2 rounded-lg border flex items-start gap-2",
             "bg-red-50 dark:bg-red-900/20",
-            "border-red-300 dark:border-red-700"
+            "border-red-300 dark:border-red-700",
           )}
           role="alert"
         >
@@ -160,15 +160,15 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                   successColors.bg,
                   successColors.text,
                   successColors.border,
-                  "shadow-sm"
+                  "shadow-sm",
                 )
               : combineClasses(
                   neutralColors.bg,
                   neutralColors.text,
                   neutralColors.border,
-                  neutralColors.hover
+                  neutralColors.hover,
                 ),
-            successColors.ring
+            successColors.ring,
           )}
           aria-label={`Select all ${availableVerbs.length} permissions for ${resource}`}
           aria-pressed={allSelected}
@@ -189,15 +189,15 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
               ? combineClasses(
                   neutralColors.bg,
                   neutralColors.text,
-                  neutralColors.border
+                  neutralColors.border,
                 )
               : combineClasses(
                   "bg-red-50 dark:bg-red-900/20",
                   "text-red-700 dark:text-red-300",
                   "border-red-300 dark:border-red-700",
-                  "hover:bg-red-100 dark:hover:bg-red-900/30"
+                  "hover:bg-red-100 dark:hover:bg-red-900/30",
                 ),
-            "focus:ring-red-500"
+            "focus:ring-red-500",
           )}
           aria-label={`Clear all permissions for ${resource}`}
           aria-pressed={noneSelected}
@@ -213,7 +213,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
           <legend
             className={combineClasses(
               "text-xs font-semibold mb-2 uppercase tracking-wide flex items-center gap-1.5",
-              "text-red-700 dark:text-red-300"
+              "text-red-700 dark:text-red-300",
             )}
           >
             <XOctagon size={14} aria-hidden="true" />
@@ -248,7 +248,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
           <legend
             className={combineClasses(
               "text-xs font-semibold mb-2 uppercase tracking-wide flex items-center gap-1.5",
-              "text-orange-700 dark:text-orange-300"
+              "text-orange-700 dark:text-orange-300",
             )}
           >
             <ShieldAlert size={14} aria-hidden="true" />
@@ -283,7 +283,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
           <legend
             className={combineClasses(
               "text-xs font-semibold mb-2 uppercase tracking-wide flex items-center gap-1.5",
-              neutralColors.icon
+              neutralColors.icon,
             )}
           >
             <ShieldAlert size={14} aria-hidden="true" />
@@ -317,7 +317,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
           <legend
             className={combineClasses(
               "text-xs font-semibold mb-2 uppercase tracking-wide flex items-center gap-1.5",
-              neutralColors.icon
+              neutralColors.icon,
             )}
           >
             <ShieldCheck size={14} aria-hidden="true" />

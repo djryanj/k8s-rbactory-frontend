@@ -36,7 +36,7 @@ export function CollapsibleList<T>({
       announceToScreenReader(`Showing all ${items.length} items`);
     } else {
       announceToScreenReader(
-        `Showing ${initialShowCount} of ${items.length} items`
+        `Showing ${initialShowCount} of ${items.length} items`,
       );
     }
   };
@@ -49,7 +49,7 @@ export function CollapsibleList<T>({
           "text-sm italic p-3 rounded-lg border",
           neutralColors.icon,
           neutralColors.bg,
-          neutralColors.border
+          neutralColors.border,
         )}
         role="status"
         aria-live="polite"
@@ -105,7 +105,7 @@ export function CollapsibleList<T>({
             infoColors.hover,
             infoColors.border,
             infoColors.ring,
-            "min-h-[44px]" // Touch target size
+            "min-h-[44px]", // Touch target size
           )}
           aria-expanded={showAll}
           aria-controls={listId}
@@ -130,7 +130,7 @@ export function CollapsibleList<T>({
                   "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ml-1",
                   infoColors.bg,
                   infoColors.text,
-                  infoColors.border
+                  infoColors.border,
                 )}
                 aria-label={`${hiddenCount} more items`}
               >

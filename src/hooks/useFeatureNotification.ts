@@ -1,7 +1,7 @@
 // src/hooks/useFeatureNotification.ts
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = 'k8s-rbactory:feature-notification-dismissed';
+const STORAGE_KEY = "k8s-rbactory:feature-notification-dismissed";
 
 interface UseFeatureNotificationReturn {
   shouldShowNotification: boolean;
@@ -14,7 +14,7 @@ interface UseFeatureNotificationReturn {
  * Checks if user has previously dismissed the notification
  */
 export const useFeatureNotification = (
-  featureDisabled: boolean
+  featureDisabled: boolean,
 ): UseFeatureNotificationReturn => {
   const [shouldShowNotification, setShouldShowNotification] = useState(false);
 
@@ -29,7 +29,7 @@ export const useFeatureNotification = (
       } catch (error) {
         // If localStorage is unavailable, don't show notification
         // to avoid annoying users on every page load
-        console.warn('localStorage unavailable:', error);
+        console.warn("localStorage unavailable:", error);
       }
     }
   }, [featureDisabled]);
@@ -40,10 +40,10 @@ export const useFeatureNotification = (
 
   const dismissPermanently = useCallback(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, 'true');
+      localStorage.setItem(STORAGE_KEY, "true");
       setShouldShowNotification(false);
     } catch (error) {
-      console.error('Failed to save dismissal preference:', error);
+      console.error("Failed to save dismissal preference:", error);
       // Still dismiss for this session
       setShouldShowNotification(false);
     }
@@ -55,4 +55,3 @@ export const useFeatureNotification = (
     dismissPermanently,
   };
 };
-

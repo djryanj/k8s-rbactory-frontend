@@ -1,5 +1,10 @@
 // src/icons/services/iconResolver.ts
-import { getCategoryForKind, hasCdnIcon, getCdnIconUrl, isCategoryName } from "../config/resourceIconMappings";
+import {
+  getCategoryForKind,
+  hasCdnIcon,
+  getCdnIconUrl,
+  isCategoryName,
+} from "../config/resourceIconMappings";
 import { getFallbackIcon } from "../config/fallbackIcons";
 import { getIconCache } from "./iconCache";
 import type { IconResolution, IconCategory } from "../types/icon.types";
@@ -12,7 +17,12 @@ export interface ResolveIconOptions {
 }
 
 export function resolveIcon(options: ResolveIconOptions): IconResolution {
-  const { kind, explicitCategory, hasImageError = false, unlabeled = false } = options;
+  const {
+    kind,
+    explicitCategory,
+    hasImageError = false,
+    unlabeled = false,
+  } = options;
   const cache = getIconCache();
 
   // If there was an image error, skip CDN and use fallback
@@ -29,12 +39,12 @@ export function resolveIcon(options: ResolveIconOptions): IconResolution {
   const hasFailed = cache.has(kind);
   if (hasCdnIcon(kind) && !hasFailed) {
     const url = getCdnIconUrl(kind, unlabeled);
-    
+
     // Debug logging (remove in production)
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.log(`[Icon] Resolving "${kind}": CDN URL = ${url}`);
     }
-    
+
     return {
       type: "image",
       url,
@@ -43,13 +53,17 @@ export function resolveIcon(options: ResolveIconOptions): IconResolution {
   }
 
   // PRIORITY 2: Use category-based fallback
-  const category = explicitCategory ?? (isCategoryName(kind) ? kind as IconCategory : getCategoryForKind(kind));
-  
+  const category =
+    explicitCategory ??
+    (isCategoryName(kind) ? (kind as IconCategory) : getCategoryForKind(kind));
+
   // Debug logging (remove in production)
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[Icon] Resolving "${kind}": Using fallback category = ${category}`);
+  if (process.env.NODE_ENV === "development") {
+    console.log(
+      `[Icon] Resolving "${kind}": Using fallback category = ${category}`,
+    );
   }
-  
+
   return {
     type: "svg",
     component: getFallbackIcon(category),
@@ -57,7 +71,10 @@ export function resolveIcon(options: ResolveIconOptions): IconResolution {
   };
 }
 
-export async function preloadIcons(kinds: string[], unlabeled: boolean = false): Promise<void> {
+export async function preloadIcons(
+  kinds: string[],
+  unlabeled: boolean = false,
+): Promise<void> {
   const cache = getIconCache();
 
   const promises = kinds

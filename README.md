@@ -21,13 +21,23 @@ k8s-rbactory-frontend is the static React-based frontend for k8s-rbactory.
 
 You can view a demo of the site [here](https://k8s-rbactory.netlify.app). Note that this demo site explicitly has the cluster browser functionality **DISABLED** and only the policy builder is operational.
 
+# Local Only
+
+k8s-rbactory-frontend is a React-based frontend that runs completely locally in your browser (after it's downloaded from whatever server you are hosting it on). No data is gathered or transmitted to anywhere.
+
 # Non-Goals
 
-1. Writing to Cluster
+## Writing to Cluster
 
-   This tool is intended to help cluster users understand RBAC within their cluster and to craft RBAC policies that work using a visual workflow and easy to use interface. It is _not_ intended to be able to write RBAC to the cluster, as that should be done after review and using better methods (e.g., GitOps) than this.
+This tool is intended to help cluster users understand RBAC within their cluster and to craft RBAC policies that work using a visual workflow and easy to use interface. It is _not_ intended to be able to write RBAC to the cluster, as that should be done after review and using better methods (e.g., GitOps) than this.
 
-   As such it will never be extended with that functionality; e.g., **IT WILL BE READ ONLY FOREVER**. Any requests, issues, etc. to do so will be closed.
+As such it will never be extended with that functionality; e.g., **IT WILL BE READ-ONLY FOREVER**. Any requests, issues, etc. to do so will be closed.
+
+## Mobile Interface
+
+Although a React frontend should largely work on mobile devices without a lot of developer effort, it is not a goal to support them beyond what is out of the box as cluster operators aren't likely to be using a mobile device to access this service.
+
+If PR's are submitted with fixes to mobile rendering, they will be considered, so long as they don't break other functionality; however, no additional effort will be made to make this tool work on mobile.
 
 More non-goals will be added if needed.
 

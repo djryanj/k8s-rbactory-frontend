@@ -2,7 +2,7 @@
 import React from "react";
 
 export const SecurityIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
-  props
+  props,
 ) => (
   <svg
     viewBox="0 0 24 24"

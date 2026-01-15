@@ -24,7 +24,7 @@ export const useResourceSelection = () => {
         const relationships = await apiClientInstance.getRelationships(
           resource.kind,
           resource.namespace || "",
-          resource.name
+          resource.name,
         );
 
         setRelatedResources(relationships);
@@ -38,7 +38,12 @@ export const useResourceSelection = () => {
         setIsLoadingRelationships(false);
       }
     },
-    [apiClientInstance, setSelectedResource, setRelatedResources, setIsLoadingRelationships]
+    [
+      apiClientInstance,
+      setSelectedResource,
+      setRelatedResources,
+      setIsLoadingRelationships,
+    ],
   );
 
   const handlePrincipalSelect = useCallback(
@@ -64,7 +69,7 @@ export const useResourceSelection = () => {
         const relationships = await apiClientInstance.getRelationships(
           principal.kind,
           principal.namespace || "",
-          principal.name
+          principal.name,
         );
 
         setRelatedResources(relationships);
@@ -78,7 +83,12 @@ export const useResourceSelection = () => {
         setIsLoadingRelationships(false);
       }
     },
-    [apiClientInstance, setSelectedResource, setRelatedResources, setIsLoadingRelationships]
+    [
+      apiClientInstance,
+      setSelectedResource,
+      setRelatedResources,
+      setIsLoadingRelationships,
+    ],
   );
 
   return {

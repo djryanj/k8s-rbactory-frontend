@@ -51,7 +51,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
       className={combineClasses(
         "rounded-lg border p-4",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
       role="region"
       aria-label="Cluster connection status"
@@ -64,7 +64,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
               className={combineClasses(
                 "flex items-center justify-center w-10 h-10 rounded-full border-2",
                 connected ? successColors.bg : neutralColors.bg,
-                connected ? successColors.border : neutralColors.border
+                connected ? successColors.border : neutralColors.border,
               )}
               aria-hidden="true"
             >
@@ -77,7 +77,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             <h2
               className={combineClasses(
                 "text-sm font-semibold",
-                neutralColors.text
+                neutralColors.text,
               )}
               id="cluster-status-heading"
             >
@@ -98,7 +98,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                   "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium border text-xs",
                   successColors.bg,
                   successColors.text,
-                  successColors.border
+                  successColors.border,
                 )}
                 role="status"
               >
@@ -111,7 +111,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                   "inline-flex items-center px-2 py-1 rounded border text-xs font-medium",
                   infoColors.bg,
                   infoColors.text,
-                  infoColors.border
+                  infoColors.border,
                 )}
                 aria-label={`Kubernetes version ${clusterInfo.version}`}
               >
@@ -161,7 +161,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded",
                   infoColors.text,
                   "hover:underline",
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 aria-label="Open settings to configure cluster connection"
               >
@@ -176,7 +176,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             <div
               className={combineClasses(
                 "flex items-center gap-2 text-sm",
-                neutralColors.icon
+                neutralColors.icon,
               )}
               role="status"
               aria-live="polite"
@@ -196,7 +196,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             <div
               className={combineClasses(
                 "flex items-center gap-2 text-sm",
-                warningColors.icon
+                warningColors.icon,
               )}
               role="status"
               aria-live="polite"
@@ -216,7 +216,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             <div
               className={combineClasses(
                 "flex items-center gap-2 text-sm flex-wrap",
-                warningColors.icon
+                warningColors.icon,
               )}
               role="status"
               aria-live="polite"
@@ -238,7 +238,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                   warningColors.border,
                   warningColors.text,
                   warningColors.hover,
-                  warningColors.ring
+                  warningColors.ring,
                 )}
                 aria-label="Cancel automatic retry"
               >
@@ -252,7 +252,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             <div
               className={combineClasses(
                 "flex items-center gap-2 text-sm flex-wrap",
-                neutralColors.icon
+                neutralColors.icon,
               )}
               role="status"
               aria-live="polite"
@@ -265,7 +265,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded px-2 py-1",
                   infoColors.text,
                   "hover:underline",
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 aria-label="Open settings to configure retry behavior"
               >
@@ -286,7 +286,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             neutralColors.hover,
             neutralColors.ring,
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            "min-h-[40px] min-w-[40px]"
+            "min-h-[40px] min-w-[40px]",
           )}
           title={loading ? "Refreshing..." : "Refresh connection status"}
           aria-label={
@@ -300,7 +300,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             size={18}
             className={combineClasses(
               loading && "animate-spin",
-              neutralColors.icon
+              neutralColors.icon,
             )}
             aria-hidden="true"
           />
@@ -316,7 +316,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
           className={combineClasses(
             "mt-3 p-3 rounded-lg border flex items-start gap-2",
             infoColors.bg,
-            infoColors.border
+            infoColors.border,
           )}
           role="status"
           aria-live="polite"
@@ -335,7 +335,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                   "inline font-medium underline transition-colors",
                   "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded",
                   "hover:no-underline",
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 aria-label="Open settings to configure retry behavior"
               >
@@ -365,16 +365,16 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
         {connected && clusterInfo
           ? `Connected to Kubernetes cluster version ${clusterInfo.version} with ${clusterInfo.namespaces.length} namespaces and ${clusterInfo.nodeCount} nodes.`
           : loading && retrying
-          ? `Retrying connection. Attempt ${retryCount}.`
-          : loading
-          ? "Checking cluster connection status."
-          : retrying && nextRetryIn !== null
-          ? `Connection failed. Retrying in ${formatRetryDelay(
-              nextRetryIn
-            )}. Attempt ${retryCount}. You can configure retry settings in the settings menu.`
-          : parsedError
-          ? `${parsedError.title}: ${parsedError.message}`
-          : "Not connected to cluster. Please check settings."}
+            ? `Retrying connection. Attempt ${retryCount}.`
+            : loading
+              ? "Checking cluster connection status."
+              : retrying && nextRetryIn !== null
+                ? `Connection failed. Retrying in ${formatRetryDelay(
+                    nextRetryIn,
+                  )}. Attempt ${retryCount}. You can configure retry settings in the settings menu.`
+                : parsedError
+                  ? `${parsedError.title}: ${parsedError.message}`
+                  : "Not connected to cluster. Please check settings."}
       </div>
     </section>
   );

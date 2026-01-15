@@ -43,7 +43,7 @@ const AllProviders: React.FC<AllProvidersProps> = ({ children }) => {
 // Custom render function that includes providers
 export const renderWithProviders = (
   ui: React.ReactElement,
-  options?: Omit<RenderOptions, "wrapper">
+  options?: Omit<RenderOptions, "wrapper">,
 ) => {
   return render(ui, { wrapper: AllProviders, ...options });
 };

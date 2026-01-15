@@ -71,7 +71,7 @@ describe("SubjectManager", () => {
 
       expect(groupOption).toBeChecked();
       expect(announceToScreenReader).toHaveBeenCalledWith(
-        "Subject type changed to Group"
+        "Subject type changed to Group",
       );
     });
 
@@ -178,7 +178,7 @@ describe("SubjectManager", () => {
       await user.click(addButton);
 
       expect(announceToScreenReader).toHaveBeenCalledWith(
-        expect.stringContaining('User "john.doe@example.com" added')
+        expect.stringContaining('User "john.doe@example.com" added'),
       );
     });
 
@@ -318,7 +318,7 @@ describe("SubjectManager", () => {
       await user.click(removeButton);
 
       expect(announceToScreenReader).toHaveBeenCalledWith(
-        expect.stringContaining('User "john.doe@example.com" removed')
+        expect.stringContaining('User "john.doe@example.com" removed'),
       );
     });
 
@@ -326,7 +326,7 @@ describe("SubjectManager", () => {
       renderWithContext(<SubjectManager />);
 
       expect(
-        screen.queryByText(/no subjects added yet/i)
+        screen.queryByText(/no subjects added yet/i),
       ).not.toBeInTheDocument();
     });
   });
@@ -377,7 +377,7 @@ describe("SubjectManager", () => {
       expect(
         screen.getByRole("button", {
           name: /remove user john.doe@example.com/i,
-        })
+        }),
       ).toBeInTheDocument();
     });
   });

@@ -1,5 +1,8 @@
 // src/utils/security/verbClassification.ts
-import type { SecurityLevel, VerbClassification } from "../../types/security.types";
+import type {
+  SecurityLevel,
+  VerbClassification,
+} from "../../types/security.types";
 
 /**
  * Comprehensive verb classification for Kubernetes RBAC
@@ -84,10 +87,10 @@ const verbClassifications: Record<string, VerbClassification> = {
 
 /**
  * Classify a verb by its security risk level
- * 
+ *
  * @param verb - The Kubernetes RBAC verb to classify
  * @returns Classification with risk level, description, and category
- * 
+ *
  * @example
  * ```typescript
  * const classification = classifyVerb("delete");
@@ -107,10 +110,10 @@ export const classifyVerb = (verb: string): VerbClassification => {
 /**
  * Get Tailwind CSS classes for a verb badge based on risk level
  * Provides consistent styling across permission selectors and security analysis
- * 
+ *
  * @param verb - The Kubernetes RBAC verb
  * @returns Tailwind CSS class string for the badge
- * 
+ *
  * @example
  * ```typescript
  * const classes = getVerbBadgeClasses("delete");
@@ -144,7 +147,7 @@ export const getVerbBadgeClasses = (verb: string): string => {
 /**
  * Get all verbs classified at a specific risk level
  * Useful for grouping permissions by risk in UI
- * 
+ *
  * @param riskLevel - The risk level to filter by
  * @returns Array of verbs at that risk level
  */
@@ -156,7 +159,7 @@ export const getVerbsByRiskLevel = (riskLevel: SecurityLevel): string[] => {
 
 /**
  * Check if a verb is considered high-risk (critical or high)
- * 
+ *
  * @param verb - The verb to check
  * @returns True if the verb is critical or high risk
  */

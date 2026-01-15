@@ -34,7 +34,7 @@ export const ScopeSelector: React.FC = () => {
       announceToScreenReader(
         `Scope changed to ${
           isCluster ? "cluster-wide ClusterRole" : "namespace-scoped Role"
-        }`
+        }`,
       );
     }
   };
@@ -56,7 +56,7 @@ export const ScopeSelector: React.FC = () => {
         <h4
           className={combineClasses(
             "text-base font-semibold flex items-center gap-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           {/* Crosshair is a UI affordance icon, keep as Lucide */}
@@ -87,14 +87,14 @@ export const ScopeSelector: React.FC = () => {
                 ? combineClasses(
                     infoColors.border,
                     infoColors.bg,
-                    "shadow-md hover:shadow-lg"
+                    "shadow-md hover:shadow-lg",
                   )
                 : combineClasses(
                     neutralColors.border,
                     neutralColors.hover,
-                    "hover:shadow-md"
+                    "hover:shadow-md",
                   ),
-              infoColors.ring
+              infoColors.ring,
             )}
           >
             <input
@@ -114,13 +114,13 @@ export const ScopeSelector: React.FC = () => {
                   size={18}
                   className={combineClasses(
                     "transition-all flex-shrink-0",
-                    infoColors.icon
+                    infoColors.icon,
                   )}
                 />
                 <span
                   className={combineClasses(
                     "font-medium",
-                    !isClusterRole ? infoColors.text : neutralColors.text
+                    !isClusterRole ? infoColors.text : neutralColors.text,
                   )}
                 >
                   Namespace-scoped (Role)
@@ -131,7 +131,7 @@ export const ScopeSelector: React.FC = () => {
                       "ml-auto px-2 py-0.5 rounded text-xs font-medium border",
                       infoColors.bg,
                       infoColors.text,
-                      infoColors.border
+                      infoColors.border,
                     )}
                     aria-label="Currently selected"
                   >
@@ -158,14 +158,14 @@ export const ScopeSelector: React.FC = () => {
                 ? combineClasses(
                     infoColors.border,
                     infoColors.bg,
-                    "shadow-md hover:shadow-lg"
+                    "shadow-md hover:shadow-lg",
                   )
                 : combineClasses(
                     neutralColors.border,
                     neutralColors.hover,
-                    "hover:shadow-md"
+                    "hover:shadow-md",
                   ),
-              infoColors.ring
+              infoColors.ring,
             )}
           >
             <input
@@ -185,13 +185,13 @@ export const ScopeSelector: React.FC = () => {
                   size={18}
                   className={combineClasses(
                     "transition-all flex-shrink-0",
-                    infoColors.icon
+                    infoColors.icon,
                   )}
                 />
                 <span
                   className={combineClasses(
                     "font-medium",
-                    isClusterRole ? infoColors.text : neutralColors.text
+                    isClusterRole ? infoColors.text : neutralColors.text,
                   )}
                 >
                   Cluster-wide (ClusterRole)
@@ -202,7 +202,7 @@ export const ScopeSelector: React.FC = () => {
                       "ml-auto px-2 py-0.5 rounded text-xs font-medium border",
                       infoColors.bg,
                       infoColors.text,
-                      infoColors.border
+                      infoColors.border,
                     )}
                     aria-label="Currently selected"
                   >
@@ -228,7 +228,7 @@ export const ScopeSelector: React.FC = () => {
             htmlFor="namespace-input"
             className={combineClasses(
               "block text-sm font-medium mb-1",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             Namespace
@@ -252,7 +252,7 @@ export const ScopeSelector: React.FC = () => {
               showNamespaceError
                 ? combineClasses(criticalColors.border, criticalColors.ring)
                 : combineClasses(neutralColors.border, infoColors.ring),
-              "placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              "placeholder:text-gray-400 dark:placeholder:text-gray-500",
             )}
             aria-invalid={showNamespaceError}
             aria-describedby={
@@ -273,7 +273,7 @@ export const ScopeSelector: React.FC = () => {
                 "mt-2 p-2 rounded flex items-start gap-2 text-sm",
                 criticalColors.bg,
                 criticalColors.border,
-                "border"
+                "border",
               )}
               role="alert"
               aria-live="polite"
@@ -283,7 +283,7 @@ export const ScopeSelector: React.FC = () => {
                 size={16}
                 className={combineClasses(
                   criticalColors.icon,
-                  "flex-shrink-0 mt-0.5"
+                  "flex-shrink-0 mt-0.5",
                 )}
                 aria-hidden="true"
               />

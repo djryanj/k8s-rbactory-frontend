@@ -341,7 +341,7 @@ textarea:focus-visible,
   .border {
     border-width: 2px;
   }
-  
+
   button,
   a {
     outline: 2px solid currentColor;

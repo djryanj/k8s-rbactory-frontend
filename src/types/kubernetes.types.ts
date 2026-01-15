@@ -36,21 +36,21 @@ export interface K8sRoleRef {
 }
 
 export interface K8sRole {
-  kind: 'Role';
+  kind: "Role";
   apiVersion: string;
   metadata: K8sMetadata;
   rules: K8sPolicyRule[];
 }
 
 export interface K8sClusterRole {
-  kind: 'ClusterRole';
+  kind: "ClusterRole";
   apiVersion: string;
   metadata: K8sMetadata;
   rules: K8sPolicyRule[];
 }
 
 export interface K8sRoleBinding {
-  kind: 'RoleBinding';
+  kind: "RoleBinding";
   apiVersion: string;
   metadata: K8sMetadata;
   subjects: K8sSubject[];
@@ -58,7 +58,7 @@ export interface K8sRoleBinding {
 }
 
 export interface K8sClusterRoleBinding {
-  kind: 'ClusterRoleBinding';
+  kind: "ClusterRoleBinding";
   apiVersion: string;
   metadata: K8sMetadata;
   subjects: K8sSubject[];
@@ -66,13 +66,13 @@ export interface K8sClusterRoleBinding {
 }
 
 export interface K8sNamespace {
-  kind: 'Namespace';
+  kind: "Namespace";
   apiVersion: string;
   metadata: K8sMetadata;
 }
 
 export interface K8sNode {
-  kind: 'Node';
+  kind: "Node";
   apiVersion: string;
   metadata: K8sMetadata;
 }
@@ -100,4 +100,8 @@ export interface K8sListResponse<T> {
 }
 
 // Union type for all RBAC resources
-export type K8sRBACResource = K8sRole | K8sClusterRole | K8sRoleBinding | K8sClusterRoleBinding;
+export type K8sRBACResource =
+  | K8sRole
+  | K8sClusterRole
+  | K8sRoleBinding
+  | K8sClusterRoleBinding;

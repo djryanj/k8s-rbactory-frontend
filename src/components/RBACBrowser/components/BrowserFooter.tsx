@@ -25,7 +25,7 @@ export const BrowserFooter: React.FC<BrowserFooterProps> = ({
       className={combineClasses(
         "p-3 border-t",
         "bg-gray-50 dark:bg-gray-700/50",
-        "border-gray-200 dark:border-gray-700"
+        "border-gray-200 dark:border-gray-700",
       )}
       role="contentinfo"
       aria-label="Resource browser footer"
@@ -74,7 +74,7 @@ export const BrowserFooter: React.FC<BrowserFooterProps> = ({
                     "inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border",
                     successColors.bg,
                     successColors.text,
-                    successColors.border
+                    successColors.border,
                   )}
                   role="status"
                   aria-label={`${currentCount} resources loaded, more available to load`}
@@ -91,7 +91,7 @@ export const BrowserFooter: React.FC<BrowserFooterProps> = ({
                     "inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border",
                     warningColors.bg,
                     warningColors.text,
-                    warningColors.border
+                    warningColors.border,
                   )}
                   role="status"
                   aria-label={`${currentCount} resources loaded, no more available`}
@@ -108,7 +108,7 @@ export const BrowserFooter: React.FC<BrowserFooterProps> = ({
                     "inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border",
                     infoColors.bg,
                     infoColors.text,
-                    infoColors.border
+                    infoColors.border,
                   )}
                   role="status"
                   aria-label={`Selected resource: ${selectedResource.name}`}
@@ -134,7 +134,7 @@ export const BrowserFooter: React.FC<BrowserFooterProps> = ({
             infoColors.hover,
             infoColors.ring,
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            "min-h-[44px] min-w-[44px]" // Touch target size
+            "min-h-[44px] min-w-[44px]", // Touch target size
           )}
           aria-label={isLoading ? "Refreshing resources" : "Refresh resources"}
           aria-busy={isLoading}
@@ -143,7 +143,7 @@ export const BrowserFooter: React.FC<BrowserFooterProps> = ({
             size={16}
             className={combineClasses(
               isLoading && "animate-spin",
-              "flex-shrink-0"
+              "flex-shrink-0",
             )}
             aria-hidden="true"
           />

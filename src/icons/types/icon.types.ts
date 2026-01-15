@@ -12,8 +12,8 @@ export type IconCategory =
   | "custom"
   | "user"
   | "group"
-  | "node"      // Add new category
-  | "cluster"   // Add new category
+  | "node" // Add new category
+  | "cluster" // Add new category
   | "default";
 
 export interface K8sResourceIconProps {

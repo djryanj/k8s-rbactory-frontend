@@ -39,7 +39,7 @@ export const BrowserHeader: React.FC<BrowserHeaderProps> = ({
             "inline-flex items-center px-3 py-1 rounded-full font-medium border",
             infoColors.bg,
             infoColors.text,
-            infoColors.border
+            infoColors.border,
           )}
           aria-label={`${displayTotal} total resources in cluster`}
         >
@@ -54,7 +54,7 @@ export const BrowserHeader: React.FC<BrowserHeaderProps> = ({
               "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border",
               successColors.bg,
               successColors.text,
-              successColors.border
+              successColors.border,
             )}
             role="status"
             aria-label="Automatically loading more resources"

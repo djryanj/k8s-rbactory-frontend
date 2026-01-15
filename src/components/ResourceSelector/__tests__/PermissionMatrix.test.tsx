@@ -37,7 +37,7 @@ describe("PermissionMatrix", () => {
 
       expect(screen.getByText(/permissions for pods/i)).toBeInTheDocument();
       expect(
-        screen.getByText(/select individual permissions or use quick actions/i)
+        screen.getByText(/select individual permissions or use quick actions/i),
       ).toBeInTheDocument();
     });
 
@@ -45,16 +45,16 @@ describe("PermissionMatrix", () => {
       render(<PermissionMatrix {...defaultProps} />);
 
       expect(
-        screen.getByRole("button", { name: /read-only/i })
+        screen.getByRole("button", { name: /read-only/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /write/i })
+        screen.getByRole("button", { name: /write/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /all permissions/i })
+        screen.getByRole("button", { name: /all permissions/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /clear all/i })
+        screen.getByRole("button", { name: /clear all/i }),
       ).toBeInTheDocument();
     });
 
@@ -101,7 +101,7 @@ describe("PermissionMatrix", () => {
 
       expect(mockUpdatePermissionVerbs).toHaveBeenCalledWith(
         "pods",
-        expect.arrayContaining(["get", "list", "watch"])
+        expect.arrayContaining(["get", "list", "watch"]),
       );
     });
 
@@ -111,7 +111,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["get", "list", "watch"]}
-        />
+        />,
       );
 
       await user.click(screen.getByRole("button", { name: /read-only/i }));
@@ -124,7 +124,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["get", "list", "watch"]}
-        />
+        />,
       );
 
       const readButton = screen.getByRole("button", { name: /read-only/i });
@@ -138,14 +138,14 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["create", "update"]}
-        />
+        />,
       );
 
       await user.click(screen.getByRole("button", { name: /read-only/i }));
 
       expect(mockUpdatePermissionVerbs).toHaveBeenCalledWith(
         "pods",
-        expect.arrayContaining(["create", "update", "get", "list", "watch"])
+        expect.arrayContaining(["create", "update", "get", "list", "watch"]),
       );
     });
   });
@@ -159,7 +159,7 @@ describe("PermissionMatrix", () => {
 
       expect(mockUpdatePermissionVerbs).toHaveBeenCalledWith(
         "pods",
-        expect.arrayContaining(["create", "update", "delete"])
+        expect.arrayContaining(["create", "update", "delete"]),
       );
     });
 
@@ -168,7 +168,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["create", "update", "delete"]}
-        />
+        />,
       );
 
       const writeButton = screen.getByRole("button", { name: /write/i });
@@ -179,14 +179,14 @@ describe("PermissionMatrix", () => {
     it("preserves read permissions when toggling write", async () => {
       const user = userEvent.setup();
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       await user.click(screen.getByRole("button", { name: /write/i }));
 
       expect(mockUpdatePermissionVerbs).toHaveBeenCalledWith(
         "pods",
-        expect.arrayContaining(["get", "list", "create", "update", "delete"])
+        expect.arrayContaining(["get", "list", "create", "update", "delete"]),
       );
     });
   });
@@ -197,12 +197,12 @@ describe("PermissionMatrix", () => {
       render(<PermissionMatrix {...defaultProps} />);
 
       await user.click(
-        screen.getByRole("button", { name: /all permissions/i })
+        screen.getByRole("button", { name: /all permissions/i }),
       );
 
       expect(mockUpdatePermissionVerbs).toHaveBeenCalledWith(
         "pods",
-        defaultProps.availableVerbs
+        defaultProps.availableVerbs,
       );
     });
 
@@ -211,7 +211,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={defaultProps.availableVerbs}
-        />
+        />,
       );
 
       const allButton = screen.getByRole("button", {
@@ -223,7 +223,7 @@ describe("PermissionMatrix", () => {
 
     it("does not show as pressed when only some verbs selected", () => {
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       const allButton = screen.getByRole("button", {
@@ -240,7 +240,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["get", "list", "create"]}
-        />
+        />,
       );
 
       await user.click(screen.getByRole("button", { name: /clear all/i }));
@@ -286,7 +286,7 @@ describe("PermissionMatrix", () => {
     it("allows deselecting individual verbs", async () => {
       const user = userEvent.setup();
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       const getCheckbox = screen.getByRole("checkbox", { name: /get/i });
@@ -297,13 +297,13 @@ describe("PermissionMatrix", () => {
 
     it("shows selected verbs as checked", () => {
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       expect(screen.getByRole("checkbox", { name: /get/i })).toBeChecked();
       expect(screen.getByRole("checkbox", { name: /list/i })).toBeChecked();
       expect(
-        screen.getByRole("checkbox", { name: /create/i })
+        screen.getByRole("checkbox", { name: /create/i }),
       ).not.toBeChecked();
     });
   });
@@ -315,7 +315,7 @@ describe("PermissionMatrix", () => {
       expect(screen.getByText(/0 of 6/i)).toBeInTheDocument();
 
       rerender(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       expect(screen.getByText(/2 of 6/i)).toBeInTheDocument();
@@ -323,7 +323,7 @@ describe("PermissionMatrix", () => {
 
     it("shows selected verbs as removable chips", () => {
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       expect(screen.getByText("get")).toBeInTheDocument();
@@ -333,7 +333,7 @@ describe("PermissionMatrix", () => {
     it("allows removing verbs from summary chips", async () => {
       const user = userEvent.setup();
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       const removeButton = screen.getByLabelText(/remove get permission/i);
@@ -355,7 +355,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["get", "list", "watch"]}
-        />
+        />,
       );
 
       const button = screen.getByRole("button", { name: /read-only/i });
@@ -369,7 +369,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={["create", "update", "delete"]}
-        />
+        />,
       );
 
       const button = screen.getByRole("button", { name: /write/i });
@@ -381,7 +381,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={defaultProps.availableVerbs}
-        />
+        />,
       );
 
       const button = screen.getByRole("button", { name: /all permissions/i });
@@ -403,7 +403,7 @@ describe("PermissionMatrix", () => {
       const region = screen.getByRole("region");
       expect(region).toHaveAttribute(
         "aria-labelledby",
-        "permission-matrix-pods"
+        "permission-matrix-pods",
       );
     });
 
@@ -418,7 +418,7 @@ describe("PermissionMatrix", () => {
 
     it("announces changes to screen readers", () => {
       render(
-        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />
+        <PermissionMatrix {...defaultProps} selectedVerbs={["get", "list"]} />,
       );
 
       const status = screen.getByRole("status", { hidden: true });
@@ -429,16 +429,16 @@ describe("PermissionMatrix", () => {
       render(<PermissionMatrix {...defaultProps} />);
 
       expect(
-        screen.getByRole("button", { name: /select read-only permissions/i })
+        screen.getByRole("button", { name: /select read-only permissions/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /select write permissions/i })
+        screen.getByRole("button", { name: /select write permissions/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /select all 6 permissions/i })
+        screen.getByRole("button", { name: /select all 6 permissions/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /clear all permissions/i })
+        screen.getByRole("button", { name: /clear all permissions/i }),
       ).toBeInTheDocument();
     });
   });
@@ -449,16 +449,16 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           availableVerbs={["get", "list", "watch"]}
-        />
+        />,
       );
 
       expect(screen.getByText("READ PERMISSIONS")).toBeInTheDocument();
       expect(screen.queryByText("WRITE PERMISSIONS")).not.toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /read-only/i })
+        screen.getByRole("button", { name: /read-only/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /write/i })
+        screen.getByRole("button", { name: /write/i }),
       ).toBeInTheDocument();
     });
 
@@ -467,7 +467,7 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           availableVerbs={["create", "update", "delete"]}
-        />
+        />,
       );
 
       expect(screen.queryByText("READ PERMISSIONS")).not.toBeInTheDocument();
@@ -486,12 +486,12 @@ describe("PermissionMatrix", () => {
         <PermissionMatrix
           {...defaultProps}
           selectedVerbs={defaultProps.availableVerbs}
-        />
+        />,
       );
 
       expect(screen.getByText(/6 of 6/i)).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /all permissions/i })
+        screen.getByRole("button", { name: /all permissions/i }),
       ).toHaveAttribute("aria-pressed", "true");
       expect(screen.getByRole("button", { name: /clear all/i })).toBeEnabled();
     });

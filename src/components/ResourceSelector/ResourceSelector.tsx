@@ -14,7 +14,7 @@ export const ResourceSelector: React.FC = () => {
   const { manifest, addPermission, removePermission, clearPermissionVerbs } =
     useRBAC();
   const [activeResource, setActiveResource] = useState<ResourceType | null>(
-    null
+    null,
   );
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
@@ -24,12 +24,12 @@ export const ResourceSelector: React.FC = () => {
 
   // Show all custom resources
   const allCustomResources = manifest.role.permissions.filter(
-    (p) => !RESOURCE_METADATA[p.resource as ResourceType]
+    (p) => !RESOURCE_METADATA[p.resource as ResourceType],
   );
 
   const handleResourceToggle = (resource: ResourceType) => {
     const isSelected = manifest.role.permissions.some(
-      (p) => p.resource === resource
+      (p) => p.resource === resource,
     );
 
     if (isSelected) {
@@ -38,12 +38,12 @@ export const ResourceSelector: React.FC = () => {
       if (isCustom) {
         // For custom resources, clear verbs but keep the resource
         const permission = manifest.role.permissions.find(
-          (p) => p.resource === resource
+          (p) => p.resource === resource,
         );
         if (permission && permission.verbs.length > 0) {
           clearPermissionVerbs(resource);
           announceToScreenReader(
-            `${resource} deselected. Resource kept in list.`
+            `${resource} deselected. Resource kept in list.`,
           );
         }
       } else {
@@ -53,7 +53,7 @@ export const ResourceSelector: React.FC = () => {
         // Update active resource if we just removed it
         if (activeResource === resource) {
           const remaining = manifest.role.permissions.filter(
-            (p) => p.resource !== resource
+            (p) => p.resource !== resource,
           );
           const nextActive =
             remaining.length > 0 && remaining[0]
@@ -63,7 +63,7 @@ export const ResourceSelector: React.FC = () => {
         }
 
         announceToScreenReader(
-          `${RESOURCE_METADATA[resource]?.displayName || resource} removed`
+          `${RESOURCE_METADATA[resource]?.displayName || resource} removed`,
         );
       }
     } else {
@@ -79,7 +79,7 @@ export const ResourceSelector: React.FC = () => {
           isDesktop
             ? "Configure permissions in the right panel."
             : "Configure permissions below."
-        }`
+        }`,
       );
     }
   };
@@ -89,7 +89,7 @@ export const ResourceSelector: React.FC = () => {
     if (resource) {
       const metadata = RESOURCE_METADATA[resource];
       announceToScreenReader(
-        `Configuring permissions for ${metadata?.displayName || resource}`
+        `Configuring permissions for ${metadata?.displayName || resource}`,
       );
     } else {
       announceToScreenReader("No resource selected");
@@ -119,7 +119,7 @@ export const ResourceSelector: React.FC = () => {
                 "rounded-lg border-2",
                 neutralColors.bg,
                 neutralColors.border,
-                "lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto"
+                "lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto",
               )}
             >
               {selectedResources.length === 0 ? (
@@ -143,7 +143,7 @@ export const ResourceSelector: React.FC = () => {
             customResourcesCount={allCustomResources.length}
             totalPermissions={manifest.role.permissions.reduce(
               (sum, p) => sum + p.verbs.length,
-              0
+              0,
             )}
           />
         )}
@@ -169,7 +169,7 @@ export const ResourceSelector: React.FC = () => {
           customResourcesCount={allCustomResources.length}
           totalPermissions={manifest.role.permissions.reduce(
             (sum, p) => sum + p.verbs.length,
-            0
+            0,
           )}
         />
       )}
@@ -186,7 +186,7 @@ const EmptyConfigState: React.FC = () => {
       <div
         className={combineClasses(
           "w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center",
-          infoColors.bg
+          infoColors.bg,
         )}
       >
         <svg
@@ -206,7 +206,7 @@ const EmptyConfigState: React.FC = () => {
       <h3
         className={combineClasses(
           "text-lg font-semibold mb-2",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         No Resources Selected

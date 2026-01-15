@@ -38,9 +38,9 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
               neutralColors.bg,
               neutralColors.text,
               neutralColors.border,
-              neutralColors.hover
+              neutralColors.hover,
             ),
-        colors.ring
+        colors.ring,
       )}
       aria-label={`${
         allSelected ? "Deselect" : "Select"

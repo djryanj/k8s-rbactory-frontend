@@ -1,8 +1,10 @@
 // src/icons/config/resourceIconMappings.ts
 import type { IconCategory } from "../types/icon.types";
 
-const CDN_BASE_URL_LABELED = "https://cdn.jsdelivr.net/gh/kubernetes/community@master/icons/svg/resources/labeled";
-const CDN_BASE_URL_UNLABELED = "https://cdn.jsdelivr.net/gh/kubernetes/community@master/icons/svg/resources/unlabeled";
+const CDN_BASE_URL_LABELED =
+  "https://cdn.jsdelivr.net/gh/kubernetes/community@master/icons/svg/resources/labeled";
+const CDN_BASE_URL_UNLABELED =
+  "https://cdn.jsdelivr.net/gh/kubernetes/community@master/icons/svg/resources/unlabeled";
 
 /**
  * Unified icon mapping configuration.
@@ -48,7 +50,9 @@ export const ICON_FALLBACK_MAP: Readonly<Record<string, string>> = {
 /**
  * Complete mapping of Kubernetes resource kinds to their icon configuration.
  */
-export const RESOURCE_ICON_MAPPINGS: Readonly<Record<string, ResourceIconMapping>> = {
+export const RESOURCE_ICON_MAPPINGS: Readonly<
+  Record<string, ResourceIconMapping>
+> = {
   // Workloads
   pod: { cdnIcon: "pod", category: "workloads" },
   pods: { cdnIcon: "pod", category: "workloads" },
@@ -151,16 +155,16 @@ export const RESOURCE_ICON_MAPPINGS: Readonly<Record<string, ResourceIconMapping
   namespace: { cdnIcon: "ns", category: "default" },
   namespaces: { cdnIcon: "ns", category: "default" },
   ns: { cdnIcon: "ns", category: "default" },
-  
+
   // Node-related resources - keep CDN attempts but map to proper fallback categories
   node: { cdnIcon: "node", category: "node" },
   nodes: { cdnIcon: "node", category: "node" },
-  
+
   // Cluster infrastructure - map to cluster category
   kubelet: { cdnIcon: "kubelet", category: "cluster" },
   "kube-proxy": { cdnIcon: "k-proxy", category: "cluster" },
   "k-proxy": { cdnIcon: "k-proxy", category: "cluster" },
-  
+
   // Cluster as a resource type (not just category)
   cluster: { category: "cluster" },
   clusters: { category: "cluster" },
@@ -168,20 +172,20 @@ export const RESOURCE_ICON_MAPPINGS: Readonly<Record<string, ResourceIconMapping
   // Events and other cluster resources
   event: { category: "default" },
   events: { category: "default" },
-  
+
   // API resources
   apiservice: { category: "default" },
   apiservices: { category: "default" },
-  
+
   // Lease resources
   lease: { category: "default" },
   leases: { category: "default" },
-  
+
   // Priority classes
   priorityclass: { category: "default" },
   priorityclasses: { category: "default" },
   pc: { category: "default" },
-  
+
   // Runtime classes
   runtimeclass: { category: "default" },
   runtimeclasses: { category: "default" },
@@ -200,11 +204,13 @@ export const RESOURCE_ICON_MAPPINGS: Readonly<Record<string, ResourceIconMapping
 export function getCategoryForKind(kind: string): IconCategory {
   const normalized = kind.toLowerCase();
   const mapping = RESOURCE_ICON_MAPPINGS[normalized];
-  
-  if (process.env.NODE_ENV === 'development' && !mapping) {
-    console.warn(`[Icon] No mapping found for kind: "${kind}", using default category`);
+
+  if (process.env.NODE_ENV === "development" && !mapping) {
+    console.warn(
+      `[Icon] No mapping found for kind: "${kind}", using default category`,
+    );
   }
-  
+
   return mapping?.category ?? "default";
 }
 
@@ -220,12 +226,12 @@ export function hasKindMapping(kind: string): boolean {
  */
 export function hasCdnIcon(kind: string): boolean {
   const normalized = kind.toLowerCase();
-  
+
   // Check if it's a category name
   if (normalized in CATEGORY_ICON_MAP) {
     return true;
   }
-  
+
   // Check if it's a resource kind
   const mapping = RESOURCE_ICON_MAPPINGS[normalized];
   return mapping?.cdnIcon !== undefined;
@@ -233,27 +239,30 @@ export function hasCdnIcon(kind: string): boolean {
 
 /**
  * Get the CDN URL for a resource kind's icon.
- * 
+ *
  * @param kind - The resource kind or category name
  * @param unlabeled - Whether to use the unlabeled icon version
  */
-export function getCdnIconUrl(kind: string, unlabeled: boolean = false): string {
+export function getCdnIconUrl(
+  kind: string,
+  unlabeled: boolean = false,
+): string {
   const normalized = kind.toLowerCase();
-  
+
   // Check if it's a category name
   if (normalized in CATEGORY_ICON_MAP) {
     const iconName = CATEGORY_ICON_MAP[normalized];
     // Categories always use unlabeled icons
     return `${CDN_BASE_URL_UNLABELED}/${iconName}.svg`;
   }
-  
+
   // It's a resource kind
   const mapping = RESOURCE_ICON_MAPPINGS[normalized];
-  
+
   if (!mapping?.cdnIcon) {
     return "";
   }
-  
+
   const baseUrl = unlabeled ? CDN_BASE_URL_UNLABELED : CDN_BASE_URL_LABELED;
   return `${baseUrl}/${mapping.cdnIcon}.svg`;
 }

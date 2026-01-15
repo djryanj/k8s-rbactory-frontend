@@ -20,16 +20,16 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       expect(screen.getByLabelText(/resource name/i)).toBeInTheDocument();
       expect(screen.getByLabelText(/api group/i)).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /cancel/i })
+        screen.getByRole("button", { name: /cancel/i }),
       ).toBeInTheDocument();
     });
 
@@ -39,11 +39,11 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       expect(
-        screen.getByLabelText(/quick select common crd/i)
+        screen.getByLabelText(/quick select common crd/i),
       ).toBeInTheDocument();
     });
 
@@ -53,7 +53,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       expect(screen.getByText(/next step/i)).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       expect(screen.getByText(/plural name/i)).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const submitButton = screen.getByRole("button", {
@@ -97,7 +97,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
@@ -116,7 +116,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
@@ -131,13 +131,13 @@ describe("CustomResourceForm", () => {
         .closest("form");
       if (form) {
         await user.click(
-          screen.getByRole("button", { name: /add custom resource/i })
+          screen.getByRole("button", { name: /add custom resource/i }),
         );
       }
 
       await waitFor(() => {
         expect(
-          screen.getByText(/resource name is required/i)
+          screen.getByText(/resource name is required/i),
         ).toBeInTheDocument();
       });
     });
@@ -149,7 +149,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
@@ -159,7 +159,7 @@ describe("CustomResourceForm", () => {
       await user.clear(apiInput);
 
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -174,13 +174,13 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "Invalid_Name!");
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -195,13 +195,13 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={["certificates"]}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -216,11 +216,11 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const nameInput = screen.getByLabelText(
-        /resource name/i
+        /resource name/i,
       ) as HTMLInputElement;
       await user.type(nameInput, "MyCRD");
 
@@ -234,18 +234,18 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       // Trigger error
       await user.type(screen.getByLabelText(/api group/i), "test");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
         expect(
-          screen.getByText(/resource name is required/i)
+          screen.getByText(/resource name is required/i),
         ).toBeInTheDocument();
       });
 
@@ -253,7 +253,7 @@ describe("CustomResourceForm", () => {
       await user.type(screen.getByLabelText(/resource name/i), "c");
 
       expect(
-        screen.queryByText(/resource name is required/i)
+        screen.queryByText(/resource name is required/i),
       ).not.toBeInTheDocument();
     });
   });
@@ -266,19 +266,19 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
       await user.type(screen.getByLabelText(/api group/i), "cert-manager.io");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
         expect(mockOnAdd).toHaveBeenCalledWith(
           "certificates",
-          "cert-manager.io"
+          "cert-manager.io",
         );
         expect(mockOnAdd).toHaveBeenCalledTimes(1);
       });
@@ -291,7 +291,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.click(screen.getByRole("button", { name: /cancel/i }));
@@ -307,13 +307,13 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "Invalid!");
       await user.type(screen.getByLabelText(/api group/i), "test.com");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -330,7 +330,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "certificates");
@@ -340,7 +340,7 @@ describe("CustomResourceForm", () => {
       await waitFor(() => {
         expect(mockOnAdd).toHaveBeenCalledWith(
           "certificates",
-          "cert-manager.io"
+          "cert-manager.io",
         );
       });
     });
@@ -353,7 +353,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const nameInput = screen.getByLabelText(/resource name/i);
@@ -370,12 +370,12 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/api group/i), "test");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -391,7 +391,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const nameInput = screen.getByLabelText(/resource name/i);
@@ -407,7 +407,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const form = screen.getByRole("form", { name: /custom resource form/i });
@@ -423,7 +423,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const nameInput = screen.getByLabelText(/resource name/i);
@@ -441,7 +441,7 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       const nameInput = screen.getByLabelText(/resource name/i);
@@ -458,13 +458,13 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(screen.getByLabelText(/resource name/i), "test");
       await user.type(screen.getByLabelText(/api group/i), "my-company.io/v1");
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
@@ -479,25 +479,25 @@ describe("CustomResourceForm", () => {
           onAdd={mockOnAdd}
           onCancel={mockOnCancel}
           existingResources={existingResources}
-        />
+        />,
       );
 
       await user.type(
         screen.getByLabelText(/resource name/i),
-        "  certificates  "
+        "  certificates  ",
       );
       await user.type(
         screen.getByLabelText(/api group/i),
-        "  cert-manager.io  "
+        "  cert-manager.io  ",
       );
       await user.click(
-        screen.getByRole("button", { name: /add custom resource/i })
+        screen.getByRole("button", { name: /add custom resource/i }),
       );
 
       await waitFor(() => {
         expect(mockOnAdd).toHaveBeenCalledWith(
           "certificates",
-          "cert-manager.io"
+          "cert-manager.io",
         );
       });
     });

@@ -21,7 +21,10 @@ export {
   getCategoryIconName,
 } from "./config/resourceIconMappings";
 
-export { getFallbackIcon, getAvailableCategories } from "./config/fallbackIcons";
+export {
+  getFallbackIcon,
+  getAvailableCategories,
+} from "./config/fallbackIcons";
 
 // Optional: Export individual fallback icons if needed elsewhere
 export {

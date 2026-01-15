@@ -37,7 +37,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
             resource?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             resource?.namespace
               ?.toLowerCase()
-              .includes(searchTerm.toLowerCase())
+              .includes(searchTerm.toLowerCase()),
         );
 
   const filteredPrincipals = principals.filter((principal) => {
@@ -62,7 +62,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
             "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
             neutralColors.bg,
             neutralColors.border,
-            "border-2"
+            "border-2",
           )}
           aria-hidden="true"
         >
@@ -72,7 +72,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
         <p
           className={combineClasses(
             "text-base font-medium mb-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           {currentCount === 0
@@ -93,7 +93,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
                   "focus:outline-none focus:ring-2 focus:ring-offset-2",
                   infoColors.text,
                   infoColors.hover,
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 aria-label="Clear search filter"
               >
@@ -197,7 +197,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           className={combineClasses(
             "flex items-center justify-center py-3 px-4 rounded-lg border",
             successColors.bg,
-            successColors.border
+            successColors.border,
           )}
           role="status"
           aria-live="polite"
@@ -211,7 +211,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           <span
             className={combineClasses(
               "text-sm font-medium",
-              successColors.text
+              successColors.text,
             )}
           >
             Loading more items automatically...
@@ -232,7 +232,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
             neutralColors.text,
             neutralColors.hover,
             neutralColors.ring,
-            "min-h-[44px]"
+            "min-h-[44px]",
           )}
           aria-label={`Load more ${selectedKind.toLowerCase()}s. ${
             totalCount - currentCount
@@ -248,7 +248,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
               "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ml-1",
               infoColors.bg,
               infoColors.text,
-              infoColors.border
+              infoColors.border,
             )}
             aria-label={`${totalCount - currentCount} items remaining`}
           >
@@ -263,7 +263,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           className={combineClasses(
             "text-center py-4 px-4 rounded-lg border",
             neutralColors.bg,
-            neutralColors.border
+            neutralColors.border,
           )}
           role="status"
           aria-live="polite"
@@ -271,7 +271,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           <p
             className={combineClasses(
               "text-sm font-medium",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             End of list

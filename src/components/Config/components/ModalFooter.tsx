@@ -28,7 +28,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({
       className={combineClasses(
         "sticky bottom-0 border-t px-6 py-4 flex items-center justify-between flex-wrap gap-3",
         "bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm",
-        neutralColors.border
+        neutralColors.border,
       )}
     >
       {/* Reset Button - Ghost variant for less emphasis */}
@@ -62,7 +62,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({
           className={combineClasses(
             hasChanges
               ? getButtonClasses("primary", "slate", "md")
-              : getDisabledButtonClasses("md")
+              : getDisabledButtonClasses("md"),
           )}
           aria-label={hasChanges ? "Save all changes" : "No changes to save"}
         >

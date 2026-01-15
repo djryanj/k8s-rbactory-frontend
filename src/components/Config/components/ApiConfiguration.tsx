@@ -21,7 +21,7 @@ export const ApiConfiguration: React.FC<ApiConfigurationProps> = ({
         id="api-config-heading"
         className={combineClasses(
           "text-lg font-semibold mb-4",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         API Configuration
@@ -32,7 +32,7 @@ export const ApiConfiguration: React.FC<ApiConfigurationProps> = ({
             htmlFor="api-endpoint"
             className={combineClasses(
               "block text-sm font-medium mb-2",
-              neutralColors.text
+              neutralColors.text,
             )}
           >
             <Server className="inline mr-2" size={16} aria-hidden="true" />
@@ -50,7 +50,7 @@ export const ApiConfiguration: React.FC<ApiConfigurationProps> = ({
               neutralColors.bg,
               neutralColors.text,
               neutralColors.border,
-              infoColors.ring
+              infoColors.ring,
             )}
             aria-describedby="api-endpoint-description"
           />
@@ -58,7 +58,8 @@ export const ApiConfiguration: React.FC<ApiConfigurationProps> = ({
             id="api-endpoint-description"
             className={combineClasses("mt-2 text-xs", neutralColors.icon)}
           >
-            The backend API server endpoint for cluster operations
+            The backend API server endpoint for the cluster browser in the
+            format http[s]://backend[port]/api/v1
           </p>
         </div>
       </div>

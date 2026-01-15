@@ -1,11 +1,16 @@
 // src/context/rbac/RBACContext.ts
-import { createContext } from 'react';
-import type { RBACManifest, ResourcePermission, VerbType, Subject } from '../../types/rbac.types';
+import { createContext } from "react";
+import type {
+  RBACManifest,
+  ResourcePermission,
+  VerbType,
+  Subject,
+} from "../../types/rbac.types";
 
 export interface ValidationErrors {
   roleName?: string;
   bindingName?: string;
-  namespace?: string; 
+  namespace?: string;
   permissions?: string;
   subjects?: string;
 }
@@ -21,12 +26,17 @@ export interface RBACContextType {
   addPermission: (permission: ResourcePermission) => void;
   removePermission: (resource: string) => void;
   updatePermissionVerbs: (resource: string, verbs: VerbType[]) => void;
-  clearPermissionVerbs: (resource: string) => void; 
-  addSubject: (subject: Subject) => void; 
+  clearPermissionVerbs: (resource: string) => void;
+  addSubject: (subject: Subject) => void;
   removeSubject: (index: number) => void;
-  loadPreset: (permissions: ResourcePermission[], isClusterRole: boolean) => void;
+  loadPreset: (
+    permissions: ResourcePermission[],
+    isClusterRole: boolean,
+  ) => void;
   resetManifest: () => void;
   exportYAML: () => string;
 }
 
-export const RBACContext = createContext<RBACContextType | undefined>(undefined);
+export const RBACContext = createContext<RBACContextType | undefined>(
+  undefined,
+);

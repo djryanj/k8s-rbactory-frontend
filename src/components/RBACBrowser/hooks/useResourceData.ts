@@ -16,7 +16,7 @@ export const useResourceData = (
   selectedNamespace: string,
   principalNamespaceFilter: string,
   principalTypeFilter: string | undefined,
-  pageSize: number
+  pageSize: number,
 ) => {
   const { connected, apiClientInstance } = useConnection();
 
@@ -103,7 +103,7 @@ export const useResourceData = (
             response = await apiClientInstance.listRoles(
               namespace,
               limit,
-              offset
+              offset,
             );
             break;
           case "ClusterRole":
@@ -113,20 +113,20 @@ export const useResourceData = (
             response = await apiClientInstance.listRoleBindings(
               namespace,
               limit,
-              offset
+              offset,
             );
             break;
           case "ClusterRoleBinding":
             response = await apiClientInstance.listClusterRoleBindings(
               limit,
-              offset
+              offset,
             );
             break;
           case "Principal":
             response = await apiClientInstance.listPrincipals(
               principalNs,
               limit,
-              offset
+              offset,
             );
             break;
           default:
@@ -183,7 +183,7 @@ export const useResourceData = (
         }
       }
     },
-    [connected, apiClientInstance, pageSize]
+    [connected, apiClientInstance, pageSize],
   );
 
   const startAutoLoading = useCallback(async () => {
@@ -241,33 +241,33 @@ export const useResourceData = (
               response = await apiClientInstance.listRoles(
                 namespace,
                 limit,
-                offset
+                offset,
               );
               break;
             case "ClusterRole":
               response = await apiClientInstance.listClusterRoles(
                 limit,
-                offset
+                offset,
               );
               break;
             case "RoleBinding":
               response = await apiClientInstance.listRoleBindings(
                 namespace,
                 limit,
-                offset
+                offset,
               );
               break;
             case "ClusterRoleBinding":
               response = await apiClientInstance.listClusterRoleBindings(
                 limit,
-                offset
+                offset,
               );
               break;
             case "Principal":
               response = await apiClientInstance.listPrincipals(
                 principalNs,
                 limit,
-                offset
+                offset,
               );
               break;
           }
@@ -310,7 +310,7 @@ export const useResourceData = (
           }
 
           await new Promise((resolve) =>
-            setTimeout(resolve, AUTO_LOAD_BATCH_DELAY)
+            setTimeout(resolve, AUTO_LOAD_BATCH_DELAY),
           );
         } catch (err) {
           if (err instanceof Error && err.name === "AbortError") {
@@ -345,7 +345,7 @@ export const useResourceData = (
           setError(
             error instanceof Error
               ? error.message
-              : "Failed to load more resources"
+              : "Failed to load more resources",
           );
         });
       }

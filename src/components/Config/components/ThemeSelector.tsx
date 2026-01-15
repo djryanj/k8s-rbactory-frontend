@@ -60,7 +60,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
         id="appearance-heading"
         className={combineClasses(
           "text-lg font-semibold mb-4",
-          neutralColors.text
+          neutralColors.text,
         )}
       >
         Appearance
@@ -69,7 +69,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
         <legend
           className={combineClasses(
             "block text-sm font-medium mb-2",
-            neutralColors.text
+            neutralColors.text,
           )}
         >
           Theme
@@ -99,10 +99,10 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                     ? combineClasses(
                         infoColors.border,
                         infoColors.bg,
-                        "shadow-sm"
+                        "shadow-sm",
                       )
                     : combineClasses(neutralColors.border, neutralColors.hover),
-                  infoColors.ring
+                  infoColors.ring,
                 )}
                 role="radio"
                 aria-checked={selectedTheme === value}
@@ -113,7 +113,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                   <div
                     className={combineClasses(
                       "font-medium text-sm",
-                      neutralColors.text
+                      neutralColors.text,
                     )}
                   >
                     {label}
@@ -125,7 +125,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                   </div>
                 </div>
               </button>
-            )
+            ),
           )}
         </div>
         <p

@@ -38,7 +38,7 @@ export const SelectedResourcesSection: React.FC<
         className={combineClasses(
           "text-center py-12 rounded-lg border-2 border-dashed",
           "bg-gray-50 dark:bg-gray-800",
-          "border-gray-300 dark:border-gray-600"
+          "border-gray-300 dark:border-gray-600",
         )}
         role="status"
       >
@@ -75,7 +75,7 @@ export const SelectedResourcesSection: React.FC<
                 "border-2 rounded-lg overflow-hidden transition-colors",
                 neutralColors.bg,
                 neutralColors.border,
-                "hover:border-blue-500 dark:hover:border-blue-400"
+                "hover:border-blue-500 dark:hover:border-blue-400",
               )}
             >
               {/* Header - REMOVED GRADIENT */}
@@ -83,7 +83,7 @@ export const SelectedResourcesSection: React.FC<
                 className={combineClasses(
                   "p-4 border-b",
                   "bg-gray-50 dark:bg-gray-800", // Solid background instead of gradient
-                  neutralColors.border
+                  neutralColors.border,
                 )}
               >
                 <div className="flex justify-between items-start">
@@ -97,7 +97,7 @@ export const SelectedResourcesSection: React.FC<
                       <h4
                         className={combineClasses(
                           "text-lg font-semibold",
-                          neutralColors.text
+                          neutralColors.text,
                         )}
                       >
                         {metadata?.displayName || permission.resource}
@@ -108,7 +108,7 @@ export const SelectedResourcesSection: React.FC<
                             "text-xs px-2 py-1 rounded-full border",
                             "bg-gray-100 dark:bg-gray-700",
                             "text-gray-700 dark:text-gray-300",
-                            "border-gray-300 dark:border-gray-600"
+                            "border-gray-300 dark:border-gray-600",
                           )}
                           aria-label="Custom resource"
                         >
@@ -124,7 +124,7 @@ export const SelectedResourcesSection: React.FC<
                     <dl
                       className={combineClasses(
                         "mt-2 flex items-center gap-3 text-xs flex-wrap",
-                        neutralColors.icon
+                        neutralColors.icon,
                       )}
                     >
                       <div>
@@ -159,7 +159,7 @@ export const SelectedResourcesSection: React.FC<
                       "focus:outline-none focus:ring-2 focus:ring-offset-1",
                       criticalColors.text,
                       criticalColors.hover,
-                      criticalColors.ring
+                      criticalColors.ring,
                     )}
                     aria-label={`Remove ${
                       metadata?.displayName || permission.resource

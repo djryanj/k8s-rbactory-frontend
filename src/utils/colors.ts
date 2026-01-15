@@ -12,10 +12,10 @@ import type { LucideIcon } from "lucide-react";
 /**
  * Combine multiple Tailwind classes safely
  * Useful for merging color classes with other utilities
- * 
+ *
  * @param classes - Array of class strings
  * @returns Combined class string
- * 
+ *
  * @example
  * ```typescript
  * const classes = combineClasses(
@@ -25,7 +25,9 @@ import type { LucideIcon } from "lucide-react";
  * );
  * ```
  */
-export function combineClasses(...classes: (string | undefined | null | false)[]): string {
+export function combineClasses(
+  ...classes: (string | undefined | null | false)[]
+): string {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -271,7 +273,7 @@ export const CARD_VARIANTS = {
     base: combineClasses(
       ACCESSIBLE_COLORS.neutral.bg,
       ACCESSIBLE_COLORS.neutral.border,
-      "border-2"
+      "border-2",
     ),
     hover: "hover:border-gray-300 dark:hover:border-gray-600 transition-colors",
   },
@@ -279,30 +281,34 @@ export const CARD_VARIANTS = {
     slate: {
       base: combineClasses(
         ACCESSIBLE_COLORS.neutral.bg,
-        "border-2 border-slate-300 dark:border-slate-700/40"
+        "border-2 border-slate-300 dark:border-slate-700/40",
       ),
-      hover: "hover:border-slate-400 dark:hover:border-slate-600/60 transition-colors",
+      hover:
+        "hover:border-slate-400 dark:hover:border-slate-600/60 transition-colors",
     },
     indigo: {
       base: combineClasses(
         ACCESSIBLE_COLORS.neutral.bg,
-        "border-2 border-indigo-200 dark:border-indigo-800/30"
+        "border-2 border-indigo-200 dark:border-indigo-800/30",
       ),
-      hover: "hover:border-indigo-300 dark:hover:border-indigo-700/50 transition-colors",
+      hover:
+        "hover:border-indigo-300 dark:hover:border-indigo-700/50 transition-colors",
     },
     purple: {
       base: combineClasses(
         ACCESSIBLE_COLORS.neutral.bg,
-        "border-2 border-purple-200 dark:border-purple-800/30"
+        "border-2 border-purple-200 dark:border-purple-800/30",
       ),
-      hover: "hover:border-purple-300 dark:hover:border-purple-700/50 transition-colors",
+      hover:
+        "hover:border-purple-300 dark:hover:border-purple-700/50 transition-colors",
     },
     blue: {
       base: combineClasses(
         ACCESSIBLE_COLORS.neutral.bg,
-        "border-2 border-blue-200 dark:border-blue-800/30"
+        "border-2 border-blue-200 dark:border-blue-800/30",
       ),
-      hover: "hover:border-blue-300 dark:hover:border-blue-700/50 transition-colors",
+      hover:
+        "hover:border-blue-300 dark:hover:border-blue-700/50 transition-colors",
     },
   },
 } as const;
@@ -345,7 +351,7 @@ export interface SeverityStyle {
 /**
  * Get color scheme and icon for a given severity level
  * Provides consistent styling across the application
- * 
+ *
  * @param severity - The severity level
  * @returns Style configuration with colors, icon, and labels
  */
@@ -358,7 +364,7 @@ export function getSeverityStyle(severity: SecurityLevel): SeverityStyle {
         label: "Critical",
         ariaLabel: "Critical severity - destructive permissions",
       };
-          case "critical-sensitive":
+    case "critical-sensitive":
       return {
         colors: ACCESSIBLE_COLORS.critical,
         icon: Shield,
@@ -367,7 +373,7 @@ export function getSeverityStyle(severity: SecurityLevel): SeverityStyle {
       };
     case "high":
       return {
-        colors: ACCESSIBLE_COLORS.orange, 
+        colors: ACCESSIBLE_COLORS.orange,
         icon: AlertCircle,
         label: "High",
         ariaLabel: "High severity",
@@ -406,7 +412,7 @@ export function getSeverityStyle(severity: SecurityLevel): SeverityStyle {
 /**
  * Get color scheme by name
  * Useful for non-severity related color usage
- * 
+ *
  * @param scheme - The color scheme name
  * @returns Color properties object
  */
@@ -424,10 +430,10 @@ export function getColorScheme(scheme: ColorScheme): ColorProperties {
 export function getButtonClasses(
   variant: keyof typeof BUTTON_VARIANTS,
   color: ButtonColor,
-  size: "sm" | "md" | "lg" = "md"
+  size: "sm" | "md" | "lg" = "md",
 ): string {
   const buttonStyle = BUTTON_VARIANTS[variant][color];
-  
+
   const sizeClasses = {
     sm: "px-3 py-1.5 text-xs",
     md: "px-4 py-2 text-sm",
@@ -442,7 +448,7 @@ export function getButtonClasses(
     buttonStyle.ring,
     sizeClasses[size],
     "rounded-md font-medium shadow-sm transition-colors",
-    "flex items-center justify-center gap-2"
+    "flex items-center justify-center gap-2",
   );
 }
 
@@ -454,24 +460,24 @@ export function getButtonClasses(
  */
 export function getCardClasses(
   variant: "neutral" | "accent",
-  accentColor?: CardAccentColor
+  accentColor?: CardAccentColor,
 ): string {
   if (variant === "neutral") {
     return combineClasses(
       CARD_VARIANTS.neutral.base,
       CARD_VARIANTS.neutral.hover,
-      "p-4 rounded-lg"
+      "p-4 rounded-lg",
     );
   }
-  
+
   if (variant === "accent" && accentColor) {
     return combineClasses(
       CARD_VARIANTS.accent[accentColor].base,
       CARD_VARIANTS.accent[accentColor].hover,
-      "p-4 rounded-lg"
+      "p-4 rounded-lg",
     );
   }
-  
+
   return combineClasses(CARD_VARIANTS.neutral.base, "p-4 rounded-lg");
 }
 
@@ -495,7 +501,7 @@ export const RESOURCE_TYPE_COLORS: Record<string, ColorScheme> = {
 
 /**
  * Get color scheme for a Kubernetes resource type
- * 
+ *
  * @param resourceType - The Kubernetes resource kind
  * @returns Color scheme for the resource type
  */
@@ -511,7 +517,7 @@ export function getResourceTypeColor(resourceType: string): ColorProperties {
  * @returns Combined class string for disabled buttons
  */
 export function getDisabledButtonClasses(
-  size: "sm" | "md" | "lg" = "md"
+  size: "sm" | "md" | "lg" = "md",
 ): string {
   const sizeClasses = {
     sm: "px-3 py-1.5 text-xs",
@@ -526,6 +532,6 @@ export function getDisabledButtonClasses(
     "bg-gray-300 dark:bg-gray-700",
     "text-gray-500 dark:text-gray-500",
     "border border-gray-400 dark:border-gray-600",
-    "cursor-not-allowed opacity-60"
+    "cursor-not-allowed opacity-60",
   );
 }

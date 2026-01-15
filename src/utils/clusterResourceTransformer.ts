@@ -70,7 +70,7 @@ const transformRulesToPermissions = (
     resources: string[];
     resourceNames?: string[];
     verbs: string[];
-  }>
+  }>,
 ): ResourcePermission[] => {
   if (!rules || rules.length === 0) return [];
 
@@ -134,13 +134,14 @@ const transformSubjects = (
     kind: string;
     name: string;
     namespace?: string;
-  }>
+  }>,
 ): Subject[] => {
   if (!subjects || subjects.length === 0) return [];
 
   return subjects
     .filter(
-      (s) => s.kind === "User" || s.kind === "Group" || s.kind === "ServiceAccount"
+      (s) =>
+        s.kind === "User" || s.kind === "Group" || s.kind === "ServiceAccount",
     )
     .map((subject) => ({
       kind: subject.kind as "User" | "Group" | "ServiceAccount",
@@ -155,7 +156,7 @@ const transformSubjects = (
 export const transformClusterResourceToManifest = (
   resource: ClusterRBACResource,
   relatedRole?: ClusterRBACResource,
-  relatedBindings?: ClusterRBACResource[]
+  relatedBindings?: ClusterRBACResource[],
 ): RBACManifest => {
   const isRole = resource.kind === "Role" || resource.kind === "ClusterRole";
   const isBinding =
@@ -185,7 +186,9 @@ export const transformClusterResourceToManifest = (
   // Transform role
   const isClusterRole = roleResource.kind === "ClusterRole";
   const roleName = `${roleResource.name}-copy`;
-  const roleNamespace = isClusterRole ? "default" : roleResource.namespace || "default";
+  const roleNamespace = isClusterRole
+    ? "default"
+    : roleResource.namespace || "default";
 
   const permissions = transformRulesToPermissions(roleResource.rules);
 
@@ -207,7 +210,7 @@ export const transformClusterResourceToManifest = (
     },
     binding: {
       name: bindingName,
-      ...(isClusterRole ? {} : { namespace: roleNamespace }), 
+      ...(isClusterRole ? {} : { namespace: roleNamespace }),
       roleRef: {
         kind: isClusterRole ? "ClusterRole" : "Role",
         name: roleName,

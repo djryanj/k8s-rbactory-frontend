@@ -9,13 +9,13 @@ describe("ThemeSelector", () => {
     render(<ThemeSelector selectedTheme="system" onThemeChange={vi.fn()} />);
 
     expect(
-      screen.getByRole("radio", { name: /light theme/i })
+      screen.getByRole("radio", { name: /light theme/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("radio", { name: /dark theme/i })
+      screen.getByRole("radio", { name: /dark theme/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("radio", { name: /system theme/i })
+      screen.getByRole("radio", { name: /system theme/i }),
     ).toBeInTheDocument();
   });
 
@@ -36,7 +36,7 @@ describe("ThemeSelector", () => {
     const onThemeChange = vi.fn();
 
     render(
-      <ThemeSelector selectedTheme="system" onThemeChange={onThemeChange} />
+      <ThemeSelector selectedTheme="system" onThemeChange={onThemeChange} />,
     );
 
     const lightButton = screen.getByRole("radio", { name: /light theme/i });
@@ -49,7 +49,7 @@ describe("ThemeSelector", () => {
     render(<ThemeSelector selectedTheme="system" onThemeChange={vi.fn()} />);
 
     expect(
-      screen.getByText(/theme changes apply immediately for preview/i)
+      screen.getByText(/theme changes apply immediately for preview/i),
     ).toBeInTheDocument();
   });
 

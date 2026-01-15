@@ -67,7 +67,7 @@ export const RBACBrowser: React.FC = () => {
     filters.selectedNamespace,
     filters.principalNamespaceFilter,
     filters.principalTypeFilter,
-    pageSize
+    pageSize,
   );
 
   const { selectedResource, handleResourceSelect, handlePrincipalSelect } =
@@ -163,16 +163,16 @@ export const RBACBrowser: React.FC = () => {
           }
 
           return permission;
-        })
+        }),
       );
 
       const isClusterRole = resource.kind === "ClusterRole";
       loadPreset(permissions, isClusterRole);
       announceToScreenReader(
-        `Imported ${resource.kind} ${resource.name} as preset`
+        `Imported ${resource.kind} ${resource.name} as preset`,
       );
     },
-    [loadPreset]
+    [loadPreset],
   );
 
   const handleScroll = useCallback(
@@ -184,7 +184,7 @@ export const RBACBrowser: React.FC = () => {
         loadMore();
       }
     },
-    [pagination.hasMore, loadingMore, loadMore]
+    [pagination.hasMore, loadingMore, loadMore],
   );
 
   const handleClearSearch = useCallback(() => {
@@ -214,14 +214,14 @@ export const RBACBrowser: React.FC = () => {
       (r) =>
         r.kind === "Role" &&
         (!filters.selectedNamespace ||
-          r.namespace === filters.selectedNamespace)
+          r.namespace === filters.selectedNamespace),
     ).length;
 
     const roleBindingCount = resources.filter(
       (r) =>
         r.kind === "RoleBinding" &&
         (!filters.selectedNamespace ||
-          r.namespace === filters.selectedNamespace)
+          r.namespace === filters.selectedNamespace),
     ).length;
 
     // Filter principals based on namespace AND type
@@ -277,7 +277,7 @@ export const RBACBrowser: React.FC = () => {
         console.error("Initialization failed:", err);
         announceToScreenReader(
           "Failed to initialize RBAC browser",
-          "assertive"
+          "assertive",
         );
       } finally {
         setInitializing(false);
@@ -409,7 +409,7 @@ export const RBACBrowser: React.FC = () => {
               .includes(filters.searchTerm.toLowerCase()) ||
             resource?.namespace
               ?.toLowerCase()
-              .includes(filters.searchTerm.toLowerCase())
+              .includes(filters.searchTerm.toLowerCase()),
         );
 
   const filteredPrincipals = principals.filter((principal) => {
@@ -453,7 +453,7 @@ export const RBACBrowser: React.FC = () => {
       className={combineClasses(
         "rounded-lg border",
         neutralColors.bg,
-        neutralColors.border
+        neutralColors.border,
       )}
       role="region"
       aria-labelledby="rbac-browser-title"

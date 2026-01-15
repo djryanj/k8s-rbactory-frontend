@@ -1,6 +1,9 @@
 // src/utils/yamlGenerator.ts
 import yaml from "js-yaml";
-import { type RBACManifest, type ResourcePermission } from "../types/rbac.types";
+import {
+  type RBACManifest,
+  type ResourcePermission,
+} from "../types/rbac.types";
 
 interface K8sRole {
   apiVersion: string;
@@ -38,7 +41,7 @@ interface K8sRoleBinding {
 }
 
 function groupPermissionsByApiGroup(
-  permissions: ResourcePermission[]
+  permissions: ResourcePermission[],
 ): Map<string, ResourcePermission[]> {
   const grouped = new Map<string, ResourcePermission[]>();
 

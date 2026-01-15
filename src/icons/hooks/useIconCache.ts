@@ -21,14 +21,14 @@ export function useIconCache() {
       cache.remove(kind);
       updateStats();
     },
-    [cache, updateStats]
+    [cache, updateStats],
   );
 
   const has = useCallback(
     (kind: string) => {
       return cache.has(kind);
     },
-    [cache]
+    [cache],
   );
 
   return {

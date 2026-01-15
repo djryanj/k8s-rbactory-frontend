@@ -28,10 +28,10 @@ describe("ScopeSelector", () => {
       renderWithContext(<ScopeSelector />);
 
       expect(
-        screen.getByLabelText(/namespace-scoped role/i)
+        screen.getByLabelText(/namespace-scoped role/i),
       ).toBeInTheDocument();
       expect(
-        screen.getByLabelText(/cluster-wide clusterrole/i)
+        screen.getByLabelText(/cluster-wide clusterrole/i),
       ).toBeInTheDocument();
     });
 
@@ -76,7 +76,7 @@ describe("ScopeSelector", () => {
       await user.click(clusterOption);
 
       expect(announceToScreenReader).toHaveBeenCalledWith(
-        expect.stringContaining("cluster-wide ClusterRole")
+        expect.stringContaining("cluster-wide ClusterRole"),
       );
     });
 
@@ -89,7 +89,7 @@ describe("ScopeSelector", () => {
       await user.type(namespaceInput, "production");
 
       expect(mockRBACContext.updateNamespace).toHaveBeenCalledWith(
-        "production"
+        "production",
       );
     });
 
@@ -189,10 +189,10 @@ describe("ScopeSelector", () => {
 
       expect(screen.getByLabelText(/namespace-scoped role/i)).toHaveAttribute(
         "aria-describedby",
-        "namespace-scope-description"
+        "namespace-scope-description",
       );
       expect(
-        screen.getByLabelText(/cluster-wide clusterrole/i)
+        screen.getByLabelText(/cluster-wide clusterrole/i),
       ).toHaveAttribute("aria-describedby", "cluster-scope-description");
     });
 

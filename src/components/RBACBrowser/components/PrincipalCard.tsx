@@ -24,13 +24,13 @@ export const PrincipalCard: React.FC<PrincipalCardProps> = ({
           ? combineClasses(
               neutralColors.border,
               "bg-gray-100 dark:bg-gray-700",
-              "shadow-sm"
+              "shadow-sm",
             )
           : combineClasses(
               neutralColors.bg,
               neutralColors.border,
-              "hover:border-gray-400 dark:hover:border-gray-500"
-            )
+              "hover:border-gray-400 dark:hover:border-gray-500",
+            ),
       )}
       role="button"
       tabIndex={0}
@@ -55,7 +55,7 @@ export const PrincipalCard: React.FC<PrincipalCardProps> = ({
           "absolute top-2 left-2 w-6 h-6 rounded-full flex items-center justify-center transition-all",
           isSelected
             ? "bg-green-600 dark:bg-green-500 shadow-sm scale-100 opacity-100"
-            : "bg-gray-200 dark:bg-gray-700 scale-90 opacity-50 group-hover:scale-100 group-hover:opacity-70"
+            : "bg-gray-200 dark:bg-gray-700 scale-90 opacity-50 group-hover:scale-100 group-hover:opacity-70",
         )}
         aria-hidden="true"
       >
@@ -73,7 +73,7 @@ export const PrincipalCard: React.FC<PrincipalCardProps> = ({
           size={40}
           className={combineClasses(
             "transition-all flex-shrink-0 mt-1",
-            neutralColors.icon
+            neutralColors.icon,
           )}
         />
 
@@ -82,7 +82,7 @@ export const PrincipalCard: React.FC<PrincipalCardProps> = ({
             <div
               className={combineClasses(
                 "font-semibold text-base transition-colors",
-                neutralColors.text
+                neutralColors.text,
               )}
             >
               {principal.name}
@@ -94,7 +94,7 @@ export const PrincipalCard: React.FC<PrincipalCardProps> = ({
                 "inline-flex items-center px-2 py-0.5 text-xs rounded font-medium border flex-shrink-0",
                 purpleColors.bg,
                 purpleColors.text,
-                purpleColors.border
+                purpleColors.border,
               )}
               aria-label={`Type: ${principal.kind}`}
             >
@@ -108,7 +108,7 @@ export const PrincipalCard: React.FC<PrincipalCardProps> = ({
                   "inline-flex items-center px-2 py-0.5 text-xs rounded font-medium border flex-shrink-0",
                   "bg-gray-100 dark:bg-gray-700",
                   "text-gray-700 dark:text-gray-300",
-                  "border-gray-300 dark:border-gray-600"
+                  "border-gray-300 dark:border-gray-600",
                 )}
                 aria-label={`Namespace: ${principal.namespace}`}
               >
