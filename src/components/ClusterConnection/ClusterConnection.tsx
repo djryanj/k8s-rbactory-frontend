@@ -12,6 +12,7 @@ import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import { parseError } from "./errorParser";
 import { ErrorDisplay } from "./ErrorDisplay";
 import type { ClusterConnectionProps } from "./types";
+import { ConnectionDebug } from "./ConnectionDebug";
 
 export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
   onOpenSettings,
@@ -202,6 +203,9 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
       {parsedError && (
         <ErrorDisplay error={parsedError} onOpenSettings={onOpenSettings} />
       )}
+
+      {/* Debug component - only in development */}
+      <ConnectionDebug />
 
       {/* Screen reader summary */}
       <div

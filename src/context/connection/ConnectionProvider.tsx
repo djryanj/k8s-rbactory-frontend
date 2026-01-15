@@ -1,6 +1,6 @@
 // src/context/connection/ConnectionProvider.tsx
 import React, { useState, useEffect, useCallback } from "react";
-import { apiClient } from "../../services/api";
+import { apiClient, isAPIError } from "../../services/api";
 import { useConfig } from "../config";
 import {
   ConnectionContext,
@@ -33,16 +33,35 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
       if (isConnected) {
         const info = await apiClient.getClusterInfo();
         setClusterInfo(info);
+        setError(null);
       } else {
         setClusterInfo(null);
+        setError("Unable to connect to API server");
       }
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to connect to API server";
-      console.error("Connection check failed:", errorMessage);
-      setError(errorMessage);
+      console.error("Connection check failed:", err);
+
       setConnected(false);
       setClusterInfo(null);
+
+      // Extract detailed error message from APIError
+      if (isAPIError(err)) {
+        // Use the full error message from the backend
+        setError(err.message);
+
+        // Log additional details for debugging
+        if (process.env.NODE_ENV === "development") {
+          console.error("API Error Details:", {
+            statusCode: err.statusCode,
+            details: err.details,
+            validationErrors: err.validationErrors,
+          });
+        }
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }

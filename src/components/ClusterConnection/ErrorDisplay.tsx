@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, Settings } from "lucide-react";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import { ErrorType } from "./types";
 import type { ErrorDisplayProps } from "./types";
+import { parseTextWithLinks } from "./linkParser";
 
 /**
  * Get appropriate color scheme based on error type
@@ -25,6 +26,32 @@ const getErrorColors = (type: ErrorType) => {
 };
 
 /**
+ * Determines if the settings button should be shown for this error type
+ * Settings button is only useful when the issue can be fixed through app configuration
+ */
+const shouldShowSettingsButton = (type: ErrorType): boolean => {
+  switch (type) {
+    case ErrorType.NETWORK:
+      // Network errors might be due to wrong API endpoint
+      return true;
+    case ErrorType.AUTHENTICATION:
+      // Authentication errors might be due to wrong credentials/token
+      return true;
+    case ErrorType.RBAC:
+      // RBAC errors require cluster-level configuration, not app settings
+      return false;
+    case ErrorType.SERVER:
+      // Server errors are not fixable through settings
+      return false;
+    case ErrorType.UNKNOWN:
+      // Unknown errors might benefit from checking settings
+      return true;
+    default:
+      return false;
+  }
+};
+
+/**
  * ErrorDisplay Component
  * Displays parsed error information with suggestions and expandable details
  */
@@ -35,6 +62,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   const [showDetails, setShowDetails] = useState(false);
   const errorColors = getErrorColors(error.type);
   const ErrorIcon = error.icon;
+  const showSettings = shouldShowSettingsButton(error.type);
 
   return (
     <div
@@ -88,14 +116,16 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
                   <span className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     •
                   </span>
-                  <span>{suggestion}</span>
+                  <span className="flex-1">
+                    {parseTextWithLinks(suggestion)}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Settings link for RBAC errors */}
-          {error.type === ErrorType.RBAC && (
+          {/* Settings link - only for errors fixable through app settings */}
+          {showSettings && (
             <button
               onClick={onOpenSettings}
               className={combineClasses(
@@ -105,10 +135,10 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
                 "hover:underline",
                 errorColors.ring
               )}
-              aria-label="Open settings to configure permissions"
+              aria-label="Open settings to check configuration"
             >
               <Settings size={12} aria-hidden="true" />
-              <span>Configure Settings</span>
+              <span>Check Settings</span>
             </button>
           )}
         </div>

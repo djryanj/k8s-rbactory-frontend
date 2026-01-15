@@ -232,14 +232,14 @@ const parseRBACError = (message: string, originalError: string): ParsedError => 
     details: originalError,
     suggestions: [
       user
-        ? `Verify the service account "${user}" has the necessary ClusterRole or Role bindings`
+        ? `Verify the service account "${user}" has the necessary ClusterRole and/or Role bindings`
         : "Verify the service account has the necessary ClusterRole or Role bindings",
       operation
         ? `Grant '${operation}' permission for ${resource}`
         : `Grant appropriate permissions for ${resource}`,
       "Check if the namespace-scoped permissions are correctly configured",
-      "Review the RBAC configuration in your Kubernetes cluster",
       "Ensure the service account exists and is properly configured",
+      "Review the RBAC configuration documentation at: https://github.com/djryanj/k8s-rbactory-backend?tab=readme-ov-file#service-account-with-proper-rbac",
     ],
     icon: ShieldAlert,
   };
@@ -274,7 +274,7 @@ const parseNetworkError = (originalError: string): ParsedError => {
     message: "Unable to reach the Kubernetes cluster.",
     details: originalError,
     suggestions: [
-      "Verify the cluster URL is correct and accessible",
+      "Verify the backend API URL is correct and accessible",
       "Check your network connection",
       "Ensure any VPN or proxy settings are configured correctly",
       "Verify the cluster is running and accepting connections",

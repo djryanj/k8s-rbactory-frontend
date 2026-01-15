@@ -1,5 +1,5 @@
 // src/components/ClusterConnection/types.ts
-import { ComponentType } from "react";
+import { type ComponentType } from "react";
 
 export enum ErrorType {
   RBAC = "rbac",
