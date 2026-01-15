@@ -116,6 +116,18 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
                 </span>{" "}
                 namespace{clusterInfo.namespaces.length !== 1 ? "s" : ""}
               </span>
+
+              <span className={neutralColors.icon} aria-hidden="true">
+                •
+              </span>
+
+              <span
+                className={neutralColors.icon}
+                aria-label={`${clusterInfo.nodeCount} nodes`}
+              >
+                <span className="font-medium">{clusterInfo.nodeCount}</span>{" "}
+                node{clusterInfo.nodeCount !== 1 ? "s" : ""}
+              </span>
             </div>
           )}
 
