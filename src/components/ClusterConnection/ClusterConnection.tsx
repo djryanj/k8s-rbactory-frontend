@@ -6,23 +6,35 @@ import {
   RefreshCw,
   Settings,
   CheckCircle,
+  Info,
 } from "lucide-react";
 import { useConnection } from "../../context/connection";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import { parseError } from "./errorParser";
 import { ErrorDisplay } from "./ErrorDisplay";
-import type { ClusterConnectionProps } from "./types";
 import { ConnectionDebug } from "./ConnectionDebug";
+import { formatRetryDelay } from "../../utils/retry";
+import type { ClusterConnectionProps } from "./types";
 
 export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
   onOpenSettings,
 }) => {
-  const { connected, loading, clusterInfo, error, checkConnection } =
-    useConnection();
+  const {
+    connected,
+    loading,
+    clusterInfo,
+    error,
+    retrying,
+    retryCount,
+    nextRetryIn,
+    checkConnection,
+    cancelRetry,
+  } = useConnection();
 
   const successColors = ACCESSIBLE_COLORS.success;
   const neutralColors = ACCESSIBLE_COLORS.neutral;
   const infoColors = ACCESSIBLE_COLORS.info;
+  const warningColors = ACCESSIBLE_COLORS.warning;
 
   const handleRefresh = () => {
     void checkConnection();
@@ -30,6 +42,9 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
 
   // Parse error if present
   const parsedError = error ? parseError(error) : null;
+
+  // Determine if we're in the middle of a retry attempt (loading but retrying)
+  const isRetryingNow = loading && retrying && nextRetryIn === null;
 
   return (
     <section
@@ -132,7 +147,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
           )}
 
           {/* Disconnected state */}
-          {!connected && !loading && !error && (
+          {!connected && !loading && !error && !retrying && (
             <div
               className={combineClasses("text-sm", neutralColors.icon)}
               role="status"
@@ -156,8 +171,8 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             </div>
           )}
 
-          {/* Loading state */}
-          {loading && (
+          {/* Initial loading state (not a retry) */}
+          {loading && !retrying && (
             <div
               className={combineClasses(
                 "flex items-center gap-2 text-sm",
@@ -175,6 +190,90 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
               <span>Checking connection...</span>
             </div>
           )}
+
+          {/* Retry in progress (after countdown) */}
+          {isRetryingNow && (
+            <div
+              className={combineClasses(
+                "flex items-center gap-2 text-sm",
+                warningColors.icon
+              )}
+              role="status"
+              aria-live="polite"
+              aria-busy="true"
+            >
+              <RefreshCw
+                size={16}
+                className="animate-spin"
+                aria-hidden="true"
+              />
+              <span>Retrying connection (attempt {retryCount})...</span>
+            </div>
+          )}
+
+          {/* Retry countdown state */}
+          {retrying && nextRetryIn !== null && !loading && (
+            <div
+              className={combineClasses(
+                "flex items-center gap-2 text-sm flex-wrap",
+                warningColors.icon
+              )}
+              role="status"
+              aria-live="polite"
+            >
+              <RefreshCw
+                size={16}
+                className="animate-spin"
+                aria-hidden="true"
+              />
+              <span>
+                Retrying in {formatRetryDelay(nextRetryIn)} (attempt{" "}
+                {retryCount})
+              </span>
+              <button
+                onClick={cancelRetry}
+                className={combineClasses(
+                  "text-xs px-2 py-1 rounded border transition-colors",
+                  "focus:outline-none focus:ring-2 focus:ring-offset-1",
+                  warningColors.border,
+                  warningColors.text,
+                  warningColors.hover,
+                  warningColors.ring
+                )}
+                aria-label="Cancel automatic retry"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+
+          {/* Retry cancelled or exhausted message */}
+          {!connected && !loading && !retrying && error && (
+            <div
+              className={combineClasses(
+                "flex items-center gap-2 text-sm flex-wrap",
+                neutralColors.icon
+              )}
+              role="status"
+              aria-live="polite"
+            >
+              <span>Connection failed.</span>
+              <button
+                onClick={onOpenSettings}
+                className={combineClasses(
+                  "inline-flex items-center gap-1 text-xs font-medium transition-colors",
+                  "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded px-2 py-1",
+                  infoColors.text,
+                  "hover:underline",
+                  infoColors.ring
+                )}
+                aria-label="Open settings to configure retry behavior"
+              >
+                <Settings size={12} aria-hidden="true" />
+                <span>Configure Retries</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Refresh button */}
@@ -187,7 +286,7 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
             neutralColors.hover,
             neutralColors.ring,
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            "min-h-[40px] min-w-[40px]" // Touch target
+            "min-h-[40px] min-w-[40px]"
           )}
           title={loading ? "Refreshing..." : "Refresh connection status"}
           aria-label={
@@ -211,12 +310,49 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
         </button>
       </div>
 
+      {/* Retry configuration hint - shown during retries */}
+      {retrying && (
+        <div
+          className={combineClasses(
+            "mt-3 p-3 rounded-lg border flex items-start gap-2",
+            infoColors.bg,
+            infoColors.border
+          )}
+          role="status"
+          aria-live="polite"
+        >
+          <Info
+            className={combineClasses("flex-shrink-0 mt-0.5", infoColors.icon)}
+            size={16}
+            aria-hidden="true"
+          />
+          <div className="flex-1 min-w-0">
+            <p className={combineClasses("text-sm", infoColors.text)}>
+              Automatic retries are enabled.{" "}
+              <button
+                onClick={onOpenSettings}
+                className={combineClasses(
+                  "inline font-medium underline transition-colors",
+                  "focus:outline-none focus:ring-2 focus:ring-offset-1 rounded",
+                  "hover:no-underline",
+                  infoColors.ring
+                )}
+                aria-label="Open settings to configure retry behavior"
+              >
+                Configure retry settings
+              </button>{" "}
+              to adjust the number of attempts or disable automatic retries.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Error display */}
       {parsedError && (
         <ErrorDisplay error={parsedError} onOpenSettings={onOpenSettings} />
       )}
 
-      {/* Debug component - only in development */}
+      {/* Debug component */}
       <ConnectionDebug />
 
       {/* Screen reader summary */}
@@ -228,8 +364,14 @@ export const ClusterConnection: React.FC<ClusterConnectionProps> = ({
       >
         {connected && clusterInfo
           ? `Connected to Kubernetes cluster version ${clusterInfo.version} with ${clusterInfo.namespaces.length} namespaces and ${clusterInfo.nodeCount} nodes.`
+          : loading && retrying
+          ? `Retrying connection. Attempt ${retryCount}.`
           : loading
           ? "Checking cluster connection status."
+          : retrying && nextRetryIn !== null
+          ? `Connection failed. Retrying in ${formatRetryDelay(
+              nextRetryIn
+            )}. Attempt ${retryCount}. You can configure retry settings in the settings menu.`
           : parsedError
           ? `${parsedError.title}: ${parsedError.message}`
           : "Not connected to cluster. Please check settings."}

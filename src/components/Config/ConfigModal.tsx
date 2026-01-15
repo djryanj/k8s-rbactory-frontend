@@ -1,6 +1,6 @@
 // src/components/Config/ConfigModal.tsx
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useConfig } from "../../context/config";
+import { useConfig, type RetryConfig } from "../../context/config";
 import { useTheme } from "../../context/theme";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import { announceToScreenReader } from "../../utils/accessibility";
@@ -11,6 +11,7 @@ import {
   ThemeSelector,
   ApiConfiguration,
   ClusterBrowserSettings,
+  RetrySettings,
 } from "./components";
 import type { ThemeOption } from "./types";
 
@@ -26,6 +27,8 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
     setClusterBrowserEnabled,
     defaultResourceLoadSize,
     setdefaultResourceLoadSize,
+    retryConfig,
+    setRetryConfig,
     resetConfig,
   } = useConfig();
   const { theme, setTheme } = useTheme();
@@ -41,6 +44,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
     apiEndpoint,
     clusterBrowserEnabled,
     defaultResourceLoadSize,
+    retryConfig,
   });
 
   // Local state for form values
@@ -52,11 +56,33 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
   const [localResourceLoadSize, setLocalResourceLoadSize] = useState(
     defaultResourceLoadSize
   );
+  const [localRetryConfig, setLocalRetryConfig] =
+    useState<RetryConfig>(retryConfig);
   const [hasChanges, setHasChanges] = useState(false);
 
   // Focus trap refs
   const modalRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
+
+  // Check for changes
+  useEffect(() => {
+    const changed =
+      localTheme !== originalValuesRef.current.theme ||
+      localEndpoint !== originalValuesRef.current.apiEndpoint ||
+      localBrowserEnabled !== originalValuesRef.current.clusterBrowserEnabled ||
+      localResourceLoadSize !==
+        originalValuesRef.current.defaultResourceLoadSize ||
+      JSON.stringify(localRetryConfig) !==
+        JSON.stringify(originalValuesRef.current.retryConfig);
+
+    setHasChanges(changed);
+  }, [
+    localTheme,
+    localEndpoint,
+    localBrowserEnabled,
+    localResourceLoadSize,
+    localRetryConfig,
+  ]);
 
   // Memoize handleCancel to avoid recreating on every render
   const handleCancel = useCallback(() => {
@@ -77,6 +103,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
       setdefaultResourceLoadSize(localResourceLoadSize);
     }
     setTheme(localTheme);
+    setRetryConfig(localRetryConfig);
     setHasChanges(false);
     announceToScreenReader("Settings saved successfully");
     onClose();
@@ -85,11 +112,13 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
     localBrowserEnabled,
     localTheme,
     localResourceLoadSize,
+    localRetryConfig,
     isClusterBrowserAvailable,
     setApiEndpoint,
     setClusterBrowserEnabled,
     setTheme,
     setdefaultResourceLoadSize,
+    setRetryConfig,
     onClose,
   ]);
 
@@ -109,6 +138,11 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
       }
       setLocalTheme(defaultTheme);
       setTheme(defaultTheme);
+      setLocalRetryConfig({
+        enabled: true,
+        maxAttempts: 5,
+        initialDelaySeconds: 5,
+      });
       setHasChanges(false);
       announceToScreenReader("All settings reset to defaults");
     }
@@ -119,7 +153,6 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
     (newTheme: ThemeOption) => {
       setLocalTheme(newTheme);
       setTheme(newTheme); // Apply immediately for preview
-      setHasChanges(true);
       announceToScreenReader(`Theme changed to ${newTheme}`);
     },
     [setTheme]
@@ -128,13 +161,11 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
   // Handle API endpoint change
   const handleEndpointChange = useCallback((endpoint: string) => {
     setLocalEndpoint(endpoint);
-    setHasChanges(true);
   }, []);
 
   // Handle cluster browser toggle
   const handleBrowserToggle = useCallback((enabled: boolean) => {
     setLocalBrowserEnabled(enabled);
-    setHasChanges(true);
     announceToScreenReader(
       `Cluster browser ${enabled ? "enabled" : "disabled"}`
     );
@@ -143,7 +174,11 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
   // Handle page size change
   const handlePageSizeChange = useCallback((size: number) => {
     setLocalResourceLoadSize(size);
-    setHasChanges(true);
+  }, []);
+
+  // Handle retry config change
+  const handleRetryConfigChange = useCallback((config: RetryConfig) => {
+    setLocalRetryConfig(config);
   }, []);
 
   // Set focus to modal on mount and announce to screen readers
@@ -215,6 +250,12 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ onClose }) => {
               />
             </>
           )}
+
+          {/* Retry Settings */}
+          <RetrySettings
+            config={localRetryConfig}
+            onConfigChange={handleRetryConfigChange}
+          />
         </div>
 
         {/* Footer */}

@@ -8,7 +8,11 @@ export interface ConnectionContextType {
   loading: boolean;
   clusterInfo: ClusterInfo | null;
   error: string | null;
+  retrying: boolean;
+  retryCount: number;
+  nextRetryIn: number | null;
   checkConnection: () => Promise<void>;
+  cancelRetry: () => void;
   apiClientInstance: IAPIClient;
 }
 
