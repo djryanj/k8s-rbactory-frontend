@@ -20,7 +20,6 @@ resources:
   - deployment.yaml
   - namespace.yaml
   - service.yaml
-  - serviceaccount.yaml
 
 images:
   - name: k8s-rbactory-frontend
