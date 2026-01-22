@@ -32,7 +32,9 @@ k8s-rbactory-frontend is a React-based frontend that runs completely locally in 
 2. Run the container:
 
 ```bash
-docker run -p 8080:8080 ghcr.io/djryanj/k8s-rbactory-frontend:dev
+docker run -p 8080:8080 \
+  -e VITE_API_URL=https://api.k8s-rbactory.example.com \
+  ghcr.io/djryanj/k8s-rbactory-frontend:dev
 ```
 
 ### Kubernetes Deployment
@@ -81,7 +83,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - github.com/djryanj/k8s-rbactory-frontend/hack/k8s-manifests?ref=v1.0.0
+  - github.com/djryanj/k8s-rbactory-frontend/hack/k8s-manifests
 
 # Override namespace
 namespace: my-custom-namespace
@@ -101,6 +103,18 @@ images:
 replicas:
   - name: k8s-rbactory-frontend
     count: 5
+
+# patch for the api backend URL if deployed
+patches:
+  - target:
+      kind: Deployment
+      name: k8s-rbactory-frontend
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/initContainers/0/env/0
+        value:
+          name: VITE_API_URL
+          value: "https://api.k8s-rbactory.example.com/api/v1"
 ```
 
 Deploy that:
