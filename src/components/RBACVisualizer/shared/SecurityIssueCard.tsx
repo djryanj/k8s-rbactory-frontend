@@ -1,6 +1,7 @@
 // src/components/RBACVisualizer/shared/SecurityIssueCard.tsx
+
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Users } from "lucide-react";
 import type { SecurityIssue, SecurityLevel } from "@/types/security.types";
 import { getSeverityStyle, combineClasses } from "../../../utils/colors";
 
@@ -22,12 +23,26 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
   const hasDetails = issue.details && Object.keys(issue.details).length > 1;
   const detailsId = `security-issue-${index}-details`;
 
+  // Check if we have principals to display
+  const hasPrincipals =
+    issue.details &&
+    "principals" in issue.details &&
+    issue.details.principals !== undefined &&
+    Array.isArray(issue.details.principals) &&
+    issue.details.principals.length > 0;
+
+  // Extract principals safely with type assertion
+  const principals =
+    hasPrincipals && "principals" in issue.details
+      ? (issue.details.principals as string[])
+      : [];
+
   return (
     <article
       className={combineClasses(
         "p-3 rounded-lg border",
         colors.bg,
-        colors.border,
+        colors.border
       )}
       role="alert"
       aria-labelledby={`security-issue-${index}-title`}
@@ -44,7 +59,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                     "inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide border flex-shrink-0",
                     colors.bg,
                     colors.text,
-                    colors.border,
+                    colors.border
                   )}
                   aria-label={severityStyle.ariaLabel}
                 >
@@ -55,7 +70,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   id={`security-issue-${index}-title`}
                   className={combineClasses(
                     "font-semibold text-sm",
-                    colors.text,
+                    colors.text
                   )}
                 >
                   {issue.title}
@@ -76,7 +91,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   colors.hover,
                   colors.text,
                   "focus:outline-none focus:ring-2 focus:ring-offset-1",
-                  colors.ring,
+                  colors.ring
                 )}
                 aria-expanded={isExpanded}
                 aria-controls={detailsId}
@@ -93,6 +108,38 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
 
           {isExpanded && issue.details && (
             <div id={detailsId} className="mt-3 space-y-2">
+              {/* Principals List */}
+              {hasPrincipals && principals.length > 0 && (
+                <div>
+                  <div
+                    className={combineClasses(
+                      "text-xs font-medium mb-1.5 flex items-center gap-1",
+                      colors.text
+                    )}
+                  >
+                    <Users size={12} aria-hidden="true" />
+                    <span>Affected Principals:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1" role="list">
+                    {principals.map((principal, idx) => (
+                      <span
+                        key={idx}
+                        className={combineClasses(
+                          "inline-flex items-center px-2 py-1 rounded text-xs font-mono border",
+                          colors.bg,
+                          colors.text,
+                          colors.border
+                        )}
+                        role="listitem"
+                        aria-label={`Principal: ${principal}`}
+                      >
+                        {principal}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Resource-Verb Mapping (primary display method) */}
               {"resourceVerbMap" in issue.details &&
                 issue.details.resourceVerbMap && (
@@ -100,7 +147,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                     <div
                       className={combineClasses(
                         "text-xs font-medium mb-1",
-                        colors.text,
+                        colors.text
                       )}
                     >
                       Affected Resources & Verbs:
@@ -114,7 +161,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                               "inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-mono border",
                               colors.bg,
                               colors.text,
-                              colors.border,
+                              colors.border
                             )}
                             role="listitem"
                             aria-label={`Resource: ${resource} with verbs ${
@@ -130,7 +177,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                               {Array.isArray(verbs) ? verbs.join(", ") : verbs}
                             </span>
                           </div>
-                        ),
+                        )
                       )}
                     </div>
                   </div>
@@ -142,7 +189,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   <div
                     className={combineClasses(
                       "text-xs font-medium mb-1",
-                      colors.text,
+                      colors.text
                     )}
                   >
                     API Groups:
@@ -155,7 +202,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                           "px-2 py-1 rounded text-xs font-mono border",
                           colors.bg,
                           colors.text,
-                          colors.border,
+                          colors.border
                         )}
                         role="listitem"
                       >
@@ -172,7 +219,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                   <div
                     className={combineClasses(
                       "text-xs font-medium mb-1",
-                      colors.text,
+                      colors.text
                     )}
                   >
                     Subjects:
@@ -185,7 +232,7 @@ export const SecurityIssueCard: React.FC<SecurityIssueCardProps> = ({
                           "px-2 py-1 rounded text-xs font-mono border",
                           colors.bg,
                           colors.text,
-                          colors.border,
+                          colors.border
                         )}
                         role="listitem"
                       >

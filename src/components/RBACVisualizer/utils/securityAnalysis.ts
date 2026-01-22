@@ -1,5 +1,5 @@
 // src/components/RBACVisualizer/utils/securityAnalysis.ts
-import type { ClusterRBACResource } from "../../../services/api";
+import type { ClusterRBACResource,KubernetesResource, AccessGrant } from "../../../services/api";
 import type {
   SecurityIssue,
   WildcardAllIssue,
@@ -15,7 +15,16 @@ import type {
   AuthenticatedGroupIssue,
   UnauthenticatedGroupIssue,
   ServiceAccountIssue,
+    ExcessiveAccessIssue,
+  ClusterWideResourceAccessIssue,
+  SensitiveResourceExposureIssue,
+  WildcardResourceAccessIssue,
+  PublicResourceAccessIssue,
+  UnrestrictedDeleteAccessIssue,
 } from "@/types/security.types";
+
+
+
 
 /**
  * Helper function to create a resource-verb mapping
@@ -464,6 +473,264 @@ export const analyzePrincipalSecurity = (
         type: "service-account",
         name: principal.name,
         ...(principal.namespace && { namespace: principal.namespace }),
+      },
+    };
+    issues.push(issue);
+  }
+
+  return issues;
+};
+
+/**
+ * Analyzes security implications of access grants to a Kubernetes resource
+ * Detects issues like excessive permissions, public access, sensitive resource exposure
+ */
+export const analyzeResourceAccessSecurity = (
+  resource: KubernetesResource,
+  accessGrants: readonly AccessGrant[],
+): SecurityIssue[] => {
+  const issues: SecurityIssue[] = [];
+
+  if (accessGrants.length === 0) return issues;
+
+  // Sensitive resource types that require extra scrutiny
+  const sensitiveResourceTypes = [
+    "Secret",
+    "ConfigMap",
+    "ServiceAccount",
+    "PersistentVolume",
+    "PersistentVolumeClaim",
+  ];
+
+  const isSensitiveResource = sensitiveResourceTypes.includes(resource.kind);
+
+  // Aggregate all verbs across grants
+  const allVerbs = new Set<string>();
+  const uniquePrincipals = new Set<string>();
+  const clusterScopePrincipals = new Set<string>();
+  const namespaceScopePrincipals = new Set<string>();
+  const publicGroups: string[] = [];
+  const wildcardVerbGrants: AccessGrant[] = [];
+
+  // Helper to format principal for display
+  const formatPrincipal = (grant: AccessGrant): string => {
+    const { kind, name, namespace } = grant.principal;
+    return namespace ? `${kind}:${name} (${namespace})` : `${kind}:${name}`;
+  };
+
+  // Helper to create unique principal key
+  const getPrincipalKey = (grant: AccessGrant): string => {
+    return `${grant.principal.kind}:${grant.principal.name}:${grant.principal.namespace || ""}`;
+  };
+
+  accessGrants.forEach((grant) => {
+    const principalKey = getPrincipalKey(grant);
+    uniquePrincipals.add(principalKey);
+
+    if (grant.scope === "cluster") {
+      clusterScopePrincipals.add(principalKey);
+    } else {
+      namespaceScopePrincipals.add(principalKey);
+    }
+
+    grant.verbs.forEach((verb) => allVerbs.add(verb));
+
+    // Check for wildcard verbs
+    if (grant.verbs.includes("*")) {
+      wildcardVerbGrants.push(grant);
+    }
+
+    // Check for public access groups
+    if (grant.principal.kind === "Group") {
+      if (
+        grant.principal.name === "system:authenticated" ||
+        grant.principal.name === "system:unauthenticated"
+      ) {
+        publicGroups.push(grant.principal.name);
+      }
+    }
+  });
+
+  const hasWriteAccess =
+    allVerbs.has("create") ||
+    allVerbs.has("update") ||
+    allVerbs.has("patch") ||
+    allVerbs.has("*");
+
+  const hasDeleteAccess =
+    allVerbs.has("delete") || allVerbs.has("deletecollection") || allVerbs.has("*");
+
+  const hasReadAccess =
+    allVerbs.has("get") || allVerbs.has("list") || allVerbs.has("watch") || allVerbs.has("*");
+
+  // CRITICAL: Public resource access (system:authenticated or system:unauthenticated)
+  if (publicGroups.length > 0) {
+    const publicAccessGrants = accessGrants.filter(
+      (g) =>
+        g.principal.kind === "Group" &&
+        (g.principal.name === "system:authenticated" ||
+          g.principal.name === "system:unauthenticated")
+    );
+
+    const issue: PublicResourceAccessIssue = {
+      severity: "critical-destructive",
+      title: "Public Resource Access",
+      description: `This ${resource.kind} is accessible to ${publicGroups.includes("system:unauthenticated") ? "unauthenticated users" : "all authenticated users"}—a critical security risk.`,
+      details: {
+        type: "public-resource-access",
+        resourceType: resource.kind,
+        resourceName: resource.name,
+        groupNames: publicGroups,
+        principals: Array.from(
+          new Set(publicAccessGrants.map(formatPrincipal))
+        ).sort(),
+      },
+    };
+    issues.push(issue);
+  }
+
+  // CRITICAL: Sensitive resource with read/write access
+  if (isSensitiveResource && (hasReadAccess || hasWriteAccess)) {
+    // Filter grants based on the access type we're reporting
+    const sensitiveAccessGrants = accessGrants.filter((g) => {
+      if (hasWriteAccess) {
+        // Check if this grant has write verbs
+        return g.verbs.some((v) =>
+          ["create", "update", "patch", "*"].includes(v)
+        );
+      } else {
+        // Check if this grant has read verbs
+        return g.verbs.some((v) =>
+          ["get", "list", "watch", "*"].includes(v)
+        );
+      }
+    });
+
+    // Get unique principals from filtered grants
+    const uniqueSensitivePrincipals = new Set(
+      sensitiveAccessGrants.map(getPrincipalKey)
+    );
+
+    const issue: SensitiveResourceExposureIssue = {
+      severity: "critical-sensitive",
+      title: "Sensitive Resource Exposure",
+      description: `This ${resource.kind} contains sensitive data and has ${hasWriteAccess ? "write" : "read"} access granted to ${uniqueSensitivePrincipals.size} principal(s).`,
+      details: {
+        type: "sensitive-resource-exposure",
+        resourceType: resource.kind,
+        resourceName: resource.name,
+        principalCount: uniqueSensitivePrincipals.size,
+        hasReadAccess,
+        hasWriteAccess,
+        principals: Array.from(
+          new Set(sensitiveAccessGrants.map(formatPrincipal))
+        ).sort(),
+      },
+    };
+    issues.push(issue);
+  }
+
+  // CRITICAL: Unrestricted delete access
+  if (hasDeleteAccess) {
+    const deleteAccessGrants = accessGrants.filter((g) =>
+      g.verbs.some((v) => ["delete", "deletecollection", "*"].includes(v))
+    );
+
+    const uniqueDeletePrincipals = new Set(
+      deleteAccessGrants.map(getPrincipalKey)
+    );
+
+    const issue: UnrestrictedDeleteAccessIssue = {
+      severity: "critical-destructive",
+      title: "Unrestricted Delete Access",
+      description: `${uniqueDeletePrincipals.size} principal(s) can delete this ${resource.kind}, which could cause service disruption or data loss.`,
+      details: {
+        type: "unrestricted-delete-access",
+        resourceType: resource.kind,
+        resourceName: resource.name,
+        principalCount: uniqueDeletePrincipals.size,
+        principals: Array.from(
+          new Set(deleteAccessGrants.map(formatPrincipal))
+        ).sort(),
+      },
+    };
+    issues.push(issue);
+  }
+
+  // HIGH: Wildcard verb access
+  if (wildcardVerbGrants.length > 0) {
+    const uniqueWildcardPrincipals = new Set(
+      wildcardVerbGrants.map(getPrincipalKey)
+    );
+
+    const issue: WildcardResourceAccessIssue = {
+      severity: "high",
+      title: "Wildcard Verb Access",
+      description: `${uniqueWildcardPrincipals.size} principal(s) have wildcard (*) verb permissions on this ${resource.kind}, granting unrestricted actions.`,
+      details: {
+        type: "wildcard-resource-access",
+        principalCount: uniqueWildcardPrincipals.size,
+        wildcardVerbs: ["*"],
+        principals: Array.from(
+          new Set(wildcardVerbGrants.map(formatPrincipal))
+        ).sort(),
+      },
+    };
+    issues.push(issue);
+  }
+
+  // HIGH: Excessive principals with write access
+  const writeAccessThreshold = 5;
+  if (hasWriteAccess) {
+    const writeAccessGrants = accessGrants.filter((g) =>
+      g.verbs.some((v) =>
+        ["create", "update", "patch", "delete", "deletecollection", "*"].includes(v)
+      )
+    );
+
+    const uniqueWritePrincipals = new Set(
+      writeAccessGrants.map(getPrincipalKey)
+    );
+
+    if (uniqueWritePrincipals.size > writeAccessThreshold) {
+      const issue: ExcessiveAccessIssue = {
+        severity: "high",
+        title: "Excessive Write Access",
+        description: `${uniqueWritePrincipals.size} principals have write access to this ${resource.kind}. Consider reducing the number of principals with modification rights.`,
+        details: {
+          type: "excessive-access",
+          principalCount: uniqueWritePrincipals.size,
+          resourceType: resource.kind,
+          hasWriteAccess: true,
+          hasDeleteAccess,
+          principals: Array.from(
+            new Set(writeAccessGrants.map(formatPrincipal))
+          ).sort(),
+        },
+      };
+      issues.push(issue);
+    }
+  }
+
+  // MEDIUM: Cluster-wide access dominance
+  if (
+    clusterScopePrincipals.size > namespaceScopePrincipals.size &&
+    clusterScopePrincipals.size > 0
+  ) {
+    const clusterAccessGrants = accessGrants.filter((g) => g.scope === "cluster");
+
+    const issue: ClusterWideResourceAccessIssue = {
+      severity: "medium",
+      title: "Cluster-Wide Access Dominance",
+      description: `More principals have cluster-wide access (${clusterScopePrincipals.size}) than namespace-scoped access (${namespaceScopePrincipals.size}) to this ${resource.kind}.`,
+      details: {
+        type: "cluster-wide-resource-access",
+        principalCount: clusterScopePrincipals.size,
+        resourceType: resource.kind,
+        resourceName: resource.name,
+        principals: Array.from(
+          new Set(clusterAccessGrants.map(formatPrincipal))
+        ).sort(),
       },
     };
     issues.push(issue);

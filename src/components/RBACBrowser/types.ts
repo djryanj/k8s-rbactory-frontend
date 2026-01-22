@@ -1,26 +1,28 @@
 // src/components/RBACBrowser/types.ts
-import type { ClusterRBACResource, Principal } from "../../services/api";
+import type {
+  ClusterRBACResource,
+  Principal,
+  KubernetesResource,
+  ResourceCounts,
+} from "../../services/api";
+
+// Re-export for convenience
+export type { ResourceCounts };
 
 export type ResourceKind =
   | "Role"
   | "ClusterRole"
   | "RoleBinding"
   | "ClusterRoleBinding"
-  | "Principal";
-
-export interface ResourceCounts {
-  roles: number;
-  clusterRoles: number;
-  roleBindings: number;
-  clusterRoleBindings: number;
-  principals: number;
-}
+  | "Principal"
+  | "Resource";
 
 export interface FilterState {
   selectedKind: ResourceKind;
   selectedNamespace: string;
   principalNamespaceFilter: string;
   principalTypeFilter?: string | undefined;
+  resourceTypeFilter?: string | undefined;
   searchTerm: string;
 }
 
@@ -35,11 +37,13 @@ export interface PaginationState {
 export interface ResourceListProps {
   resources: ClusterRBACResource[];
   principals: Principal[];
+  kubernetesResources: KubernetesResource[];
   selectedKind: ResourceKind;
-  selectedResource: ClusterRBACResource | null;
+  selectedResource: ClusterRBACResource | KubernetesResource | null;
   searchTerm: string;
   onResourceSelect: (resource: ClusterRBACResource) => Promise<void>;
   onPrincipalSelect: (principal: Principal) => Promise<void>;
+  onKubernetesResourceSelect: (resource: KubernetesResource) => Promise<void>;
   onImportRole: (resource: ClusterRBACResource) => void;
   loading: boolean;
   autoLoading: boolean;
@@ -62,6 +66,7 @@ export interface BrowserFiltersProps {
   filters: FilterState;
   counts: ResourceCounts;
   namespaces: string[];
+  resourceTypes: string[];
   onFilterChange: (filters: Partial<FilterState>) => void;
   isLoading?: boolean;
   filteredCounts?: ResourceCounts;
@@ -72,7 +77,7 @@ export interface BrowserFooterProps {
   displayTotal: number;
   currentCount: number;
   hasMore: boolean;
-  selectedResource: ClusterRBACResource | null;
+  selectedResource: ClusterRBACResource | KubernetesResource | null;
   loading: boolean;
   initialLoadComplete: boolean;
   onRefresh: () => void;
@@ -88,6 +93,12 @@ export interface ResourceCardProps {
 
 export interface PrincipalCardProps {
   principal: Principal;
+  isSelected: boolean;
+  onSelect: () => void;
+}
+
+export interface KubernetesResourceCardProps {
+  resource: KubernetesResource;
   isSelected: boolean;
   onSelect: () => void;
 }

@@ -102,6 +102,7 @@ export interface RelationshipResponse {
   binding?: ClusterRBACResource;
   relatedBindings: ClusterRBACResource[];
   relatedRoles: ClusterRBACResource[];
+  accessGrants?: AccessGrant[]; 
 }
 
 /**
@@ -130,6 +131,91 @@ export interface ClusterInfo {
 export interface ConnectionCheckResponse {
   connected: boolean;
   version?: string;
+}
+
+/**
+ * Represents a Kubernetes resource with RBAC access information
+ */
+export interface KubernetesResource {
+  kind: string;
+  name: string;
+  namespace?: string;
+  apiVersion: string;
+  createdAt: string;
+  labels?: Record<string, string>;
+  annotations?: Record<string, string>;
+  // Access information
+  accessInfo?: ResourceAccessInfo;
+}
+
+/**
+ * Information about who has access to a resource
+ */
+export interface ResourceAccessInfo {
+  // Direct access through RoleBindings/ClusterRoleBindings
+  directAccess: AccessGrant[];
+  // Inherited access through ClusterRoles
+  inheritedAccess: AccessGrant[];
+  // Total count of principals with access
+  principalCount: number;
+}
+
+/**
+ * Represents a single access grant to a resource
+ */
+export interface AccessGrant {
+  principal: {
+    kind: string;
+    name: string;
+    namespace?: string;
+  };
+  role: {
+    kind: string;
+    name: string;
+    namespace?: string;
+  };
+  binding: {
+    kind: string;
+    name: string;
+    namespace?: string;
+  };
+  verbs: string[];
+  scope: "namespace" | "cluster";
+}
+
+/**
+ * Response for Kubernetes resource list endpoints
+ */
+export interface KubernetesResourceListResponse {
+  items: KubernetesResource[];
+  totalCount: number;
+  limit?: number;
+  offset?: number;
+  hasMore?: boolean;
+}
+
+/**
+ * Detailed access information for a specific resource
+ */
+export interface ResourceAccessDetailResponse {
+  resource: KubernetesResource;
+  accessGrants: AccessGrant[];
+  summary: {
+    totalPrincipals: number;
+    totalRoles: number;
+    totalBindings: number;
+    verbCounts: Record<string, number>;
+  };
+}
+
+// Update ResourceCounts to include resources
+export interface ResourceCounts {
+  roles: number;
+  clusterRoles: number;
+  roleBindings: number;
+  clusterRoleBindings: number;
+  principals: number;
+  resources?: number; // Optional for backward compatibility
 }
 
 // ============================================================================
@@ -188,4 +274,19 @@ export interface IAPIClient {
     namespace: string,
     name: string,
   ): Promise<RelationshipResponse>;
+
+    listKubernetesResources(
+    resourceType: string,
+    namespace?: string,
+    limit?: number,
+    offset?: number,
+  ): Promise<KubernetesResourceListResponse>;
+
+  getResourceAccess(
+    resourceType: string,
+    namespace: string,
+    name: string,
+  ): Promise<ResourceAccessDetailResponse>;
+
+  listResourceTypes(namespace?: string): Promise<string[]>;
 }

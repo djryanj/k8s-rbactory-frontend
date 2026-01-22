@@ -31,6 +31,12 @@ export type {
   ClusterBindingIssue,
   ClusterScopeIssue,
   ServiceAccountIssue,
+  ExcessiveAccessIssue,
+  ClusterWideResourceAccessIssue,
+  SensitiveResourceExposureIssue,
+  WildcardResourceAccessIssue,
+  PublicResourceAccessIssue,
+  UnrestrictedDeleteAccessIssue,
 } from "../../types/security.types";
 
 export {
@@ -47,6 +53,7 @@ export {
   formatServiceAccountYAML,
   formatMultiDocumentYAML,
   formatSingleRuleYAML,
+  formatAccessReportYAML,
 } from "./utils/yamlFormatters";
 
 // Security analysis utilities
@@ -54,6 +61,7 @@ export {
   analyzeRoleSecurity,
   analyzeBindingSecurity,
   analyzePrincipalSecurity,
+  analyzeResourceAccessSecurity,
 } from "./utils/securityAnalysis";
 export { analyzeRule } from "./utils/ruleAnalysis";
 
@@ -69,6 +77,7 @@ export {
 export { CopyButtonGroup } from "./shared/CopyButtonGroup";
 export { CollapsibleList } from "./shared/CollapsibleList";
 export { BrowserModeFooter } from "./shared/BrowserModeFooter";
+export { ResourceAccessFooter } from "./shared/ResourceAccessFooter";
 export { SecurityIssueCard } from "./shared/SecurityIssueCard";
 export { SecurityAnalysisPanel } from "./shared/SecurityAnalysisPanel";
 
@@ -77,3 +86,4 @@ export { GeneratorView } from "./GeneratorView";
 export { RoleRelationshipView } from "./RelationshipViews/RoleRelationshipView";
 export { BindingRelationshipView } from "./RelationshipViews/BindingRelationshipView";
 export { PrincipalRelationshipView } from "./RelationshipViews/PrincipalRelationshipView";
+export { ResourceAccessView } from "./RelationshipViews/ResourceAccessView";

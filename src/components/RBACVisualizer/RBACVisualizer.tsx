@@ -6,8 +6,10 @@ import { GeneratorView } from "./GeneratorView";
 import { RoleRelationshipView } from "./RelationshipViews/RoleRelationshipView";
 import { BindingRelationshipView } from "./RelationshipViews/BindingRelationshipView";
 import { PrincipalRelationshipView } from "./RelationshipViews/PrincipalRelationshipView";
+import { ResourceAccessView } from "./RelationshipViews/ResourceAccessView";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../utils/colors";
 import type { RBACVisualizerProps } from "./types";
+import type { KubernetesResource } from "../../services/api";
 
 export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
   manifest,
@@ -15,7 +17,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
   relatedResources,
   isLoadingRelationships = false,
   mode = "browser",
-  onSwitchToPolicyBuilder, // NEW
+  onSwitchToPolicyBuilder,
 }) => {
   const neutralColors = ACCESSIBLE_COLORS.neutral;
   const infoColors = ACCESSIBLE_COLORS.info;
@@ -32,29 +34,67 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
     return "empty";
   }, [mode, manifest, selectedResource]);
 
+  // Check if selected resource is a Kubernetes resource (not RBAC)
+  const isKubernetesResource = useMemo(() => {
+    if (!selectedResource) return false;
+
+    const rbacKinds = [
+      "Role",
+      "ClusterRole",
+      "RoleBinding",
+      "ClusterRoleBinding",
+      "User",
+      "Group",
+      "ServiceAccount",
+    ];
+
+    const isRBAC = rbacKinds.includes(selectedResource.kind);
+
+    // Also check if we have accessGrants (indicates K8s resource)
+    const hasAccessGrants = relatedResources?.accessGrants !== undefined;
+
+    console.log("isKubernetesResource check:", {
+      kind: selectedResource.kind,
+      isRBAC,
+      hasAccessGrants,
+      result: !isRBAC || hasAccessGrants,
+    });
+
+    return !isRBAC || hasAccessGrants;
+  }, [selectedResource, relatedResources]);
+
   useEffect(() => {
     if (mode === "browser") {
       console.log("RBACVisualizer (Browser) updated:", {
         selectedResource: selectedResource?.name,
         kind: selectedResource?.kind,
+        isKubernetesResource,
         isLoadingRelationships,
         relatedResources: {
-          role: relatedResources?.role?.name,
-          binding: relatedResources?.binding?.name,
-          relatedBindings: relatedResources?.relatedBindings?.length,
-          relatedRoles: relatedResources?.relatedRoles?.length,
+          hasRole: !!relatedResources?.role,
+          hasBinding: !!relatedResources?.binding,
+          relatedBindingsCount: relatedResources?.relatedBindings?.length || 0,
+          relatedRolesCount: relatedResources?.relatedRoles?.length || 0,
+          accessGrantsCount: relatedResources?.accessGrants?.length || 0,
         },
       });
     }
-  }, [mode, selectedResource, relatedResources, isLoadingRelationships]);
+  }, [
+    mode,
+    selectedResource,
+    relatedResources,
+    isLoadingRelationships,
+    isKubernetesResource,
+  ]);
 
+  // Empty state when no manifest in generator mode
   if (mode === "generator" && !manifest) {
     return (
       <div
         className={combineClasses(
           "rounded-lg border-2 border-dashed p-12",
           neutralColors.bg,
-          neutralColors.border,
+          neutralColors.border
         )}
         role="status"
         aria-label="No RBAC configuration"
@@ -65,7 +105,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
               neutralColors.bg,
               neutralColors.border,
-              "border-2",
+              "border-2"
             )}
             aria-hidden="true"
           >
@@ -78,7 +118,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           <h3
             className={combineClasses(
               "text-lg font-semibold mb-2",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             No Configuration Yet
@@ -91,13 +131,14 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
     );
   }
 
+  // Empty state when no resource selected in browser mode
   if (mode === "browser" && !selectedResource) {
     return (
       <div
         className={combineClasses(
           "rounded-lg border-2 border-dashed p-12",
           neutralColors.bg,
-          neutralColors.border,
+          neutralColors.border
         )}
         role="status"
         aria-label="No resource selected"
@@ -108,7 +149,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
               neutralColors.bg,
               neutralColors.border,
-              "border-2",
+              "border-2"
             )}
             aria-hidden="true"
           >
@@ -121,20 +162,21 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           <h3
             className={combineClasses(
               "text-lg font-semibold mb-2",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             No Resource Selected
           </h3>
           <p className={neutralColors.icon}>
-            Select a role, binding, or principal from the browser above to
-            visualize its relationships
+            Select a role, binding, principal, or resource from the browser
+            above to visualize its relationships
           </p>
         </div>
       </div>
     );
   }
 
+  // Generator mode view
   if (mode === "generator" && manifest) {
     return (
       <article
@@ -142,7 +184,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
         className={combineClasses(
           "rounded-lg border-2 p-6",
           neutralColors.bg,
-          neutralColors.border,
+          neutralColors.border
         )}
         role="region"
         aria-labelledby="generator-diagram-title"
@@ -151,7 +193,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           id="generator-diagram-title"
           className={combineClasses(
             "text-lg font-semibold mb-4 flex items-center gap-2",
-            neutralColors.text,
+            neutralColors.text
           )}
         >
           <K8sResourceIcon
@@ -167,6 +209,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
     );
   }
 
+  // Browser mode view
   if (mode === "browser" && selectedResource) {
     const isRole =
       selectedResource.kind === "Role" ||
@@ -185,7 +228,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
         className={combineClasses(
           "rounded-lg border-2 p-6 relative",
           neutralColors.bg,
-          neutralColors.border,
+          neutralColors.border
         )}
         role="region"
         aria-labelledby="browser-diagram-title"
@@ -202,7 +245,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               <Loader
                 className={combineClasses(
                   "animate-spin mb-3 mx-auto",
-                  infoColors.icon,
+                  infoColors.icon
                 )}
                 size={32}
                 aria-hidden="true"
@@ -210,13 +253,17 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               <p
                 className={combineClasses(
                   "text-sm font-medium",
-                  neutralColors.text,
+                  neutralColors.text
                 )}
               >
-                Loading relationships...
+                Loading{" "}
+                {isKubernetesResource ? "access information" : "relationships"}
+                ...
               </p>
               <p className={combineClasses("text-xs mt-1", neutralColors.icon)}>
-                Fetching related resources
+                {isKubernetesResource
+                  ? "Analyzing RBAC permissions"
+                  : "Fetching related resources"}
               </p>
             </div>
           </div>
@@ -227,7 +274,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
             id="browser-diagram-title"
             className={combineClasses(
               "text-lg font-semibold flex items-center gap-2",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             <K8sResourceIcon
@@ -236,7 +283,9 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               className={infoColors.icon}
               aria-hidden="true"
             />
-            RBAC Relationship Diagram
+            {isKubernetesResource
+              ? "Resource Access Analysis"
+              : "RBAC Relationship Diagram"}
           </h2>
           <div className="flex items-center gap-2">
             <span className={combineClasses("text-sm", neutralColors.icon)}>
@@ -263,16 +312,21 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           }
           aria-hidden={isLoadingRelationships}
         >
-          {isRole && (
+          {isKubernetesResource ? (
+            <ResourceAccessView
+              key={`resource-${visualizerKey}`}
+              resource={selectedResource as unknown as KubernetesResource}
+              accessGrants={relatedResources?.accessGrants || []}
+              {...(onSwitchToPolicyBuilder && { onSwitchToPolicyBuilder })}
+            />
+          ) : isRole ? (
             <RoleRelationshipView
               key={`role-${visualizerKey}`}
               role={selectedResource}
               bindings={relatedResources?.relatedBindings || []}
               {...(onSwitchToPolicyBuilder && { onSwitchToPolicyBuilder })}
             />
-          )}
-
-          {isBinding && (
+          ) : isBinding ? (
             <BindingRelationshipView
               key={`binding-${visualizerKey}`}
               binding={selectedResource}
@@ -280,9 +334,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               relatedBindings={relatedResources?.relatedBindings || []}
               {...(onSwitchToPolicyBuilder && { onSwitchToPolicyBuilder })}
             />
-          )}
-
-          {isPrincipal && (
+          ) : isPrincipal ? (
             <PrincipalRelationshipView
               key={`principal-${visualizerKey}`}
               principal={selectedResource}
@@ -290,7 +342,7 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
               roles={relatedResources?.relatedRoles || []}
               {...(onSwitchToPolicyBuilder && { onSwitchToPolicyBuilder })}
             />
-          )}
+          ) : null}
         </div>
 
         <div
@@ -300,8 +352,8 @@ export const RBACVisualizer: React.FC<RBACVisualizerProps> = ({
           aria-atomic="true"
         >
           {isLoadingRelationships
-            ? "Loading relationship data for selected resource"
-            : `Showing ${selectedResource.kind} ${selectedResource.name} relationships`}
+            ? `Loading ${isKubernetesResource ? "access information" : "relationship data"} for selected resource`
+            : `Showing ${selectedResource.kind} ${selectedResource.name} ${isKubernetesResource ? "access analysis" : "relationships"}`}
         </div>
       </article>
     );

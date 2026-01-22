@@ -3,9 +3,9 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRBAC } from "../../context/rbac";
 import { useConfig } from "../../context/config";
 import { useConnection } from "../../context/connection";
+import { useClusterRBAC } from "../../context/clusterRBAC";
 import { useResourceData } from "./hooks/useResourceData";
 import { useResourceFilters } from "./hooks/useResourceFilters";
-import { useResourceSelection } from "./hooks/useResourceSelection";
 import { BrowserHeader } from "./components/BrowserHeader";
 import { BrowserFilters } from "./components/BrowserFilters";
 import { ResourceList } from "./components/ResourceList";
@@ -19,8 +19,11 @@ import type {
   VerbType,
   ResourcePermission,
 } from "../../types/rbac.types";
-import type { ClusterRBACResource } from "../../services/api";
-import type { ResourceCounts } from "./types";
+import type {
+  ClusterRBACResource,
+  KubernetesResource,
+  ResourceCounts,
+} from "../../services/api";
 
 export const RBACBrowser: React.FC = () => {
   const { loadPreset } = useRBAC();
@@ -31,14 +34,23 @@ export const RBACBrowser: React.FC = () => {
     apiClientInstance,
   } = useConnection();
 
+  const {
+    selectedResource,
+    setSelectedResource,
+    setRelatedResources,
+    setIsLoadingRelationships,
+  } = useClusterRBAC();
+
   const [pageSize, setPageSize] = useState(defaultResourceLoadSize);
   const [namespaces, setNamespaces] = useState<string[]>([]);
+  const [resourceTypes, setResourceTypes] = useState<string[]>([]);
   const [counts, setCounts] = useState<ResourceCounts>({
     roles: 0,
     clusterRoles: 0,
     roleBindings: 0,
     clusterRoleBindings: 0,
     principals: 0,
+    resources: 0,
   });
   const [initializing, setInitializing] = useState(true);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
@@ -53,6 +65,7 @@ export const RBACBrowser: React.FC = () => {
   const {
     resources,
     principals,
+    kubernetesResources,
     loading,
     loadingMore,
     autoLoading,
@@ -67,13 +80,35 @@ export const RBACBrowser: React.FC = () => {
     filters.selectedNamespace,
     filters.principalNamespaceFilter,
     filters.principalTypeFilter,
-    pageSize,
+    filters.resourceTypeFilter,
+    pageSize
   );
 
-  const { selectedResource, handleResourceSelect, handlePrincipalSelect } =
-    useResourceSelection();
-
   const neutralColors = ACCESSIBLE_COLORS.neutral;
+
+  const normalizeResourceType = (kind: string): string => {
+    const lower = kind.toLowerCase();
+    const typeMap: Record<string, string> = {
+      secret: "secrets",
+      secrets: "secrets",
+      configmap: "configmaps",
+      configmaps: "configmaps",
+      pod: "pods",
+      pods: "pods",
+      service: "services",
+      services: "services",
+      deployment: "deployments",
+      deployments: "deployments",
+      statefulset: "statefulsets",
+      statefulsets: "statefulsets",
+      daemonset: "daemonsets",
+      daemonsets: "daemonsets",
+      persistentvolumeclaim: "persistentvolumeclaims",
+      persistentvolumeclaims: "persistentvolumeclaims",
+    };
+
+    return typeMap[lower] || lower;
+  };
 
   useEffect(() => {
     setPageSize(defaultResourceLoadSize);
@@ -112,6 +147,23 @@ export const RBACBrowser: React.FC = () => {
     updateFilters,
   ]);
 
+  // Auto-select default resource type when Resource kind is selected
+  useEffect(() => {
+    if (
+      filters.selectedKind === "Resource" &&
+      !filters.resourceTypeFilter &&
+      resourceTypes.length > 0
+    ) {
+      // Default to secrets
+      updateFilters({ resourceTypeFilter: "secrets" });
+    }
+  }, [
+    filters.selectedKind,
+    filters.resourceTypeFilter,
+    resourceTypes.length,
+    updateFilters,
+  ]);
+
   const loadCounts = useCallback(async () => {
     try {
       const countsData = await apiClientInstance.getCounts();
@@ -130,6 +182,16 @@ export const RBACBrowser: React.FC = () => {
     } catch (err) {
       console.error("Failed to load namespaces:", err);
       setNamespaces([]);
+    }
+  }, [apiClientInstance]);
+
+  const loadResourceTypes = useCallback(async () => {
+    try {
+      const types = await apiClientInstance.listResourceTypes();
+      setResourceTypes(types || []);
+    } catch (err) {
+      console.error("Failed to load resource types:", err);
+      setResourceTypes([]);
     }
   }, [apiClientInstance]);
 
@@ -163,18 +225,149 @@ export const RBACBrowser: React.FC = () => {
           }
 
           return permission;
-        }),
+        })
       );
 
       const isClusterRole = resource.kind === "ClusterRole";
       loadPreset(permissions, isClusterRole);
       announceToScreenReader(
-        `Imported ${resource.kind} ${resource.name} as preset`,
+        `Imported ${resource.kind} ${resource.name} as preset`
       );
     },
-    [loadPreset],
+    [loadPreset]
   );
 
+  const handleResourceSelect = useCallback(
+    async (resource: ClusterRBACResource) => {
+      if (!resource) return;
+
+      setSelectedResource(resource);
+      setIsLoadingRelationships(true);
+
+      try {
+        const relationships = await apiClientInstance.getRelationships(
+          resource.kind,
+          resource.namespace || "",
+          resource.name
+        );
+
+        setRelatedResources(relationships);
+        announceToScreenReader(
+          `Selected ${resource.kind} ${resource.name}. Loading relationships.`
+        );
+      } catch (err) {
+        console.error("Failed to load relationships:", err);
+        setRelatedResources({
+          relatedBindings: [],
+          relatedRoles: [],
+        });
+        announceToScreenReader("Failed to load relationships", "assertive");
+      } finally {
+        setIsLoadingRelationships(false);
+      }
+    },
+    [
+      apiClientInstance,
+      setSelectedResource,
+      setRelatedResources,
+      setIsLoadingRelationships,
+    ]
+  );
+
+  const handlePrincipalSelect = useCallback(
+    async (principal: { kind: string; name: string; namespace?: string }) => {
+      if (!principal) return;
+
+      const pseudoResource: ClusterRBACResource = {
+        kind: principal.kind,
+        name: principal.name,
+        ...(principal.namespace && { namespace: principal.namespace }),
+        subjects: [],
+        createdAt: new Date().toISOString(),
+        labels: {},
+      };
+
+      setSelectedResource(pseudoResource);
+      setIsLoadingRelationships(true);
+
+      try {
+        const relationships = await apiClientInstance.getRelationships(
+          principal.kind,
+          principal.namespace || "",
+          principal.name
+        );
+
+        setRelatedResources(relationships);
+        announceToScreenReader(
+          `Selected ${principal.kind} ${principal.name}. Loading relationships.`
+        );
+      } catch (err) {
+        console.error("Failed to load relationships:", err);
+        setRelatedResources({
+          relatedBindings: [],
+          relatedRoles: [],
+        });
+        announceToScreenReader("Failed to load relationships", "assertive");
+      } finally {
+        setIsLoadingRelationships(false);
+      }
+    },
+    [
+      apiClientInstance,
+      setSelectedResource,
+      setRelatedResources,
+      setIsLoadingRelationships,
+    ]
+  );
+
+  const handleKubernetesResourceSelect = useCallback(
+    async (resource: KubernetesResource) => {
+      if (!resource) return;
+
+      // Type assertion to satisfy the selectedResource type
+      const pseudoResource = resource as unknown as ClusterRBACResource;
+      setSelectedResource(pseudoResource);
+      setIsLoadingRelationships(true);
+
+      try {
+        const accessDetail = await apiClientInstance.getResourceAccess(
+          resource.kind.toLowerCase(),
+          resource.namespace || "",
+          resource.name
+        );
+
+        // Set related resources with access grants
+        setRelatedResources({
+          relatedBindings: [],
+          relatedRoles: [],
+          accessGrants: accessDetail.accessGrants,
+        });
+
+        announceToScreenReader(
+          `Loaded access information for ${resource.kind} ${resource.name}. ${accessDetail.summary.totalPrincipals} principals have access.`
+        );
+      } catch (err) {
+        console.error("Failed to load resource access:", err);
+        setRelatedResources({
+          relatedBindings: [],
+          relatedRoles: [],
+          accessGrants: [],
+        });
+        announceToScreenReader(
+          "Failed to load access information",
+          "assertive"
+        );
+      } finally {
+        setIsLoadingRelationships(false);
+      }
+    },
+    [
+      apiClientInstance,
+      setSelectedResource,
+      setRelatedResources,
+      setIsLoadingRelationships,
+    ]
+  );
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
       const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -184,7 +377,7 @@ export const RBACBrowser: React.FC = () => {
         loadMore();
       }
     },
-    [pagination.hasMore, loadingMore, loadMore],
+    [pagination.hasMore, loadingMore, loadMore]
   );
 
   const handleClearSearch = useCallback(() => {
@@ -203,7 +396,9 @@ export const RBACBrowser: React.FC = () => {
         filters.selectedNamespace !== "") ||
       (filters.selectedKind === "Principal" &&
         (filters.principalNamespaceFilter !== "" ||
-          filters.principalTypeFilter));
+          filters.principalTypeFilter)) ||
+      (filters.selectedKind === "Resource" &&
+        (filters.selectedNamespace !== "" || filters.resourceTypeFilter));
 
     if (!isFiltered) {
       return undefined; // No filtering active, use total counts
@@ -214,14 +409,14 @@ export const RBACBrowser: React.FC = () => {
       (r) =>
         r.kind === "Role" &&
         (!filters.selectedNamespace ||
-          r.namespace === filters.selectedNamespace),
+          r.namespace === filters.selectedNamespace)
     ).length;
 
     const roleBindingCount = resources.filter(
       (r) =>
         r.kind === "RoleBinding" &&
         (!filters.selectedNamespace ||
-          r.namespace === filters.selectedNamespace),
+          r.namespace === filters.selectedNamespace)
     ).length;
 
     // Filter principals based on namespace AND type
@@ -236,7 +431,6 @@ export const RBACBrowser: React.FC = () => {
 
       // Namespace filter - only applies to ServiceAccounts
       if (filters.principalNamespaceFilter) {
-        // If namespace filter is active, only show ServiceAccounts in that namespace
         return (
           p.kind === "ServiceAccount" &&
           p.namespace === filters.principalNamespaceFilter
@@ -246,14 +440,32 @@ export const RBACBrowser: React.FC = () => {
       return true;
     }).length;
 
+    // Filter Kubernetes resources
+    const k8sResourceCount = kubernetesResources.filter((r) => {
+      if (
+        filters.selectedNamespace &&
+        r.namespace !== filters.selectedNamespace
+      ) {
+        return false;
+      }
+      if (
+        filters.resourceTypeFilter &&
+        r.kind.toLowerCase() !== filters.resourceTypeFilter
+      ) {
+        return false;
+      }
+      return true;
+    }).length;
+
     return {
       roles: roleCount,
-      clusterRoles: counts.clusterRoles, // Cluster resources not affected by namespace filter
+      clusterRoles: counts.clusterRoles,
       roleBindings: roleBindingCount,
-      clusterRoleBindings: counts.clusterRoleBindings, // Cluster resources not affected
+      clusterRoleBindings: counts.clusterRoleBindings,
       principals: principalCount,
+      resources: k8sResourceCount,
     };
-  }, [filters, resources, principals, counts]);
+  }, [filters, resources, principals, kubernetesResources, counts]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -268,7 +480,11 @@ export const RBACBrowser: React.FC = () => {
       announceToScreenReader("Initializing RBAC browser");
 
       try {
-        await Promise.all([loadCounts(), loadNamespaces()]);
+        await Promise.all([
+          loadCounts(),
+          loadNamespaces(),
+          loadResourceTypes(),
+        ]);
         await loadResources(0, true);
         isInitialized.current = true;
         setInitialLoadComplete(true);
@@ -277,7 +493,7 @@ export const RBACBrowser: React.FC = () => {
         console.error("Initialization failed:", err);
         announceToScreenReader(
           "Failed to initialize RBAC browser",
-          "assertive",
+          "assertive"
         );
       } finally {
         setInitializing(false);
@@ -294,7 +510,7 @@ export const RBACBrowser: React.FC = () => {
         clearTimeout(filterChangeTimer.current);
       }
     };
-  }, [connected, loadCounts, loadNamespaces, loadResources]);
+  }, [connected, loadCounts, loadNamespaces, loadResourceTypes, loadResources]);
 
   useEffect(() => {
     if (!initialLoadComplete || autoLoading || loading) {
@@ -304,7 +520,9 @@ export const RBACBrowser: React.FC = () => {
     const currentItemCount =
       filters.selectedKind === "Principal"
         ? principals.length
-        : resources.length;
+        : filters.selectedKind === "Resource"
+          ? kubernetesResources.length
+          : resources.length;
 
     if (currentItemCount === 0 || !pagination.hasMore) {
       return;
@@ -328,6 +546,7 @@ export const RBACBrowser: React.FC = () => {
     initialLoadComplete,
     principals.length,
     resources.length,
+    kubernetesResources.length,
     pagination.totalCount,
     pagination.hasMore,
     filters.selectedKind,
@@ -371,6 +590,7 @@ export const RBACBrowser: React.FC = () => {
     filters.selectedNamespace,
     filters.principalNamespaceFilter,
     filters.principalTypeFilter,
+    filters.resourceTypeFilter,
     pageSize,
     loadResources,
     reset,
@@ -388,6 +608,8 @@ export const RBACBrowser: React.FC = () => {
         return counts.clusterRoleBindings;
       case "Principal":
         return counts.principals;
+      case "Resource":
+        return counts.resources ?? 0;
       default:
         return 0;
     }
@@ -395,12 +617,16 @@ export const RBACBrowser: React.FC = () => {
 
   const isLoading = initializing || loading || connectionLoading;
   const currentCount =
-    filters.selectedKind === "Principal" ? principals.length : resources.length;
+    filters.selectedKind === "Principal"
+      ? principals.length
+      : filters.selectedKind === "Resource"
+        ? kubernetesResources.length
+        : resources.length;
   const displayTotal = getCurrentResourceTotal();
   const filteredCounts = calculateFilteredCounts();
 
   const filteredResources =
-    filters.selectedKind === "Principal"
+    filters.selectedKind === "Principal" || filters.selectedKind === "Resource"
       ? []
       : resources.filter(
           (resource) =>
@@ -409,7 +635,7 @@ export const RBACBrowser: React.FC = () => {
               .includes(filters.searchTerm.toLowerCase()) ||
             resource?.namespace
               ?.toLowerCase()
-              .includes(filters.searchTerm.toLowerCase()),
+              .includes(filters.searchTerm.toLowerCase())
         );
 
   const filteredPrincipals = principals.filter((principal) => {
@@ -443,17 +669,59 @@ export const RBACBrowser: React.FC = () => {
     return true;
   });
 
+  const filteredKubernetesResources = kubernetesResources.filter((resource) => {
+    if (!resource) return false;
+
+    // Search filter
+    if (filters.searchTerm) {
+      const matchesSearch =
+        resource.name
+          ?.toLowerCase()
+          .includes(filters.searchTerm.toLowerCase()) ||
+        resource.namespace
+          ?.toLowerCase()
+          .includes(filters.searchTerm.toLowerCase()) ||
+        resource.kind?.toLowerCase().includes(filters.searchTerm.toLowerCase());
+
+      if (!matchesSearch) return false;
+    }
+
+    // Namespace filter
+    if (
+      filters.selectedNamespace &&
+      resource.namespace !== filters.selectedNamespace
+    ) {
+      return false;
+    }
+
+    // Resource type filter
+    if (filters.resourceTypeFilter) {
+      const normalizedResourceKind = normalizeResourceType(resource.kind);
+      const normalizedFilter = normalizeResourceType(
+        filters.resourceTypeFilter
+      );
+
+      if (normalizedResourceKind !== normalizedFilter) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
   const displayItemsCount =
     filters.selectedKind === "Principal"
       ? filteredPrincipals.length
-      : filteredResources.length;
+      : filters.selectedKind === "Resource"
+        ? filteredKubernetesResources.length
+        : filteredResources.length;
 
   return (
     <article
       className={combineClasses(
         "rounded-lg border",
         neutralColors.bg,
-        neutralColors.border,
+        neutralColors.border
       )}
       role="region"
       aria-labelledby="rbac-browser-title"
@@ -465,8 +733,9 @@ export const RBACBrowser: React.FC = () => {
       </h1>
       <p id="rbac-browser-description" className="sr-only">
         Browse and manage Kubernetes RBAC resources including roles, cluster
-        roles, role bindings, cluster role bindings, and principals. Use filters
-        to narrow down results and select resources to view details.
+        roles, role bindings, cluster role bindings, principals, and Kubernetes
+        resources. Use filters to narrow down results and select resources to
+        view details.
       </p>
 
       {/* Skip to main content link */}
@@ -491,6 +760,7 @@ export const RBACBrowser: React.FC = () => {
           filters={filters}
           counts={counts}
           namespaces={namespaces}
+          resourceTypes={resourceTypes}
           onFilterChange={updateFilters}
           isLoading={initializing || !initialLoadComplete}
           {...(filteredCounts && { filteredCounts })}
@@ -536,11 +806,13 @@ export const RBACBrowser: React.FC = () => {
           <ResourceList
             resources={resources}
             principals={filteredPrincipals}
+            kubernetesResources={filteredKubernetesResources}
             selectedKind={filters.selectedKind}
             selectedResource={selectedResource}
             searchTerm={filters.searchTerm}
             onResourceSelect={handleResourceSelect}
             onPrincipalSelect={handlePrincipalSelect}
+            onKubernetesResourceSelect={handleKubernetesResourceSelect}
             onImportRole={handleImportRole}
             loading={loading}
             autoLoading={autoLoading}

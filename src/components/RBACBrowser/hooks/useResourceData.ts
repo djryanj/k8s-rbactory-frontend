@@ -4,7 +4,9 @@ import { useConnection } from "../../../context/connection";
 import type {
   ClusterRBACResource,
   Principal,
+  KubernetesResource,
   PaginatedResponse,
+  KubernetesResourceListResponse,
 } from "../../../services/api";
 import type { ResourceKind, PaginationState } from "../types";
 
@@ -16,12 +18,16 @@ export const useResourceData = (
   selectedNamespace: string,
   principalNamespaceFilter: string,
   principalTypeFilter: string | undefined,
+  resourceTypeFilter: string | undefined,
   pageSize: number,
 ) => {
   const { connected, apiClientInstance } = useConnection();
 
   const [resources, setResources] = useState<ClusterRBACResource[]>([]);
   const [principals, setPrincipals] = useState<Principal[]>([]);
+  const [kubernetesResources, setKubernetesResources] = useState<
+    KubernetesResource[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [autoLoading, setAutoLoading] = useState(false);
@@ -43,6 +49,7 @@ export const useResourceData = (
   const selectedNamespaceRef = useRef(selectedNamespace);
   const principalNamespaceFilterRef = useRef(principalNamespaceFilter);
   const principalTypeFilterRef = useRef(principalTypeFilter);
+  const resourceTypeFilterRef = useRef(resourceTypeFilter);
   const hasMoreRef = useRef(pagination.hasMore);
 
   useEffect(() => {
@@ -60,6 +67,10 @@ export const useResourceData = (
   useEffect(() => {
     principalTypeFilterRef.current = principalTypeFilter;
   }, [principalTypeFilter]);
+
+  useEffect(() => {
+    resourceTypeFilterRef.current = resourceTypeFilter;
+  }, [resourceTypeFilter]);
 
   useEffect(() => {
     hasMoreRef.current = pagination.hasMore;
@@ -92,45 +103,64 @@ export const useResourceData = (
 
         let response:
           | PaginatedResponse<ClusterRBACResource>
-          | PaginatedResponse<Principal>;
+          | PaginatedResponse<Principal>
+          | KubernetesResourceListResponse;
 
         const kind = selectedKindRef.current;
         const namespace = selectedNamespaceRef.current;
         const principalNs = principalNamespaceFilterRef.current;
+        const resourceType = resourceTypeFilterRef.current;
 
         switch (kind) {
-          case "Role":
+          case "Role": {
             response = await apiClientInstance.listRoles(
               namespace,
               limit,
               offset,
             );
             break;
-          case "ClusterRole":
+          }
+          case "ClusterRole": {
             response = await apiClientInstance.listClusterRoles(limit, offset);
             break;
-          case "RoleBinding":
+          }
+          case "RoleBinding": {
             response = await apiClientInstance.listRoleBindings(
               namespace,
               limit,
               offset,
             );
             break;
-          case "ClusterRoleBinding":
+          }
+          case "ClusterRoleBinding": {
             response = await apiClientInstance.listClusterRoleBindings(
               limit,
               offset,
             );
             break;
-          case "Principal":
+          }
+          case "Principal": {
             response = await apiClientInstance.listPrincipals(
               principalNs,
               limit,
               offset,
             );
             break;
-          default:
+          }
+          case "Resource": {
+            // Default to secrets if no type selected
+            const typeToFetch = resourceType || "secrets";
+            response = await apiClientInstance.listKubernetesResources(
+              typeToFetch,
+              namespace,
+              limit,
+              offset,
+            );
+            break;
+          }
+          default: {
             response = { items: [], totalCount: 0, hasMore: false };
+          }
         }
 
         if (resourcesAbortController.current?.signal.aborted) {
@@ -145,6 +175,17 @@ export const useResourceData = (
             setPrincipals((prev) => [
               ...prev,
               ...(principalResponse.items || []),
+            ]);
+          }
+        } else if (kind === "Resource") {
+          const k8sResourceResponse =
+            response as KubernetesResourceListResponse;
+          if (replace) {
+            setKubernetesResources(k8sResourceResponse.items || []);
+          } else {
+            setKubernetesResources((prev) => [
+              ...prev,
+              ...(k8sResourceResponse.items || []),
             ]);
           }
         } else {
@@ -226,50 +267,67 @@ export const useResourceData = (
           let response:
             | PaginatedResponse<ClusterRBACResource>
             | PaginatedResponse<Principal>
+            | KubernetesResourceListResponse
             | null = null;
 
           const kind = selectedKindRef.current;
           const namespace = selectedNamespaceRef.current;
           const principalNs = principalNamespaceFilterRef.current;
+          const resourceType = resourceTypeFilterRef.current;
 
           if (autoLoadAbortController.current?.signal.aborted) {
             break;
           }
 
           switch (kind) {
-            case "Role":
+            case "Role": {
               response = await apiClientInstance.listRoles(
                 namespace,
                 limit,
                 offset,
               );
               break;
-            case "ClusterRole":
+            }
+            case "ClusterRole": {
               response = await apiClientInstance.listClusterRoles(
                 limit,
                 offset,
               );
               break;
-            case "RoleBinding":
+            }
+            case "RoleBinding": {
               response = await apiClientInstance.listRoleBindings(
                 namespace,
                 limit,
                 offset,
               );
               break;
-            case "ClusterRoleBinding":
+            }
+            case "ClusterRoleBinding": {
               response = await apiClientInstance.listClusterRoleBindings(
                 limit,
                 offset,
               );
               break;
-            case "Principal":
+            }
+            case "Principal": {
               response = await apiClientInstance.listPrincipals(
                 principalNs,
                 limit,
                 offset,
               );
               break;
+            }
+            case "Resource": {
+              const typeToFetch = resourceType || "secrets";
+              response = await apiClientInstance.listKubernetesResources(
+                typeToFetch,
+                namespace,
+                limit,
+                offset,
+              );
+              break;
+            }
           }
 
           if (
@@ -284,6 +342,13 @@ export const useResourceData = (
           if (kind === "Principal") {
             const principalResponse = response as PaginatedResponse<Principal>;
             setPrincipals((prev) => [...prev, ...principalResponse.items]);
+          } else if (kind === "Resource") {
+            const k8sResourceResponse =
+              response as KubernetesResourceListResponse;
+            setKubernetesResources((prev) => [
+              ...prev,
+              ...k8sResourceResponse.items,
+            ]);
           } else {
             const resourceResponse =
               response as PaginatedResponse<ClusterRBACResource>;
@@ -368,6 +433,7 @@ export const useResourceData = (
 
     setResources([]);
     setPrincipals([]);
+    setKubernetesResources([]);
     setPagination({
       currentPage: 0,
       pageSize,
@@ -393,6 +459,7 @@ export const useResourceData = (
   return {
     resources,
     principals,
+    kubernetesResources,
     loading,
     loadingMore,
     autoLoading,

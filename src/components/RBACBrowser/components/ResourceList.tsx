@@ -5,6 +5,7 @@ import { ResourceCard } from "./ResourceCard";
 import { PrincipalCard } from "./PrincipalCard";
 import { ACCESSIBLE_COLORS, combineClasses } from "../../../utils/colors";
 import type { ResourceListProps } from "../types";
+import { KubernetesResourceCard } from "./KubernetesResourceCard";
 
 export const ResourceList: React.FC<ResourceListProps> = ({
   resources,
@@ -12,9 +13,11 @@ export const ResourceList: React.FC<ResourceListProps> = ({
   selectedKind,
   selectedResource,
   searchTerm,
+  kubernetesResources,
   onResourceSelect,
   onPrincipalSelect,
   onImportRole,
+  onKubernetesResourceSelect,
   loading,
   autoLoading,
   hasMore,
@@ -29,6 +32,15 @@ export const ResourceList: React.FC<ResourceListProps> = ({
   const successColors = ACCESSIBLE_COLORS.success;
   const neutralColors = ACCESSIBLE_COLORS.neutral;
 
+  const filteredKubernetesResources = kubernetesResources.filter((resource) => {
+    if (!resource) return false;
+    return (
+      resource.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      resource.namespace?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      resource.kind?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   const filteredResources =
     selectedKind === "Principal"
       ? []
@@ -37,7 +49,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
             resource?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             resource?.namespace
               ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()),
+              .includes(searchTerm.toLowerCase())
         );
 
   const filteredPrincipals = principals.filter((principal) => {
@@ -51,7 +63,11 @@ export const ResourceList: React.FC<ResourceListProps> = ({
   });
 
   const displayItems =
-    selectedKind === "Principal" ? filteredPrincipals : filteredResources;
+    selectedKind === "Principal"
+      ? filteredPrincipals
+      : selectedKind === "Resource"
+        ? filteredKubernetesResources
+        : filteredResources;
 
   // Empty state
   if (displayItems.length === 0 && !loading) {
@@ -62,7 +78,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
             "inline-flex items-center justify-center w-16 h-16 rounded-full mb-4",
             neutralColors.bg,
             neutralColors.border,
-            "border-2",
+            "border-2"
           )}
           aria-hidden="true"
         >
@@ -72,7 +88,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
         <p
           className={combineClasses(
             "text-base font-medium mb-2",
-            neutralColors.text,
+            neutralColors.text
           )}
         >
           {currentCount === 0
@@ -93,7 +109,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
                   "focus:outline-none focus:ring-2 focus:ring-offset-2",
                   infoColors.text,
                   infoColors.hover,
-                  infoColors.ring,
+                  infoColors.ring
                 )}
                 aria-label="Clear search filter"
               >
@@ -136,7 +152,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
       </div>
 
       {/* Resource list */}
-      {selectedKind !== "Principal" && (
+      {selectedKind !== "Principal" && selectedKind !== "Resource" && (
         <div className="space-y-3 p-3">
           {filteredResources.map((resource, index) => {
             const isSelected =
@@ -191,13 +207,38 @@ export const ResourceList: React.FC<ResourceListProps> = ({
         </div>
       )}
 
+      {/* Kubernetes Resource list */}
+      {selectedKind === "Resource" && (
+        <div className="space-y-3 p-3">
+          {filteredKubernetesResources.map((resource, index) => {
+            const isSelected =
+              selectedResource?.name === resource.name &&
+              selectedResource?.kind === resource.kind &&
+              selectedResource?.namespace === resource.namespace;
+
+            return (
+              <KubernetesResourceCard
+                key={`${resource.kind}-${
+                  resource.namespace || "no-namespace"
+                }-${resource.name}-${index}`}
+                resource={resource}
+                isSelected={isSelected}
+                onSelect={() => {
+                  void onKubernetesResourceSelect(resource);
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+
       {/* Auto-loading indicator */}
       {autoLoading && (
         <div
           className={combineClasses(
             "flex items-center justify-center py-3 px-4 rounded-lg border",
             successColors.bg,
-            successColors.border,
+            successColors.border
           )}
           role="status"
           aria-live="polite"
@@ -211,7 +252,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           <span
             className={combineClasses(
               "text-sm font-medium",
-              successColors.text,
+              successColors.text
             )}
           >
             Loading more items automatically...
@@ -232,7 +273,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
             neutralColors.text,
             neutralColors.hover,
             neutralColors.ring,
-            "min-h-[44px]",
+            "min-h-[44px]"
           )}
           aria-label={`Load more ${selectedKind.toLowerCase()}s. ${
             totalCount - currentCount
@@ -248,7 +289,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
               "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ml-1",
               infoColors.bg,
               infoColors.text,
-              infoColors.border,
+              infoColors.border
             )}
             aria-label={`${totalCount - currentCount} items remaining`}
           >
@@ -263,7 +304,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           className={combineClasses(
             "text-center py-4 px-4 rounded-lg border",
             neutralColors.bg,
-            neutralColors.border,
+            neutralColors.border
           )}
           role="status"
           aria-live="polite"
@@ -271,7 +312,7 @@ export const ResourceList: React.FC<ResourceListProps> = ({
           <p
             className={combineClasses(
               "text-sm font-medium",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             End of list

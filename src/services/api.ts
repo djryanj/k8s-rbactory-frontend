@@ -1,83 +1,36 @@
 // src/services/api.ts
-export type { PaginatedResponse } from "../types/api.types";
-import { type IAPIClient } from "../types/api.types";
 
-export interface ClusterRBACResource {
-  kind: string;
-  name: string;
-  namespace?: string;
-  rules?: PolicyRule[];
-  subjects?: Subject[];
-  roleRef?: RoleRef;
-  labels?: Record<string, string>;
-  createdAt: string;
-}
+// Export types for external use
+export type {
+  PaginatedResponse,
+  KubernetesResource,
+  ResourceAccessInfo,
+  AccessGrant,
+  KubernetesResourceListResponse,
+  ResourceAccessDetailResponse,
+  ClusterRBACResource,
+  Principal,
+  RBACListResponse,
+  PrincipalListResponse,
+  RelationshipResponse,
+  ResourceCounts,
+  ClusterInfo,
+} from "../types/api.types";
 
-interface PolicyRule {
-  apiGroups: string[];
-  resources: string[];
-  resourceNames?: string[];
-  verbs: string[];
-}
+// Import the IAPIClient interface
+import type { IAPIClient } from "../types/api.types";
 
-interface Subject {
-  kind: string;
-  name: string;
-  namespace?: string;
-}
-
-interface RoleRef {
-  kind: string;
-  name: string;
-  apiGroup: string;
-}
-
-export interface ClusterInfo {
-  version: string;
-  namespaces: string[];
-  nodeCount: number;
-}
-
-export interface RBACListResponse {
-  items: ClusterRBACResource[];
-  totalCount: number;
-  limit?: number;
-  offset?: number;
-  hasMore?: boolean;
-}
-
-export interface ResourceCounts {
-  roles: number;
-  clusterRoles: number;
-  roleBindings: number;
-  clusterRoleBindings: number;
-  principals: number;
-}
-
-export interface Principal {
-  kind: string;
-  name: string;
-  namespace?: string;
-  bindingCount: number;
-  roleCount: number;
-  bindings?: string[];
-  roles?: string[];
-}
-
-export interface PrincipalListResponse {
-  items: Principal[];
-  totalCount: number;
-  limit?: number;
-  offset?: number;
-  hasMore?: boolean;
-}
-
-export interface RelationshipResponse {
-  role?: ClusterRBACResource;
-  binding?: ClusterRBACResource;
-  relatedBindings: ClusterRBACResource[];
-  relatedRoles: ClusterRBACResource[];
-}
+// Import types needed internally (no re-export needed since we export above)
+import type {
+  ClusterRBACResource,
+  RBACListResponse,
+  PrincipalListResponse,
+  RelationshipResponse,
+  ResourceCounts,
+  ClusterInfo,
+  KubernetesResourceListResponse,
+  ResourceAccessDetailResponse,
+} from "../types/api.types";
 
 /**
  * API error response structure from backend
@@ -206,6 +159,7 @@ class APIClient implements IAPIClient {
       response.status,
     );
   }
+
   private async fetchWithTimeout(
     url: string,
     options: RequestInit = {},
@@ -542,6 +496,84 @@ class APIClient implements IAPIClient {
         error instanceof Error
           ? error.message
           : "Failed to fetch relationships",
+        0,
+      );
+    }
+  }
+
+  async listKubernetesResources(
+    resourceType: string,
+    namespace?: string,
+    limit: number = 50,
+    offset: number = 0,
+  ): Promise<KubernetesResourceListResponse> {
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      offset: offset.toString(),
+      resourceType,
+    });
+    if (namespace) {
+      params.append("namespace", namespace);
+    }
+
+    try {
+      const url = `${this.baseURL}/resources?${params}`;
+      return await this.fetchJSON<KubernetesResourceListResponse>(url);
+    } catch (error) {
+      if (isAPIError(error)) {
+        throw error;
+      }
+      throw new APIError(
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch Kubernetes resources",
+        0,
+      );
+    }
+  }
+
+  async getResourceAccess(
+    resourceType: string,
+    namespace: string,
+    name: string,
+  ): Promise<ResourceAccessDetailResponse> {
+    const url = namespace
+      ? `${this.baseURL}/resources/${resourceType}/${namespace}/${name}/access`
+      : `${this.baseURL}/resources/${resourceType}/${name}/access`;
+
+    try {
+      return await this.fetchJSON<ResourceAccessDetailResponse>(url);
+    } catch (error) {
+      if (isAPIError(error)) {
+        throw error;
+      }
+      throw new APIError(
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch resource access information",
+        0,
+      );
+    }
+  }
+
+  async listResourceTypes(namespace?: string): Promise<string[]> {
+    const params = new URLSearchParams();
+    if (namespace) {
+      params.append("namespace", namespace);
+    }
+
+    try {
+      const url = `${this.baseURL}/resources/types?${params}`;
+      const data = await this.fetchJSON<{ resourceTypes: string[] }>(url);
+      return data.resourceTypes;
+    } catch (error) {
+      if (isAPIError(error)) {
+        throw error;
+      }
+      throw new APIError(
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch resource types",
         0,
       );
     }

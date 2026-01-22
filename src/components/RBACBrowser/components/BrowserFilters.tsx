@@ -12,7 +12,8 @@ type ResourceKind =
   | "ClusterRole"
   | "RoleBinding"
   | "ClusterRoleBinding"
-  | "Principal";
+  | "Principal"
+  | "Resource";
 
 // Principal type options
 const PRINCIPAL_TYPES = [
@@ -76,7 +77,29 @@ const RESOURCE_TYPES: Array<{
     shortLabel: "Principals",
     description: "Users, groups, and service accounts",
   },
+  {
+    kind: "Resource",
+    label: "Resources",
+    shortLabel: "Resources",
+    description: "Kubernetes resources and their access",
+  },
 ];
+
+// Common Kubernetes resource types
+const KUBERNETES_RESOURCE_TYPES = [
+  { value: "secrets", label: "Secrets", icon: "Secret" },
+  { value: "configmaps", label: "ConfigMaps", icon: "ConfigMap" },
+  { value: "pods", label: "Pods", icon: "Pod" },
+  { value: "services", label: "Services", icon: "Service" },
+  { value: "deployments", label: "Deployments", icon: "Deployment" },
+  { value: "statefulsets", label: "StatefulSets", icon: "StatefulSet" },
+  { value: "daemonsets", label: "DaemonSets", icon: "DaemonSet" },
+  {
+    value: "persistentvolumeclaims",
+    label: "PVCs",
+    icon: "PersistentVolumeClaim",
+  },
+] as const;
 
 export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
   filters,
@@ -102,6 +125,8 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
         return counts.clusterRoleBindings;
       case "Principal":
         return counts.principals;
+      case "Resource":
+        return counts.resources ?? 0;
       default:
         return 0;
     }
@@ -121,6 +146,8 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
         return filteredCounts.clusterRoleBindings;
       case "Principal":
         return filteredCounts.principals;
+      case "Resource":
+        return filteredCounts.resources;
       default:
         return undefined;
     }
@@ -132,13 +159,15 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
       filters.selectedKind === "RoleBinding") &&
       filters.selectedNamespace !== "") ||
     (filters.selectedKind === "Principal" &&
-      filters.principalNamespaceFilter !== "");
+      filters.principalNamespaceFilter !== "") ||
+    (filters.selectedKind === "Resource" && filters.selectedNamespace !== "");
 
   // Check if any filters are active (for clear all button)
   const hasActiveFilters =
     filters.selectedNamespace !== "" ||
     filters.principalNamespaceFilter !== "" ||
     filters.principalTypeFilter !== undefined ||
+    filters.resourceTypeFilter !== undefined ||
     filters.searchTerm !== "";
 
   return (
@@ -150,7 +179,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
             id="resource-type-label"
             className={combineClasses(
               "block text-xs font-medium",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             Resource Type
@@ -165,7 +194,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                   "inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border",
                   warningColors.bg,
                   warningColors.text,
-                  warningColors.border,
+                  warningColors.border
                 )}
                 role="status"
                 aria-label="Counts are filtered by namespace"
@@ -175,7 +204,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
               </span>
             )}
 
-            {/* Clear All Filters Button - moved here */}
+            {/* Clear All Filters Button */}
             {hasActiveFilters && (
               <button
                 type="button"
@@ -190,6 +219,10 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                     updates.principalTypeFilter = undefined;
                   }
 
+                  if (filters.resourceTypeFilter !== undefined) {
+                    updates.resourceTypeFilter = undefined;
+                  }
+
                   onFilterChange(updates);
                 }}
                 className={combineClasses(
@@ -199,7 +232,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                   neutralColors.text,
                   neutralColors.border,
                   neutralColors.hover,
-                  neutralColors.ring,
+                  neutralColors.ring
                 )}
                 aria-label="Clear all active filters"
                 title="Clear all filters"
@@ -213,7 +246,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
 
         {/* Resource type buttons grid */}
         <div
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2"
           role="radiogroup"
           aria-labelledby="resource-type-label"
         >
@@ -243,15 +276,15 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                         infoColors.text,
                         infoColors.border,
                         "shadow-sm",
-                        infoColors.ring,
+                        infoColors.ring
                       )
                     : combineClasses(
                         neutralColors.bg,
                         neutralColors.text,
                         neutralColors.border,
                         neutralColors.hover,
-                        neutralColors.ring,
-                      ),
+                        neutralColors.ring
+                      )
                 )}
                 role="radio"
                 aria-checked={isSelected}
@@ -270,7 +303,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                   <div
                     className={combineClasses(
                       "absolute top-2 right-2 w-2 h-2 rounded-full",
-                      "bg-blue-600 dark:bg-blue-400",
+                      "bg-blue-600 dark:bg-blue-400"
                     )}
                     aria-hidden="true"
                   />
@@ -281,7 +314,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                   <div
                     className={combineClasses(
                       "absolute top-2 right-2",
-                      warningColors.text,
+                      warningColors.text
                     )}
                     aria-hidden="true"
                     title="Filtered by namespace"
@@ -298,7 +331,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                     size={24}
                     className={combineClasses(
                       "flex-shrink-0 transition-colors",
-                      isSelected ? infoColors.icon : neutralColors.icon,
+                      isSelected ? infoColors.icon : neutralColors.icon
                     )}
                     aria-hidden="true"
                   />
@@ -316,7 +349,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                           "flex items-center gap-1 text-xs font-medium",
                           isSelected
                             ? "opacity-90"
-                            : combineClasses("opacity-70", neutralColors.icon),
+                            : combineClasses("opacity-70", neutralColors.icon)
                         )}
                       >
                         <Loader
@@ -335,10 +368,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                             "text-xs font-medium",
                             isSelected
                               ? "opacity-90"
-                              : combineClasses(
-                                  "opacity-70",
-                                  neutralColors.icon,
-                                ),
+                              : combineClasses("opacity-70", neutralColors.icon)
                           )}
                         >
                           {displayCount}
@@ -348,10 +378,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                             "text-[10px] font-normal",
                             isSelected
                               ? "opacity-70"
-                              : combineClasses(
-                                  "opacity-50",
-                                  neutralColors.icon,
-                                ),
+                              : combineClasses("opacity-50", neutralColors.icon)
                           )}
                         >
                           ServiceAccounts
@@ -364,10 +391,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                             "text-xs font-medium",
                             isSelected
                               ? "opacity-90"
-                              : combineClasses(
-                                  "opacity-70",
-                                  neutralColors.icon,
-                                ),
+                              : combineClasses("opacity-70", neutralColors.icon)
                           )}
                         >
                           {displayCount}
@@ -377,10 +401,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                             "text-[10px] font-normal",
                             isSelected
                               ? "opacity-70"
-                              : combineClasses(
-                                  "opacity-50",
-                                  neutralColors.icon,
-                                ),
+                              : combineClasses("opacity-50", neutralColors.icon)
                           )}
                         >
                           of {totalCount}
@@ -392,7 +413,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                           "text-xs font-medium",
                           isSelected
                             ? "opacity-90"
-                            : combineClasses("opacity-70", neutralColors.icon),
+                            : combineClasses("opacity-70", neutralColors.icon)
                         )}
                       >
                         {displayCount}
@@ -408,15 +429,16 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
 
       {/* Namespace and Search Filters */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Namespace Filter - Only show for Role/RoleBinding */}
+        {/* Namespace Filter - Show for Role/RoleBinding/Resource */}
         {(filters.selectedKind === "Role" ||
-          filters.selectedKind === "RoleBinding") && (
+          filters.selectedKind === "RoleBinding" ||
+          filters.selectedKind === "Resource") && (
           <div>
             <label
               htmlFor="namespace-filter"
               className={combineClasses(
                 "block text-xs font-medium mb-1",
-                neutralColors.text,
+                neutralColors.text
               )}
             >
               Namespace
@@ -435,7 +457,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring,
+                infoColors.ring
               )}
               aria-label="Filter by namespace"
             >
@@ -456,7 +478,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
               htmlFor="principal-namespace-filter"
               className={combineClasses(
                 "block text-xs font-medium mb-1",
-                neutralColors.text,
+                neutralColors.text
               )}
             >
               Namespace
@@ -510,7 +532,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring,
+                infoColors.ring
               )}
               aria-label="Filter principals by namespace"
             >
@@ -526,7 +548,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                 <p
                   className={combineClasses(
                     "text-xs mt-1 flex items-start gap-1.5",
-                    "text-blue-700 dark:text-blue-300",
+                    "text-blue-700 dark:text-blue-300"
                   )}
                 >
                   <Info
@@ -543,12 +565,73 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
           </div>
         )}
 
+        {/* Resource Type Filter - Only show for Resource kind */}
+        {filters.selectedKind === "Resource" && (
+          <div>
+            <label
+              htmlFor="resource-type-filter"
+              className={combineClasses(
+                "block text-xs font-medium mb-1",
+                neutralColors.text
+              )}
+            >
+              Resource Type
+            </label>
+            <select
+              id="resource-type-filter"
+              value={filters.resourceTypeFilter || ""}
+              onChange={(e) =>
+                onFilterChange({
+                  resourceTypeFilter: e.target.value || undefined,
+                })
+              }
+              disabled={isLoading}
+              className={combineClasses(
+                "w-full px-3 py-2 border rounded-lg text-sm transition-colors",
+                "focus:outline-none focus:ring-2 focus:ring-offset-1",
+                "disabled:cursor-not-allowed disabled:opacity-60",
+                neutralColors.bg,
+                neutralColors.text,
+                neutralColors.border,
+                infoColors.ring
+              )}
+              aria-label="Filter by resource type"
+            >
+              <option value="">Select Resource Type</option>
+              {KUBERNETES_RESOURCE_TYPES.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
+            </select>
+            {filters.resourceTypeFilter && (
+              <p
+                className={combineClasses(
+                  "text-xs mt-1 flex items-start gap-1.5",
+                  "text-blue-700 dark:text-blue-300"
+                )}
+              >
+                <Info
+                  size={12}
+                  className="flex-shrink-0 mt-0.5"
+                  aria-hidden="true"
+                />
+                <span>
+                  Showing {filters.resourceTypeFilter} and their RBAC access
+                  information
+                </span>
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Search Input */}
         <div
           className={
             filters.selectedKind === "Principal" ||
             filters.selectedKind === "Role" ||
-            filters.selectedKind === "RoleBinding"
+            filters.selectedKind === "RoleBinding" ||
+            filters.selectedKind === "Resource"
               ? ""
               : "md:col-span-2"
           }
@@ -557,7 +640,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
             htmlFor="search-input"
             className={combineClasses(
               "flex items-center justify-between text-xs font-medium mb-1",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             <span>Search</span>
@@ -577,7 +660,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
             <Search
               className={combineClasses(
                 "absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none",
-                neutralColors.icon,
+                neutralColors.icon
               )}
               size={16}
               aria-hidden="true"
@@ -602,7 +685,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                 neutralColors.bg,
                 neutralColors.text,
                 neutralColors.border,
-                infoColors.ring,
+                infoColors.ring
               )}
               aria-label="Search resources by name"
               aria-describedby={
@@ -623,7 +706,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                     "focus:outline-none focus:ring-2 focus:ring-offset-1",
                     neutralColors.icon,
                     "hover:text-gray-600 dark:hover:text-gray-300",
-                    infoColors.ring,
+                    infoColors.ring
                   )}
                   title="Clear search (Esc)"
                   aria-label="Clear search"
@@ -643,7 +726,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
             id="principal-type-label"
             className={combineClasses(
               "block text-xs font-medium mb-1",
-              neutralColors.text,
+              neutralColors.text
             )}
           >
             Principal Type
@@ -687,15 +770,15 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                           infoColors.text,
                           infoColors.border,
                           "shadow-sm",
-                          infoColors.ring,
+                          infoColors.ring
                         )
                       : combineClasses(
                           neutralColors.bg,
                           neutralColors.text,
                           neutralColors.border,
                           neutralColors.hover,
-                          neutralColors.ring,
-                        ),
+                          neutralColors.ring
+                        )
                   )}
                   role="radio"
                   aria-checked={isSelected}
@@ -710,7 +793,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                       size={20}
                       className={combineClasses(
                         "flex-shrink-0 transition-colors",
-                        isSelected ? infoColors.icon : neutralColors.icon,
+                        isSelected ? infoColors.icon : neutralColors.icon
                       )}
                       aria-hidden="true"
                     />
@@ -725,7 +808,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
                           "text-[10px] font-normal",
                           isSelected
                             ? "opacity-90"
-                            : combineClasses("opacity-70", neutralColors.icon),
+                            : combineClasses("opacity-70", neutralColors.icon)
                         )}
                       >
                         {type.value === "ServiceAccount"
@@ -743,7 +826,7 @@ export const BrowserFilters: React.FC<BrowserFiltersProps> = ({
               <p
                 className={combineClasses(
                   "text-xs mt-1 flex items-start gap-1.5",
-                  "text-amber-700 dark:text-amber-300",
+                  "text-amber-700 dark:text-amber-300"
                 )}
               >
                 <AlertTriangle

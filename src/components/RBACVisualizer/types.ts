@@ -1,5 +1,5 @@
 // src/components/RBACVisualizer/types.ts
-import type { ClusterRBACResource } from "../../services/api";
+import type { ClusterRBACResource, AccessGrant } from "../../services/api";
 import type { RBACManifest } from "../../types/rbac.types";
 import type { SecurityIssue } from "../../types/security.types";
 
@@ -19,6 +19,7 @@ export interface RBACVisualizerProps {
     binding?: ClusterRBACResource;
     relatedBindings?: ClusterRBACResource[];
     relatedRoles?: ClusterRBACResource[];
+    accessGrants?: AccessGrant[];
   } | null;
   isLoadingRelationships?: boolean;
   mode?: "generator" | "browser";

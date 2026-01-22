@@ -196,24 +196,99 @@ export interface ServiceAccountIssue extends BaseSecurityIssue {
   };
 }
 
+// Resource Access specific issue types
+export interface ExcessiveAccessIssue extends BaseSecurityIssue {
+  severity: "high";
+  details: {
+    type: "excessive-access";
+    principalCount: number;
+    resourceType: string;
+    hasWriteAccess: boolean;
+    hasDeleteAccess: boolean;
+    principals?: string[]; 
+  };
+}
+
+export interface ClusterWideResourceAccessIssue extends BaseSecurityIssue {
+  severity: "medium";
+  details: {
+    type: "cluster-wide-resource-access";
+    principalCount: number;
+    resourceType: string;
+    resourceName: string;
+    principals?: string[];
+  };
+}
+
+export interface SensitiveResourceExposureIssue extends BaseSecurityIssue {
+  severity: "critical-sensitive";
+  details: {
+    type: "sensitive-resource-exposure";
+    resourceType: string;
+    resourceName: string;
+    principalCount: number;
+    hasReadAccess: boolean;
+    hasWriteAccess: boolean;
+    principals?: string[]; 
+  };
+}
+
+export interface WildcardResourceAccessIssue extends BaseSecurityIssue {
+  severity: "high";
+  details: {
+    type: "wildcard-resource-access";
+    principalCount: number;
+    wildcardVerbs: string[];
+    principals?: string[];
+  };
+}
+
+export interface PublicResourceAccessIssue extends BaseSecurityIssue {
+  severity: "critical-destructive";
+  details: {
+    type: "public-resource-access";
+    resourceType: string;
+    resourceName: string;
+    groupNames: string[];
+    principals?: string[];
+  };
+}
+
+export interface UnrestrictedDeleteAccessIssue extends BaseSecurityIssue {
+  severity: "critical-destructive";
+  details: {
+    type: "unrestricted-delete-access";
+    resourceType: string;
+    resourceName: string;
+    principalCount: number;
+    principals?: string[];
+  };
+}
+
 /**
  * Discriminated union of all security issue types
  * Provides type-safe access to issue details based on type
  */
 export type SecurityIssue =
   | WildcardAllIssue
+  | WildcardVerbsIssue
+  | WildcardResourcesIssue
   | SensitiveResourceIssue
   | DestructivePermissionsIssue
+  | PrivilegeEscalationIssue
+  | ClusterScopeIssue
   | ClusterAdminBindingIssue
+  | ClusterBindingIssue
   | WildcardSubjectIssue
   | AuthenticatedGroupIssue
   | UnauthenticatedGroupIssue
-  | PrivilegeEscalationIssue
-  | WildcardVerbsIssue
-  | WildcardResourcesIssue
-  | ClusterBindingIssue
-  | ClusterScopeIssue
-  | ServiceAccountIssue;
+  | ServiceAccountIssue
+  | ExcessiveAccessIssue
+  | ClusterWideResourceAccessIssue
+  | SensitiveResourceExposureIssue
+  | WildcardResourceAccessIssue
+  | PublicResourceAccessIssue
+  | UnrestrictedDeleteAccessIssue;
 
 /**
  * Type guard to check if an issue is critical level
