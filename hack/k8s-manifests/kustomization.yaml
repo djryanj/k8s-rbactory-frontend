@@ -10,7 +10,7 @@ namespace: k8s-rbactory
 
 commonLabels:
   app.kubernetes.io/name: k8s-rbactory-frontend
-  app.kubernetes.io/component: api-server
+  app.kubernetes.io/component: frontend
   app.kubernetes.io/part-of: k8s-rbactory
 
 commonAnnotations:
