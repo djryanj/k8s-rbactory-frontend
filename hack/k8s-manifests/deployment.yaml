@@ -26,6 +26,40 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
       automountServiceAccountToken: false
+      
+      # InitContainer to generate runtime config
+      initContainers:
+      - name: config-generator
+        image: k8s-rbactory-frontend:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/usr/local/bin/init-config.sh"]
+        env:
+        - name: VITE_API_URL
+          value: "https://your-backend.example.com/api/v1"
+        - name: VITE_FEATURE_CLUSTER_BROWSER
+          value: "true"
+        - name: VITE_NETLIFY_DEMO
+          value: "false"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false  # InitContainer needs to write to /runtime-config
+          runAsNonRoot: true
+          runAsUser: 101
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+          - name: runtime-config
+            mountPath: /runtime-config
+      
+      # Main container
       containers:
       - name: nginx
         image: k8s-rbactory-frontend:latest
@@ -34,9 +68,6 @@ spec:
         - containerPort: 8080
           name: http
           protocol: TCP
-        env:
-        - name: API_URL
-          value: "https://your-backend.example.com/api/v1"
         resources:
           requests:
             memory: "64Mi"
@@ -70,13 +101,28 @@ spec:
         volumeMounts:
           - name: tmp
             mountPath: /tmp
+          - name: runtime-config
+            mountPath: /runtime-config
+            readOnly: true
+          - name: nginx-cache
+            mountPath: /var/cache/nginx
+          - name: nginx-run
+            mountPath: /var/run
+      
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+      
       volumes:
         - name: tmp
           emptyDir: {}
-      # Tolerate being scheduled on spot/preemptible nodes
+        - name: runtime-config
+          emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+      
       tolerations:
         - key: "node.kubernetes.io/not-ready"
           operator: "Exists"

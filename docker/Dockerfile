@@ -15,15 +15,11 @@ RUN npm run build
 # Production stage
 FROM nginxinc/nginx-unprivileged:alpine
 
-# Switch to root to install envsubst and set up directories
+# Switch to root to install envsubst
 USER root
 
-# Install gettext for envsubst
+# Install gettext for envsubst (needed by initContainer)
 RUN apk add --no-cache gettext
-
-# Create writable directory for runtime config
-RUN mkdir -p /tmp/runtime-config && \
-    chown -R 101:101 /tmp/runtime-config
 
 # Switch back to nginx user
 USER 101
@@ -34,11 +30,11 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy nginx config
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy config template to writable location
-COPY --chown=101:101 public/config.template.js /tmp/runtime-config/config.template.js
+# Copy config template (will be used by initContainer)
+COPY --chown=101:101 public/config.template.js /tmp/config.template.js
 
-# Copy entrypoint script
-COPY --chmod=0755 --chown=101:101 docker/docker-entrypoint.sh /docker-entrypoint.sh
+# Copy init script for Kubernetes initContainer
+COPY --chmod=0755 --chown=101:101 docker/init-config.sh /usr/local/bin/init-config.sh
 
 EXPOSE 8080
 
@@ -55,6 +51,5 @@ LABEL org.opencontainers.image.created="${BUILD_DATE}" \
     org.opencontainers.image.source="https://github.com/djryanj/k8s-rbactory-frontend" \
     org.opencontainers.image.documentation="https://github.com/djryanj/k8s-rbactory-frontend/blob/main/README.md"
 
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# Default command runs nginx
 CMD ["nginx", "-g", "daemon off;"]
