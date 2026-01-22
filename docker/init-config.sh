@@ -36,7 +36,7 @@ echo "Generating config.js from template..."
 
 # Generate config.js from template using envsubst
 if envsubst < /tmp/config.template.js > /runtime-config/config.js; then
-    echo "✓ Runtime configuration generated successfully"
+    echo "SUCCESS: Runtime configuration generated successfully"
     echo ""
     echo "Generated config.js:"
     echo "---"
