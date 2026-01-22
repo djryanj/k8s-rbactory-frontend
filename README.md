@@ -25,6 +25,105 @@ You can view a demo of the site [here](https://k8s-rbactory.netlify.app). Note t
 
 k8s-rbactory-frontend is a React-based frontend that runs completely locally in your browser (after it's downloaded from whatever server you are hosting it on). No data is gathered or transmitted to anywhere.
 
+# Deployment
+
+## Docker (Quick)
+
+2. Run the container:
+
+```bash
+docker run -p 8080:8080 ghcr.io/djryanj/k8s-rbactory-frontend:dev
+```
+
+### Kubernetes Deployment
+
+Deployment manifests are available in the [hack/k8s-manfiests](./hack/k8s-manifests/) directory. A `kustomization.yaml` file is provided for use with kustomize (recommended).
+
+#### Method 1: Direct from GitHub (Recommended for Quick Testing)
+
+Deploy directly from the GitHub repository without cloning:
+
+```bash
+kubectl apply -k github.com/djryanj/k8s-rbactory-frontend/hack/k8s-manifests
+```
+
+#### Method 2: From Local Clone
+
+Clone the repository and deploy:
+
+```bash
+# Clone the repository
+git clone https://github.com/djryanj/k8s-rbactory-frontend.git
+cd k8s-rbactory-frontend
+
+# Deploy
+kubectl apply -k hack/k8s-manifests
+```
+
+#### Method 3: Using Kustomize CLI
+
+For more control and to preview changes:
+
+```bash
+# Preview what will be deployed
+kustomize build hack/k8s-manifests
+
+# Deploy using kustomize
+kustomize build hack/k8s-manifests | kubectl apply -f -
+```
+
+#### Method 4: Customize deployment using your own overlay
+
+Create a `kustomization.yaml` file that extends what's in GitHub:
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - github.com/djryanj/k8s-rbactory-frontend/hack/k8s-manifests?ref=v1.0.0
+
+# Override namespace
+namespace: my-custom-namespace
+
+# Add custom labels
+commonLabels:
+  team: my-team
+  cost-center: "12345"
+
+# Override image
+images:
+  - name: k8s-rbactory-frontend
+    newName: my-registry.example.com/k8s-rbactory-backend
+    newTag: v2.0.0
+
+# Override replicas
+replicas:
+  - name: k8s-rbactory-frontend
+    count: 5
+```
+
+Deploy that:
+
+```shell
+kubectl apply -k kustomization.yaml
+```
+
+#### Verify the deployment:
+
+```bash
+kubectl get pods -n k8s-rbactory -l app=k8s-rbactory-frontend
+kubectl logs -n k8s-rbactory -l app=k8s-rbactory-frontend
+```
+
+### Ingress
+
+A reference [ingress manifest](./hack/k8s-manifests/ingress.yaml) is provided in [hack/k8s-manifests](./hack/k8s-manifests/) for reference but it is **NOT** included in the provided `kustomization.yaml`.
+
+### Burstable By Default
+
+The [provided manifests](./hack/k8s-manifests/) deliberately put this deployment in the [burstable QoS class](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#burstable) and some basic tolerations for spot instances. This is done under the assumption that this deployment is non-critical to most clusters.
+
 # Non-Goals
 
 ## Writing to Cluster
